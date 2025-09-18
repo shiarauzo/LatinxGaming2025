@@ -1,11 +1,11 @@
 # Unity generated folders
-/[Ll]ibrary/
-/[Tt]emp/
-/[Oo]bj/
-/[Bb]uild/
-/[Bb]uilds/
-/[Ll]ogs/
-/[Uu]ser[Ss]ettings/
+/My project/[Ll]ibrary/
+/My project/[Tt]emp/
+/My project/[Oo]bj/
+/My project/[Bb]uild/
+/My project/[Bb]uilds/
+/My project/[Ll]ogs/
+/My project/[Uu]ser[Ss]ettings/
 
 # Logs
 *.log
