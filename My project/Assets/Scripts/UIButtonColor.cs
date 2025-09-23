@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using TMPro;
 
-public class UIButtonColor : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
+public class UIButtonColor : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler, ISelectHandler, IDeselectHandler
 {
     private TMP_Text buttonText;
     private Color normalColor = Color.white;
@@ -12,8 +12,11 @@ public class UIButtonColor : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     void Awake()
     {
         buttonText = GetComponentInChildren<TMP_Text>();
+        if (buttonText != null)
+            buttonText.color = normalColor;
     }
 
+    // Mouse Hover
     public void OnPointerEnter(PointerEventData eventData)
     {
         if (buttonText != null)
@@ -26,9 +29,23 @@ public class UIButtonColor : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
             buttonText.color = normalColor;
     }
 
+    // Mouse Click
     public void OnPointerClick(PointerEventData eventData)
     {
         if (buttonText != null)
             buttonText.color = clickColor;
+    }
+
+    // Teclado / Gamepad selección
+    public void OnSelect(BaseEventData eventData)
+    {
+        if (buttonText != null)
+            buttonText.color = hoverColor;
+    }
+
+    public void OnDeselect(BaseEventData eventData)
+    {
+        if (buttonText != null)
+            buttonText.color = normalColor;
     }
 }
