@@ -6,7 +6,7 @@ public class MenuController : MonoBehaviour
     public void StartGame()
     {
         Debug.Log("StartGame pressed!");
-        SceneManager.LoadScene("Story");
+        SceneManager.LoadScene("IntroCutscene");
     }
 
     public void OpenSettings()
