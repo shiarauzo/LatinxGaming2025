@@ -603,7 +603,7 @@ PlayableDirector:
   m_Enabled: 1
   serializedVersion: 3
   m_PlayableAsset: {fileID: 11400000, guid: 2c289244570e24579b0a03c6d6e44d73, type: 2}
-  m_InitialState: 0
+  m_InitialState: 1
   m_WrapMode: 2
   m_DirectorUpdateMode: 1
   m_InitialTime: 0
@@ -614,8 +614,12 @@ PlayableDirector:
     value: {fileID: 1103012940}
   - key: {fileID: 0}
     value: {fileID: 277136866}
-  - key: {fileID: 5706225985375177406, guid: 2c289244570e24579b0a03c6d6e44d73, type: 2}
-    value: {fileID: 277136866}
+  - key: {fileID: 0}
+    value: {fileID: 1499820137}
+  - key: {fileID: 8669289282181171727, guid: 2c289244570e24579b0a03c6d6e44d73, type: 2}
+    value: {fileID: 1499820137}
+  - key: {fileID: -2703145400062338272, guid: 2c289244570e24579b0a03c6d6e44d73, type: 2}
+    value: {fileID: 1615354866}
   m_ExposedReferences:
     m_References: []
 --- !u!1 &668569477
@@ -919,6 +923,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1499820136}
   - component: {fileID: 1499820135}
+  - component: {fileID: 1499820137}
   m_Layer: 0
   m_Name: PlayerSpotLight_2D
   m_TagString: Untagged
@@ -966,8 +971,8 @@ MonoBehaviour:
     m_Extent: {x: 0.9985302, y: 0.99853027, z: 0}
   m_PointLightInnerAngle: 100
   m_PointLightOuterAngle: 360
-  m_PointLightInnerRadius: 0
-  m_PointLightOuterRadius: 1
+  m_PointLightInnerRadius: 0.5
+  m_PointLightOuterRadius: 1.1
   m_ShapeLightParametricSides: 5
   m_ShapeLightParametricAngleOffset: 0
   m_ShapeLightParametricRadius: 1
@@ -993,6 +998,28 @@ Transform:
   m_Children: []
   m_Father: {fileID: 277136868}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &1499820137
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1499820134}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &1615354863
 GameObject:
   m_ObjectHideFlags: 0
@@ -1003,6 +1030,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1615354864}
   - component: {fileID: 1615354865}
+  - component: {fileID: 1615354866}
   m_Layer: 0
   m_Name: 'ChullaSpotLight_2D '
   m_TagString: Untagged
@@ -1065,8 +1093,8 @@ MonoBehaviour:
     m_Extent: {x: 0.9985302, y: 0.99853027, z: 0}
   m_PointLightInnerAngle: 100
   m_PointLightOuterAngle: 360
-  m_PointLightInnerRadius: 0
-  m_PointLightOuterRadius: 1
+  m_PointLightInnerRadius: 0.5
+  m_PointLightOuterRadius: 1.5
   m_ShapeLightParametricSides: 5
   m_ShapeLightParametricAngleOffset: 0
   m_ShapeLightParametricRadius: 1
@@ -1077,6 +1105,28 @@ MonoBehaviour:
   - {x: 0.5, y: -0.5, z: 0}
   - {x: 0.5, y: 0.5, z: 0}
   - {x: -0.5, y: 0.5, z: 0}
+--- !u!95 &1615354866
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1615354863}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &1807991795
 GameObject:
   m_ObjectHideFlags: 0
