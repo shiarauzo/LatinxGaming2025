@@ -33,17 +33,28 @@ public class DialogueController : MonoBehaviour
 
     private DialogueLine[] currentLines;
     private int currentLineIndex = 0;
+
     private Coroutine typingCoroutine;
+    private Coroutine continueCoroutine;
+
+    [Header("Continue Text")]
+    public TMP_Text continueText;
+    public string continueTextEnglish = "Press Enter to continue";
+    public string continueTextSpanish = "Presiona Enter para continuar";
+
+    private enum LineState { Typing, Completed, Waiting }
+    private LineState lineState = LineState.Completed;
 
     void Awake()
     {
         if (dialogueText != null)
-        {
             dialogueText.text = "";
-        }
 
-         if (dialoguePanel != null)
+        if (dialoguePanel != null)
             dialoguePanel.SetActive(false);
+
+        if (continueText != null)
+            continueText.gameObject.SetActive(false);
     }
 
     void Update()
@@ -51,31 +62,82 @@ public class DialogueController : MonoBehaviour
         // Next line on Enter key
         if (Keyboard.current.enterKey.wasPressedThisFrame)
         {
-            NextLine();
+            HandleEnter();
         }    
     }
 
-    public void NextLine()
+    public void StartDialogue()
     {
-        // If there are no more lines, end the dialogue
+        // Show the dialogue panel
+        if (dialoguePanel != null)
+            dialoguePanel.SetActive(true);
+
+        currentLines = currentLanguage == Language.Spanish ? dialogueData.spanishLines : dialogueData.englishLines;
+        currentLineIndex = 0;
+        ShowNextLine();
+    }
+
+    private void HandleEnter()
+    {
+        switch (lineState)
+        {
+            case LineState.Typing:
+                // Skip typewriter + audio
+                SkipCurrentLine();
+                break;
+            case LineState.Completed:
+                // Enter after show complete → move to next line
+                ShowNextLine();
+                break;
+            case LineState.Waiting:
+                // Waiting: ignore input
+                break;
+        }
+    }
+
+    private void ShowNextLine()
+    {
+        // Hide continue text
+        if (continueText != null)
+            continueText.gameObject.SetActive(false);
+
+        // If no more lines, end dialogue
         if (currentLineIndex >= currentLines.Length)
         {
             EndDialogue();
             return;
         }
 
-        // If it's typing, finish immediately
+        DialogueLine line = currentLines[currentLineIndex];
+        currentLineIndex++;
+
+        // Start typing
+        typingCoroutine = StartCoroutine(TypeLine(line));
+        lineState = LineState.Typing;
+    }
+
+
+    private void SkipCurrentLine()
+    {
+        Debug.Log("Skipping to full line");
+        Debug.Log("Current lines idx: " + currentLineIndex);
+        // Stop typing and show full line
         if (typingCoroutine != null)
         {
             StopCoroutine(typingCoroutine);
             typingCoroutine = null;
-            dialogueText.text = currentLines[currentLineIndex].text;
-            currentLineIndex++;
-            return;
         }
 
-        typingCoroutine = StartCoroutine(TypeLine(currentLines[currentLineIndex]));
-        currentLineIndex++;
+        // Stop voice if playing
+        if (voiceSource != null && voiceSource.isPlaying)
+            voiceSource.Stop();
+
+        // Show all text
+        DialogueLine line = currentLines[currentLineIndex - 1];
+        dialogueText.text = line.text;
+
+        // Show continue text
+        ShowContinueText();
     }
 
     private IEnumerator TypeLine(DialogueLine line)
@@ -85,9 +147,6 @@ public class DialogueController : MonoBehaviour
         // Reproducir voz
         if (line.voice != null && voiceSource != null)
         {
-            if (voiceSource.isPlaying)
-                voiceSource.Stop();
-            
             voiceSource.clip = line.voice;
             voiceSource.Play();
         }
@@ -97,7 +156,38 @@ public class DialogueController : MonoBehaviour
             dialogueText.text += letter;
             yield return new WaitForSeconds(typingSpeed);
         }
+
         typingCoroutine = null;
+
+        // Wait a moment before showing continue text
+        if (voiceSource != null && line.voice != null)
+        {
+            while (voiceSource.isPlaying)
+            {
+                yield return null;
+            }
+        }
+
+        ShowContinueText();
+    }
+    
+    private void ShowContinueText()
+    {
+        if (continueCoroutine != null)
+            StopCoroutine(continueCoroutine);
+
+        continueCoroutine = StartCoroutine(ShowContinueAfterDelay(0.5f));
+    }
+    private IEnumerator ShowContinueAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        if (continueText != null)
+        {
+            continueText.gameObject.SetActive(true);
+            continueText.text = currentLanguage == Language.Spanish ? continueTextSpanish : continueTextEnglish;
+        }
+
+         lineState = LineState.Completed;
     }
 
     private void EndDialogue()
@@ -105,28 +195,10 @@ public class DialogueController : MonoBehaviour
         // Hide the dialogue panel
         if (dialoguePanel != null)
             dialoguePanel.SetActive(false);
-        
+
         // Load the next scene
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 
-    public void StartDialogue()
-    {
-        // Show the dialogue panel
-        if (dialoguePanel != null)
-            dialoguePanel.SetActive(true);
 
-        switch (currentLanguage)
-        {
-            case Language.Spanish:
-                currentLines = dialogueData.spanishLines;
-                break;
-            case Language.English:
-                currentLines = dialogueData.englishLines;
-                break;
-        }
-
-        currentLineIndex = 0;
-        NextLine();
-    }
 }
