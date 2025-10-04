@@ -973,21 +973,21 @@ MonoBehaviour:
   dialogueData:
     spanishLines:
     - text: "Hola peque\xF1a\u2026"
-      voice: {fileID: 0}
+      voice: {fileID: 8300000, guid: 26327ccc6f75d412f8518acd34525580, type: 3}
     - text: "Yo soy aquel que llaman Chullachaqui, el guardi\xE1n de todo lo que
         existe aqu\xED"
-      voice: {fileID: 0}
+      voice: {fileID: 8300000, guid: 0ed4bf8a5ec6c4e228c6e90df6526fb0, type: 3}
     - text: "Aquellos que rompen la armon\xEDa de mi bosque enfrentar\xE1n consecuencias."
-      voice: {fileID: 0}
+      voice: {fileID: 8300000, guid: e8d5b2cca4855478da8692b98681332d, type: 3}
     - text: Sin embargo los incendios aumentan y los extranjeros siguen tomando nuestra
         riqueza.
-      voice: {fileID: 0}
+      voice: {fileID: 8300000, guid: f2cba1dd2b0894952872ef3b031d8d7d, type: 3}
     - text: 'Esta es una lucha que no puedo enfrentar yo solo. '
-      voice: {fileID: 0}
+      voice: {fileID: 8300000, guid: c8bc712d65b914e2e844ce43588f3bf8, type: 3}
     - text: 'Pido tu ayuda para proteger lo que queda. '
-      voice: {fileID: 0}
+      voice: {fileID: 8300000, guid: 079c855727c744262a163a9d66bbaae0, type: 3}
     - text: "Me ayudar\xE1s\u2026 o ver\xE1s nuestra casa arder? "
-      voice: {fileID: 0}
+      voice: {fileID: 8300000, guid: 343b0126309e54b958ee7e5c385ab118, type: 3}
     englishLines:
     - text: Hello little one..
       voice: {fileID: 8300000, guid: 8d8b18ca2a8774334a994196def85b65, type: 3}
