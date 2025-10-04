@@ -1,19 +1,19 @@
 fileFormatVersion: 2
-guid: d0bddb290f9174d0ca40ff5954da4b63
+guid: 3b3b9a188ad8c453d98e6b87dca656d1
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 5339407217272421855
-    second: Chullachaqui sprite sheet_0
+      213: 2368516286428729132
+    second: Chullachaqui sprite sheet 2_0
   - first:
-      213: 3687468869272561165
-    second: Chullachaqui sprite sheet_1
+      213: -908575083243126255
+    second: Chullachaqui sprite sheet 2_1
   - first:
-      213: -2340153865564377960
-    second: Chullachaqui sprite sheet_2
+      213: -1390144619409893518
+    second: Chullachaqui sprite sheet 2_2
   - first:
-      213: -6354790494241416391
-    second: Chullachaqui sprite sheet_3
+      213: 7777573490378220344
+    second: Chullachaqui sprite sheet 2_3
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -84,7 +84,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 0
+    textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -122,7 +122,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Chullachaqui sprite sheet_0
+      name: Chullachaqui_SpriteSheet_0
       rect:
         serializedVersion: 2
         x: 0
@@ -135,16 +135,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: fddfda02392691a40800000000000000
-      internalID: 5339407217272421855
+      spriteID: 446737297a4ce46b3a163ec9a0e438d4
+      internalID: -672840050
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Chullachaqui sprite sheet_1
+      name: Chullachaqui_SpriteSheet_1
       rect:
         serializedVersion: 2
         x: 64
@@ -157,16 +157,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: d066d4946658c2330800000000000000
-      internalID: 3687468869272561165
+      spriteID: d60b2cb4f77d44ed389528d84168381b
+      internalID: 918631629
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Chullachaqui sprite sheet_2
+      name: Chullachaqui_SpriteSheet_2
       rect:
         serializedVersion: 2
         x: 0
@@ -179,16 +179,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 89c274b357a168fd0800000000000000
-      internalID: -2340153865564377960
+      spriteID: c20ae299e7a7d4db78b6879f33402ebd
+      internalID: 1845081482
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Chullachaqui sprite sheet_3
+      name: Chullachaqui_SpriteSheet_3
       rect:
         serializedVersion: 2
         x: 64
@@ -201,10 +201,10 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 93b16b0f6bf3fc7a0800000000000000
-      internalID: -6354790494241416391
+      spriteID: 808d63b92a0d4416bb7ac80c9c17f568
+      internalID: -1735891476
       vertices: []
       indices: 
       edges: []
@@ -213,7 +213,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 39ea858c646de4effaee450ba79f9412
+    spriteID: 00b4186764dec462c8316787344863a9
     internalID: 0
     vertices: []
     indices: 
@@ -222,13 +222,15 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries:
+      - key: SpriteEditor.SliceOnImport
+        value: False
       - key: SpriteEditor.SliceSettings
         value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":1,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      Chullachaqui sprite sheet_0: 5339407217272421855
-      Chullachaqui sprite sheet_1: 3687468869272561165
-      Chullachaqui sprite sheet_2: -2340153865564377960
-      Chullachaqui sprite sheet_3: -6354790494241416391
+      Chullachaqui_SpriteSheet_0: -672840050
+      Chullachaqui_SpriteSheet_1: 918631629
+      Chullachaqui_SpriteSheet_2: 1845081482
+      Chullachaqui_SpriteSheet_3: -1735891476
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
