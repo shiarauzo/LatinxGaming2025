@@ -626,6 +626,135 @@ PlayableDirector:
     value: {fileID: 277136866}
   m_ExposedReferences:
     m_References: []
+--- !u!1 &619587473
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 619587474}
+  - component: {fileID: 619587475}
+  m_Layer: 0
+  m_Name: VoiceSource
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &619587474
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 619587473}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!82 &619587475
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 619587473}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 0}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &668569477
 GameObject:
   m_ObjectHideFlags: 0
@@ -669,7 +798,7 @@ GameObject:
   - component: {fileID: 698222123}
   - component: {fileID: 698222124}
   m_Layer: 0
-  m_Name: DialogueManagerGO
+  m_Name: DialogueManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -702,9 +831,174 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c33e497222a95452d8727eca4e27ee4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  dialoguePanel: {fileID: 1807991795}
   dialogueText: {fileID: 67821168}
-  typingSpeed: 0.05
-  lines: []
+  typingSpeed: 0.04
+  dialogueData:
+    spanishLines:
+    - text: "Hola peque\xF1a\u2026"
+      voice: {fileID: 0}
+    - text: "Yo soy aquel que llaman Chullachaqui, el guardi\xE1n de todo lo que
+        existe aqu\xED"
+      voice: {fileID: 0}
+    - text: "Aquellos que rompen la armon\xEDa de mi bosque enfrentar\xE1n consecuencias."
+      voice: {fileID: 0}
+    - text: Sin embargo los incendios aumentan y los extranjeros siguen tomando nuestra
+        riqueza.
+      voice: {fileID: 0}
+    - text: 'Esta es una lucha que no puedo enfrentar yo solo. '
+      voice: {fileID: 0}
+    - text: 'Pido tu ayuda para proteger lo que queda. '
+      voice: {fileID: 0}
+    - text: "Me ayudar\xE1s\u2026 o ver\xE1s nuestra casa arder? "
+      voice: {fileID: 0}
+    englishLines:
+    - text: Hello little one..
+      voice: {fileID: 8300000, guid: 8d8b18ca2a8774334a994196def85b65, type: 3}
+    - text: I am the one they call Chullachaqui, the guardian of all that reside
+        here
+      voice: {fileID: 8300000, guid: 954dbabba812e4dd2b7008b1c5156085, type: 3}
+    - text: Those who break the harmony of my forest face condemnation
+      voice: {fileID: 8300000, guid: 21c6f49104f1f4154845093a4be48db1, type: 3}
+    - text: Yet the fires are growing and the outsiders are still taking
+      voice: {fileID: 8300000, guid: 4901ea5f5454542c6b9ef048cc648a62, type: 3}
+    - text: This is no longer a feat I can handle alone.
+      voice: {fileID: 8300000, guid: 928f8f72859fd45fe8bec0c071c5de5d, type: 3}
+    - text: I call upon you for aid in protecting what remains.
+      voice: {fileID: 8300000, guid: 38dad2a6d320e4980b66e5ac5f02ec81, type: 3}
+    - text: "Will you answer my call\u2026 Or watch our home burn?"
+      voice: {fileID: 8300000, guid: 39fde8d57c69d420ba2300237308d3b8, type: 3}
+  voiceSource: {fileID: 619587475}
+  currentLanguage: 1
+--- !u!1 &762023097
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 762023099}
+  - component: {fileID: 762023098}
+  m_Layer: 0
+  m_Name: MusicSource
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!82 &762023098
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 762023097}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 8300000, guid: 22fbee339a02f4d1ba00165f3dfb6803, type: 3}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 1
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+--- !u!4 &762023099
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 762023097}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &905915924
 GameObject:
   m_ObjectHideFlags: 0
@@ -1160,7 +1454,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd8b0bfeab7014c4bb2d290191c62c7a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  musicSource: {fileID: 762023098}
   introTimeline: {fileID: 548020168}
+  dialogueController: {fileID: 698222124}
 --- !u!4 &1674458981
 Transform:
   m_ObjectHideFlags: 0
@@ -1395,4 +1691,6 @@ SceneRoots:
   m_Roots:
   - {fileID: 548020167}
   - {fileID: 1823304010}
+  - {fileID: 762023099}
+  - {fileID: 619587474}
   - {fileID: 1674458981}

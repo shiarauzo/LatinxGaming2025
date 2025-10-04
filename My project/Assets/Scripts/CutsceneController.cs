@@ -3,13 +3,15 @@ using UnityEngine.Playables;
 
 public class CutsceneController : MonoBehaviour
 {
+    public AudioSource musicSource;
     public PlayableDirector introTimeline;
+    public DialogueController dialogueController;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         LoadLanguageData();
-        PlayIntro();    
+        PlayIntro();
     }
 
     void LoadLanguageData()
@@ -22,11 +24,30 @@ public class CutsceneController : MonoBehaviour
     {
         if (introTimeline != null)
         {
+            introTimeline.stopped += OnTimelineFinished; // suscribe to the stopped event
             introTimeline.Play();
+            if (musicSource != null)
+            {
+                musicSource.loop = true;
+                musicSource.Play();
+            }
         }
         else
         {
             Debug.LogWarning("Intro timeline is not assigned.");
+        }
+    }
+
+    private void OnTimelineFinished(PlayableDirector director)
+    {
+        Debug.Log("Timeline finished!");
+
+        // Desubscribe from the event to avoid multiple calls
+        introTimeline.stopped -= OnTimelineFinished;
+
+        if (dialogueController != null)
+        {
+            dialogueController.StartDialogue();
         }
     }
 
