@@ -28,7 +28,7 @@ public class DialogueController : MonoBehaviour
     public float typingSpeed = 0.05f;
     public DialogueData dialogueData;
     public AudioSource voiceSource;
-    public enum Language { Spanish, English }
+    public enum Language { English, Spanish }
     public Language currentLanguage = Language.English;
 
     private DialogueLine[] currentLines;
