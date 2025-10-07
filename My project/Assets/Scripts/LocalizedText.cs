@@ -1,12 +1,12 @@
 using TMPro;
 using UnityEngine;
 
+[RequireComponent(typeof(TMP_Text))]
 public class LocalizedText : MonoBehaviour
 {
     public string key; //e.g. PLAY
     private TMP_Text textComponent;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         textComponent = GetComponent<TMP_Text>();
@@ -15,8 +15,11 @@ public class LocalizedText : MonoBehaviour
 
     public void UpdateText()
     {
-        if (LocalizationManager.Instance != null) {
-            textComponent.text = LocalizationManager.Instance.GetText(key);
+        var tmp = GetComponent<TMP_Text>();
+        
+        if (tmp != null && LocalizationManager.Instance != null)
+        {
+            tmp.text = LocalizationManager.Instance.GetText(key);
         }
     }
 }

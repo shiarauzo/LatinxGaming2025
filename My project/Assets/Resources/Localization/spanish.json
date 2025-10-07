@@ -1,0 +1,12 @@
+{
+  "entries": [
+    {"key":"PLAY","value":"Jugar"},
+    {"key":"SETTINGS","value":"Opciones"},
+    {"key":"CREDITS","value":"Créditos"},
+    {"key":"VOLUME","value":"Volumen"},
+    {"key":"FULLSCREEN","value":"Pantalla completa"},
+    {"key":"LANGUAGE","value":"Idioma"},
+    {"key":"CLOSE","value":"Cerrar"},
+    {"key":"QUIT","value":"Salir"}
+  ]
+}

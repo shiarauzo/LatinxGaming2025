@@ -41,14 +41,15 @@ public class OptionsMenu : MonoBehaviour
 
     public void SetLanguage(int index)
     {
-        PlayerPrefs.SetInt("Language", index);
-        PlayerPrefs.Save();
+        // PlayerPrefs.SetInt("Language", index);
+        // PlayerPrefs.Save();
 
         // Update all texts in LocalizedText 
-        foreach (var lt in FindObjectsOfType<LocalizedText>())
-        {
-            lt.UpdateText();
-        }
+        // foreach (var lt in FindObjectsOfType<LocalizedText>())
+        // {
+        //    lt.UpdateText();
+        // }
+        LocalizationManager.Instance.SetLanguage(index);
         Debug.Log("Idioma cambiado a: " + index);
     }
 
