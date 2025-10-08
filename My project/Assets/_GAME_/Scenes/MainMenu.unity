@@ -5753,7 +5753,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1230330bfffb4f82b26cc5dce4610bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LocalizedText
-  key: TECH_DESIGNERS
+  key: GAME_DESIGNERS
 --- !u!1 &1563577132
 GameObject:
   m_ObjectHideFlags: 0
@@ -8621,7 +8621,7 @@ GameObject:
   - component: {fileID: 2111236792}
   - component: {fileID: 2111236793}
   m_Layer: 5
-  m_Name: TechnicalDesignersBlock
+  m_Name: GameDesignersBlock
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

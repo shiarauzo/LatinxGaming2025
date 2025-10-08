@@ -8,7 +8,7 @@
     {"key":"LANGUAGE","value":"Language"},
     {"key":"CLOSE","value":"Close"},
     {"key":"QUIT","value":"Quit"},
-    {"key":"TECH_DESIGNERS","value":"Technical Designers"},
+    {"key":"GAME_DESIGNERS","value":"Game Designers & Game Developers"},
     {"key":"GAME_DEVS","value":"Game Developers"},
     {"key":"CONC_ART","value":"Concept Art & 2D Art"},
     {"key":"UI_ART","value":"UI Artist"},
