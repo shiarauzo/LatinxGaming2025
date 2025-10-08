@@ -32,6 +32,7 @@ public class LocalizationDictionary
 public class LocalizationManager : MonoBehaviour
 {
     public static LocalizationManager Instance;
+    public static event System.Action OnLanguageChanged;
 
     private Dictionary<string, string> english = new();
     private Dictionary<string, string> spanish = new();
@@ -92,12 +93,6 @@ public class LocalizationManager : MonoBehaviour
         PlayerPrefs.SetInt("Language", index);
         PlayerPrefs.Save();
 
-        var texts = FindObjectsByType<LocalizedText>(FindObjectsSortMode.None);
-        Debug.Log("Textos encontrados: " + texts.Length);
-
-        foreach (var lt in texts)
-        {
-            lt.UpdateText();
-        }
+        OnLanguageChanged?.Invoke();
     }
 }

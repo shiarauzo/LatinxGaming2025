@@ -7,6 +7,12 @@
     {"key":"FULLSCREEN","value":"Pantalla completa"},
     {"key":"LANGUAGE","value":"Idioma"},
     {"key":"CLOSE","value":"Cerrar"},
-    {"key":"QUIT","value":"Salir"}
+    {"key":"QUIT","value":"Salir"},
+    {"key":"GAME_DESIGNERS","value":"Diseñadores de Videojuego & Desarrolladoras de Videojuego"},
+    {"key":"GAME_DEVS","value":"Desarrolladoras de Videojuego"},
+    {"key":"CONC_ART","value":"Arte Conceptual & Arte 2D"},
+    {"key":"UI_ART","value":"Artista de UI"},
+    {"key":"NARRATIVE","value":"Narrativa"},
+    {"key":"MUSIC","value":"Composición Musical & Audio"}
   ]
 }

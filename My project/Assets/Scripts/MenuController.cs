@@ -24,6 +24,8 @@ public class MenuController : MonoBehaviour
     {
         Debug.Log("Credits menu opened");
         creditsPanel.SetActive(true);
+        // Resetear scroll automático
+        creditsPanel.GetComponentInChildren<CreditScroll>().ResetScroll();
     }
 
     public void QuitGame()
