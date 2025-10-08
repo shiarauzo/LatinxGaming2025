@@ -24,7 +24,6 @@ public class OptionsMenu : MonoBehaviour
         volumeSlider.onValueChanged.AddListener(SetVolume);
         fullscreenToggle.onValueChanged.AddListener(SetFullscreen);
         languageDropdown.onValueChanged.AddListener(SetLanguage);
-        
     }
 
     private void OnEnable()
