@@ -1,0 +1,12 @@
+{
+  "entries": [
+    {"key":"PLAY","value":"Play"},
+    {"key":"SETTINGS","value":"Settings"},
+    {"key":"CREDITS","value":"Credits"},
+    {"key":"VOLUME","value":"Volume"},
+    {"key":"FULLSCREEN","value":"Fullscreen"},
+    {"key":"LANGUAGE","value":"Language"},
+    {"key":"CLOSE","value":"Close"},
+    {"key":"QUIT","value":"Quit"}
+  ]
+}

@@ -28,7 +28,7 @@ public class DialogueController : MonoBehaviour
     public float typingSpeed = 0.05f;
     public DialogueData dialogueData;
     public AudioSource voiceSource;
-    public enum Language { Spanish, English }
+    public enum Language { English, Spanish }
     public Language currentLanguage = Language.English;
 
     private DialogueLine[] currentLines;
@@ -68,6 +68,12 @@ public class DialogueController : MonoBehaviour
 
     public void StartDialogue()
     {
+        // Read language stored en PlayerPrefs (0 = English, 1 = Spanish)
+        int langIndex = PlayerPrefs.GetInt("Language", 0);
+        currentLanguage = (langIndex == 0) ? Language.English : Language.Spanish;
+        
+        //Debug.Log("Idioma detectado en diálogo: " + currentLanguage);
+
         // Show the dialogue panel
         if (dialoguePanel != null)
             dialoguePanel.SetActive(true);
@@ -119,8 +125,8 @@ public class DialogueController : MonoBehaviour
 
     private void SkipCurrentLine()
     {
-        Debug.Log("Skipping to full line");
-        Debug.Log("Current lines idx: " + currentLineIndex);
+       // Debug.Log("Skipping to full line");
+       // Debug.Log("Current lines idx: " + currentLineIndex);
         // Stop typing and show full line
         if (typingCoroutine != null)
         {
