@@ -27,6 +27,14 @@ public class OptionsMenu : MonoBehaviour
         
     }
 
+    private void OnEnable()
+    {
+        // Cada vez que se abra el panel, sincroniza el toggle
+        if (fullscreenToggle != null)
+        {
+            fullscreenToggle.isOn = Screen.fullScreen;
+        }
+    }
     public void SetVolume(float value)
     {
         AudioListener.volume = value;
@@ -37,12 +45,15 @@ public class OptionsMenu : MonoBehaviour
     {
         Screen.fullScreen = isFullscreen;
         PlayerPrefs.SetInt("Fullscreen", isFullscreen ? 1 : 0);
+        PlayerPrefs.Save();
+
+        //Debug.Log("Pantalla completa: " + isFullscreen);
     }
 
     public void SetLanguage(int index)
     {
         LocalizationManager.Instance.SetLanguage(index);
-        Debug.Log("Idioma cambiado a: " + index);
+       // Debug.Log("Idioma cambiado a: " + index);
     }
 
     public void CloseOptions()
