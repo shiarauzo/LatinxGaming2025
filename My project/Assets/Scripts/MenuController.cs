@@ -7,10 +7,22 @@ public class MenuController : MonoBehaviour
     [SerializeField] private GameObject optionsPanel;
     [SerializeField] private GameObject creditsPanel;
 
+   // SceneManager.LoadSceneAsync("GlobalUI", LoadSceneMode.Additive);
+
     public void StartGame()
     {
         Debug.Log("StartGame pressed!");
-        SceneManager.LoadScene("IntroCutscene");
+        // Cargar GlobalUI
+        if (FindObjectOfType<GlobalUIManager>() == null)
+        {
+            Debug.Log("🔄 Cargando GlobalUI...");
+            SceneManager.LoadSceneAsync("GlobalUI", LoadSceneMode.Additive);
+        } else
+        {
+            Debug.Log("✅ GlobalUI ya cargado.");
+        }
+
+        SceneManager.LoadScene("IntroCutScene");
     }
 
     public void OpenSettings()
