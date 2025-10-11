@@ -8,7 +8,6 @@ public class BootLoader : MonoBehaviour
         // 1. Cargar GlobalUI solo una
         if (!SceneManager.GetSceneByName("GlobalUI").isLoaded)
         {
-            Debug.Log("🔹 Cargando GlobalUI...");
             await SceneManager.LoadSceneAsync("GlobalUI", LoadSceneMode.Additive);
         }
         
