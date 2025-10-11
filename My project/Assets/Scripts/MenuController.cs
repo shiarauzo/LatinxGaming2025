@@ -3,38 +3,45 @@ using UnityEngine.SceneManagement;
 
 public class MenuController : MonoBehaviour
 {
+    private GlobalUIManager UIManager;
+
     [Header("UI Panels")]
-    [SerializeField] private GameObject optionsPanel;
     [SerializeField] private GameObject creditsPanel;
 
-   // SceneManager.LoadSceneAsync("GlobalUI", LoadSceneMode.Additive);
-
+    void Start()
+    {
+        UIManager = FindObjectOfType <GlobalUIManager>();
+    }
     public void StartGame()
     {
         Debug.Log("StartGame pressed!");
         // Cargar GlobalUI
         if (FindObjectOfType<GlobalUIManager>() == null)
         {
-            Debug.Log("🔄 Cargando GlobalUI...");
             SceneManager.LoadSceneAsync("GlobalUI", LoadSceneMode.Additive);
-        } else
-        {
-            Debug.Log("✅ GlobalUI ya cargado.");
         }
 
-        SceneManager.LoadScene("IntroCutScene");
+        // Carga IntroCutScene encima (sin eliminar GlobalUI).
+        // Luego descarga MainMenu para liberar memoria.
+        SceneManager.LoadScene("IntroCutScene", LoadSceneMode.Additive);
+        SceneManager.UnloadSceneAsync("MainMenu");
     }
 
     public void OpenSettings()
     {
-        Debug.Log("Settings menu opened");
-        optionsPanel.SetActive(true);
+        if (UIManager != null)
+        {
+            UIManager.ShowSettings();
+        }
+        else
+        {
+            Debug.LogWarning("⚠️ No se encontró GlobalUIManager en la escena.");
+        }
     }
 
 
     public void OpenCredits()
     {
-        Debug.Log("Credits menu opened");
         creditsPanel.SetActive(true);
         // Resetear scroll automático
         creditsPanel.GetComponentInChildren<CreditScroll>().ResetScroll();
@@ -42,7 +49,6 @@ public class MenuController : MonoBehaviour
 
     public void QuitGame()
     {
-        Debug.Log("Quit pressed!");
         Application.Quit();
     }
     
