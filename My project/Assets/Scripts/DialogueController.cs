@@ -45,6 +45,16 @@ public class DialogueController : MonoBehaviour
     private enum LineState { Typing, Completed, Waiting }
     private LineState lineState = LineState.Completed;
 
+    private void OnEnable()
+    {
+        LocalizationManager.OnLanguageChanged += OnLanguageChanged;
+    }
+
+    private void OnDisable()
+    {
+        LocalizationManager.OnLanguageChanged -= OnLanguageChanged;
+    }
+
     void Awake()
     {
         if (dialogueText != null)
@@ -206,5 +216,31 @@ public class DialogueController : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 
+    // Cuando cambia de idioma, recargar diálogo
+    private void OnLanguageChanged()
+    {
+        if (dialogueData == null || currentLines == null)
+            return;
+
+        Debug.Log("🌐 Idioma cambiado — recargando diálogo actual");
+
+        if (typingCoroutine != null)
+        {
+            StopCoroutine(typingCoroutine);
+            typingCoroutine = null;
+        }
+
+        if (voiceSource != null)
+            voiceSource.Stop();
+
+        int langIndex = PlayerPrefs.GetInt("Language", 0);
+        currentLanguage = (langIndex == 0) ? Language.English : Language.Spanish;
+        currentLines = currentLanguage == Language.Spanish ? dialogueData.spanishLines : dialogueData.englishLines;
+
+        // Reiniciar el dialogo actual desde la línea activa
+        int restartIndex = Mathf.Clamp(currentLineIndex - 1, 0, currentLines.Length - 1);
+        currentLineIndex = restartIndex;
+        ShowNextLine();
+    }
 
 }
