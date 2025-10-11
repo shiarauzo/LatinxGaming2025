@@ -1,8 +1,6 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.EventSystems;
-using System.Xml.Serialization;
-
 
 #if ENABLE_INPUT_SYSTEM
 using UnityEngine.InputSystem.UI;
@@ -16,7 +14,9 @@ public class GlobalUIManager : MonoBehaviour
     public GameObject pauseButton;
     public GameObject settingsButton;
     public GameObject skipButton;
+    
     private CutsceneController cutsceneController;
+    private GameObject settingsPanel;
 
     void Awake()
     {
@@ -33,24 +33,38 @@ public class GlobalUIManager : MonoBehaviour
 
         DontDestroyOnLoad(gameObject);
         SceneManager.sceneLoaded += OnSceneLoaded;
-
-        Debug.Log("🚀 GlobalUIManager Awake ejecutándose...");
     }
 
     private void Start()
     {
+        // Cargar la escena 'GlobalSettings'
+        if (!SceneManager.GetSceneByName("GlobalSettings").isLoaded)
+        {
+            SceneManager.LoadScene("GlobalSettings", LoadSceneMode.Additive);
+        }
         UpdateUIVisibility(SceneManager.GetActiveScene().name);
     }
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         string name = scene.name;
-        Debug.Log($"🔄 Escena cargada: {name}");
+       // Debug.Log($"🔄 Escena cargada: {name}");
 
         cutsceneController = FindAnyObjectByType<CutsceneController>();
-        // 🔹 Asegurar que haya EventSystem
+        // Asegura que haya EventSystem
         EnsureEventSystem();
         UpdateUIVisibility(name);
+
+        // Si la escena cargada es GlobalSettings, encuentra el panel de settings
+        if (name == "GlobalSettings")
+        {
+            settingsPanel = FindSettingsPanelInScene(scene);
+            if (settingsPanel != null)
+            {
+                settingsPanel.SetActive(false);
+                Debug.Log("✅ SettingsPanel encontrado y oculto por defecto.");
+            }
+        }
     }
 
     private void EnsureEventSystem()
@@ -59,7 +73,7 @@ public class GlobalUIManager : MonoBehaviour
 
         if (existingES != null)
         {
-            Debug.Log("⚙️ EventSystem ya existe en escena.");
+            Debug.Log("EventSystem ya existe en escena.");
             return;
         }
 
@@ -68,10 +82,6 @@ public class GlobalUIManager : MonoBehaviour
         es.AddComponent<UnityEngine.InputSystem.UI.InputSystemUIInputModule>();
 
         DontDestroyOnLoad(es);
-        Debug.Log("✅ EventSystem creado por GlobalUIManager (nuevo Input System)");
-
-
-
     }
     
     private void UpdateUIVisibility(string sceneName)
@@ -121,9 +131,57 @@ public class GlobalUIManager : MonoBehaviour
     {
         Debug.Log("PAUSE WAS PRESSED.");
     }
-    
+
     public void ShowSettings()
     {
-         Debug.Log("SHOW SETTINGS WAS PRESSED.");
+        Scene settingsScene = SceneManager.GetSceneByName("GlobalSettings");
+
+        if (!settingsScene.isLoaded)
+        {
+            Debug.Log("🧩 Cargando escena GlobalSettings (modo Additive)...");
+            SceneManager.LoadScene("GlobalSettings", LoadSceneMode.Additive);
+            return;
+        }
+
+        ToggleSettingsPanel(true);
+    }
+
+    public void ToggleSettingsPanel(bool show)
+    {
+        if (settingsPanel == null)
+        {
+            Scene settingsScene = SceneManager.GetSceneByName("GlobalSettings");
+            if (settingsScene.isLoaded)
+            {
+                settingsPanel = FindSettingsPanelInScene(settingsScene);
+            }
+        }
+
+        if (settingsPanel != null)
+        {
+            settingsPanel.SetActive(show);
+        }
+        else
+        {
+            Debug.LogWarning("⚠️ No se encontró SettingsPanel en GlobalSettings.");
+        }
+    }
+
+    // Buscar por jerarquía completa dentro de la escena cargada
+    private GameObject FindSettingsPanelInScene(Scene scene)
+    {
+        var rootObjects = scene.GetRootGameObjects();
+        foreach (var root in rootObjects)
+        {
+            if (root.name == "GlobalSettingsRoot")
+            {
+                var foundPanel = root.transform.Find("SettingsCanvas/SettingsPanel");
+                if (foundPanel != null)
+                {
+                   return foundPanel.gameObject;
+                }
+            }
+        }
+        return null;
     }
 }
