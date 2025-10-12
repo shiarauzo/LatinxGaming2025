@@ -7,17 +7,11 @@ public class CutsceneController : MonoBehaviour
     public PlayableDirector introTimeline;
     public DialogueController dialogueController;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    private bool wasTimelinePlaying = false;
+
     void Start()
     {
-        LoadLanguageData();
         PlayIntro();
-    }
-
-    void LoadLanguageData()
-    {
-        // Placeholder for loading language data
-        Debug.Log("Language data loaded.");
     }
 
     public void PlayIntro()
@@ -68,4 +62,39 @@ public class CutsceneController : MonoBehaviour
             Debug.LogWarning("Intro timeline is not assigned.");
         }
     }
+
+    private void HandlePauseChanged(bool isPaused)
+    {
+        SetPauseTimeline(isPaused);
+        SetPauseMusic(isPaused);
+
+        if (dialogueController != null)
+            dialogueController.SetPauseDialogue(isPaused);
+    }
+
+    public void SetPauseTimeline(bool pause)
+    {
+        if (introTimeline == null) return;
+
+        if (pause)
+        {
+            wasTimelinePlaying = introTimeline.state == PlayState.Playing;
+            introTimeline.Pause();
+        }
+        else {
+            if (wasTimelinePlaying)
+                introTimeline.Play();
+        }
+    }
+
+    public void SetPauseMusic(bool pause)
+    {
+        if (musicSource == null) return;
+
+        if (pause && musicSource.isPlaying)
+            musicSource.Pause();
+        else if (!pause)
+            musicSource.UnPause();
+    }
+
 }

@@ -20,82 +20,91 @@ public class PauseManager : MonoBehaviour
         }
 
         if (pausePanel != null)
-        {
             pausePanel.SetActive(false);
+    }
+
+    #region Panel + Pausa
+    // Permitir mostrar u ocultar directamente el panel desde fuera
+    public void SetPanelVisible(bool show)
+    {
+        if (show)
+            ShowPanelAndPause();
+        else
+            HidePanelAndResume();
+    }
+
+    // Mostrar panel y pausar todo
+    public void ShowPanelAndPause()
+    {
+        if (pausePanel != null)
+            pausePanel.SetActive(true);
+
+        // Lógica de pausa centralizada
+        if (GameController.Instance == null)
+        {
+            Debug.LogError("GameController no existe todavía!");
+        }
+        else
+        {
+            GameController.Instance.PauseController.SetPause(true);
         }
     }
 
-    // Enlace con PauseController
-    public void SetPause(bool pause)
+    // Ocultar panel y reanudar todo
+    public void HidePanelAndResume()
     {
-        PauseController.Instance?.SetPause(pause);
+        if (pausePanel != null)
+            pausePanel.SetActive(false);
+        
+        if (GameController.Instance == null)
+        {
+            Debug.LogError("GameController no existe todavía!");
+        }
+        else
+        {
+            GameController.Instance.PauseController.SetPause(false);
+        }
     }
+    #endregion
 
-    // Alternar pausa (lógica, no el panel)
-    public void TogglePauseState()
-    {
-       PauseController.Instance?.TogglePause();
-    }
-
-    // Panel visual
+    #region Panel toggle
     public void TogglePausePanel()
     {
         if (pausePanel == null) return;
 
         bool isActive = pausePanel.activeSelf;
-        pausePanel.SetActive(!isActive);
-
-        SetPause(!isActive);
+        SetPanelVisible(!isActive);
     }
 
-    // Permitir mostrar u ocultar directamente el panel desde fuera (sin toggle)
-    public void SetPanelVisible(bool show)
-    {
-        if (pausePanel == null) return;
-        pausePanel.SetActive(show);
-        SetPause(show); // sincroniza TimeScale y Audio
-    }
+    #endregion
 
-    // Pausa completa: pausa el juego y muestra el panel
-    public void FullPause()
-    {
-        SetPause(true);
-        TogglePausePanel();
-    }
-
-    // Reanuda completa: reanuda el juego y oculta el panel
-    public void FullResume()
-    {
-       SetPause(false);
-        if (pausePanel != null) pausePanel.SetActive(false);
-    }
-
-    public static bool IsGamePaused()
-    {
-        return PauseController.Instance != null && PauseController.Instance.IsPaused;
-    }
-
+    #region Botones UI
     public void OnResumePressed()
     {
-        FullResume();
-        GlobalUIManager.Instance.TogglePausePanel(false);
+        HidePanelAndResume();
+        if (GlobalUIManager.Instance != null)
+            GlobalUIManager.Instance.TogglePausePanel(false);
     }
 
     public void OnQuitPressed()
     {
-        FullResume();
-        GlobalUIManager.Instance.TogglePausePanel(false);
+        HidePanelAndResume();
+        if (GlobalUIManager.Instance != null)
+            GlobalUIManager.Instance.TogglePausePanel(false);
         ResetSingletons();
-        
+
         // Cargar Boot en modo Single → destruye todas las demás escenas
         UnityEngine.SceneManagement.SceneManager.LoadScene("Boot", UnityEngine.SceneManagement.LoadSceneMode.Single);
     }
+    #endregion
 
+    #region Helpers
     public static void ResetSingletons()
     {
-        if(GlobalUIManager.Instance != null) Destroy(GlobalUIManager.Instance.gameObject);
-        if(Instance != null) Destroy(Instance.gameObject);
-        if(SettingsManager.Instance != null) Destroy(SettingsManager.Instance.gameObject);
-        if(LocalizationManager.Instance != null) Destroy(LocalizationManager.Instance.gameObject);
+        if (GlobalUIManager.Instance != null) Destroy(GlobalUIManager.Instance.gameObject);
+        if (Instance != null) Destroy(Instance.gameObject);
+        if (SettingsManager.Instance != null) Destroy(SettingsManager.Instance.gameObject);
+        if (LocalizationManager.Instance != null) Destroy(LocalizationManager.Instance.gameObject);
     }
+    #endregion
 }

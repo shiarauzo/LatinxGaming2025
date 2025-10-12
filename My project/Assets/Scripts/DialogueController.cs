@@ -123,7 +123,6 @@ public class DialogueController : MonoBehaviour
                 break;
         }
     }
-
     private void ShowNextLine()
     {
         // Hide continue text
@@ -181,11 +180,7 @@ public class DialogueController : MonoBehaviour
 
         // Reproducir voz
         if (line.voice != null && voiceSource != null)
-        {
             SetupVoice(line.voice);
-           //voiceSource.clip = line.voice;
-           // voiceSource.Play();
-        }
 
         foreach (char letter in line.text.ToCharArray())
         {
@@ -198,10 +193,7 @@ public class DialogueController : MonoBehaviour
         // Wait a moment before showing continue text
         if (voiceSource != null && line.voice != null)
         {
-            while (voiceSource.isPlaying)
-            {
-                yield return null;
-            }
+            yield return null;
         }
 
         ShowContinueText();
@@ -238,10 +230,7 @@ public class DialogueController : MonoBehaviour
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
 
             string nextScene = SceneUtility.GetScenePathByBuildIndex(SceneManager.GetActiveScene().buildIndex + 1);
-            Debug.Log("🟢 EndDialogue cargará la siguiente escena: " + nextScene);
         }
-            
-      //  SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 
     // Cuando cambia de idioma, recargar diálogo
@@ -273,7 +262,7 @@ public class DialogueController : MonoBehaviour
         currentLineIndex = restartIndex;
         ShowNextLine();
     }
-    
+
     private void SetupVoice(AudioClip clip)
     {
         if (voiceSource == null || clip == null) return;
@@ -283,5 +272,31 @@ public class DialogueController : MonoBehaviour
         voiceSource.panStereo = 0f;
         voiceSource.clip = clip;
         voiceSource.Play();
+    }
+
+    public void SetPauseDialogue(bool pause)
+    {
+        if (pause)
+        {
+            if (voiceSource != null && voiceSource.isPlaying)
+                voiceSource.Pause();
+
+            if (typingCoroutine != null)
+            {
+                StopCoroutine(typingCoroutine);
+                typingCoroutine = null;
+            }
+        }
+        else
+        {
+            if (voiceSource != null && voiceSource.clip != null)
+                voiceSource.UnPause();
+
+            if (currentLineIndex > 0 && currentLineIndex <= currentLines.Length)
+            {
+                DialogueLine line = currentLines[currentLineIndex - 1];
+                typingCoroutine = StartCoroutine(TypeLine(line));
+            }
+        }
     }
 }

@@ -1,21 +1,12 @@
+using System;
 using UnityEngine;
 
 public class PauseController : MonoBehaviour
 {
-    public static PauseController Instance;
     public bool IsPaused { get; private set; }
 
-    private void Awake()
-    {
-        if (Instance != null && Instance != this)
-        {
-            Destroy(gameObject);
-            return;
-        }
-
-        Instance = this;
-        DontDestroyOnLoad(gameObject);
-    }
+    // Evento que notificará a cualquier controlador de escena
+    public event Action<bool> OnPauseChanged;
 
     // Cambiar el estado de pausa del juego
     public void SetPause(bool pause)
@@ -26,6 +17,9 @@ public class PauseController : MonoBehaviour
 
         Time.timeScale = pause ? 0f : 1f;
         AudioListener.pause = pause;
+
+        OnPauseChanged?.Invoke(pause);
+        Debug.Log("Juego pausado??: " + pause);
     }
 
     // Alternar pausa (lógica, no el panel)

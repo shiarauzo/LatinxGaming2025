@@ -240,8 +240,6 @@ public class GlobalUIManager : MonoBehaviour
         yield return new WaitUntil(() => PauseManager.Instance != null);
         Debug.Log("✅ PauseManager cargado. Sincronizando panel de pausa.");
         PauseManager.Instance.SetPanelVisible(true);
-    
-      //  PauseManager.Instance.TogglePausePanel();
     }
 
     // Buscar por jerarquía completa dentro de la escena cargada
