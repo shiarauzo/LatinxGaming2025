@@ -38,8 +38,8 @@ MonoBehaviour:
     - line: '|   productName: EchoesOfTheAmazon-Web'
     - line: '|   defaultCursor: {instanceID: 0}'
     - line: '|   cursorHotspot: {x: 0, y: 0}'
-    - line: '|   m_SplashScreenBackgroundColor: {r: 0.04690281, g: 0.25490198, b:
-        0.100798555, a: 1}'
+    - line: '|   m_SplashScreenBackgroundColor: {r: 0.16470589, g: 0.28235295, b:
+        0.21568628, a: 1}'
     - line: '|   m_ShowUnitySplashScreen: 1'
     - line: '|   m_ShowUnitySplashLogo: 1'
     - line: '|   m_SplashScreenOverlayOpacity: 1'
@@ -63,7 +63,7 @@ MonoBehaviour:
     - line: '|     width: 1'
     - line: '|     height: 1'
     - line: '|   m_SplashScreenLogos:'
-    - line: '|   - logo: {fileID: 6008755849024553855, guid: 63b1b37d42d654363bc7c0dbad0f8d38,
+    - line: '|   - logo: {fileID: -4686667516558731933, guid: 3d391f1114ac04865ae585663b87f25c,
         type: 3}'
     - line: '|     duration: 2'
     - line: '|   m_VirtualRealitySplashScreen: {instanceID: 0}'

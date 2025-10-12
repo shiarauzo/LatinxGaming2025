@@ -53,9 +53,15 @@ public class CutsceneController : MonoBehaviour
 
     public void StopIntro()
     {
+        if (musicSource != null)
+        {
+            musicSource.Stop();
+        }
+
         if (introTimeline != null)
         {
             introTimeline.Stop();
+            introTimeline.stopped -= OnTimelineFinished;
         }
         else
         {
