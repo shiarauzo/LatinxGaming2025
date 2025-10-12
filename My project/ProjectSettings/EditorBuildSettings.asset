@@ -15,6 +15,9 @@ EditorBuildSettings:
     path: Assets/_GAME_/Scenes/GlobalSettings.unity
     guid: 52c477e3a76ef4b049907e82f8de17d3
   - enabled: 1
+    path: Assets/_GAME_/Scenes/GlobalPause.unity
+    guid: d483853abe2a544388eb991610a3f05a
+  - enabled: 1
     path: Assets/_GAME_/Scenes/MainMenu.unity
     guid: 556f94669ec7ec9439ed70ef3dbc2f70
   - enabled: 1

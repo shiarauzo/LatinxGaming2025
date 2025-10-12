@@ -28,8 +28,8 @@ public class DialogueController : MonoBehaviour
     public float typingSpeed = 0.05f;
     public DialogueData dialogueData;
     public AudioSource voiceSource;
-    public UnityEngine.Audio.AudioMixerGroup voicesEN;
-    public UnityEngine.Audio.AudioMixerGroup voicesES;
+    public UnityEngine.Audio.AudioMixerGroup voicesGroup;
+
 
     public enum Language { English, Spanish }
     public Language currentLanguage = Language.English;
@@ -87,12 +87,8 @@ public class DialogueController : MonoBehaviour
         int langIndex = PlayerPrefs.GetInt("Language", 0);
         currentLanguage = (langIndex == 0) ? Language.English : Language.Spanish;
         
-        // Cambiar el grupo del audio según idioma
         if (voiceSource != null)
-        {
-            voiceSource.outputAudioMixerGroup = 
-                (currentLanguage == Language.English) ? voicesEN : voicesES;
-        }
+            voiceSource.outputAudioMixerGroup = voicesGroup;
 
         // Show the dialogue panel
         if (dialoguePanel != null)
@@ -186,8 +182,9 @@ public class DialogueController : MonoBehaviour
         // Reproducir voz
         if (line.voice != null && voiceSource != null)
         {
-            voiceSource.clip = line.voice;
-            voiceSource.Play();
+            SetupVoice(line.voice);
+           //voiceSource.clip = line.voice;
+           // voiceSource.Play();
         }
 
         foreach (char letter in line.text.ToCharArray())
@@ -248,12 +245,9 @@ public class DialogueController : MonoBehaviour
             return;
 
         Debug.Log("🌐 Idioma cambiado — recargando diálogo actual");
-        
+
         if (voiceSource != null)
-        {
-            voiceSource.outputAudioMixerGroup =
-                (currentLanguage == Language.English) ? voicesEN : voicesES;
-        }
+            voiceSource.outputAudioMixerGroup = voicesGroup;
 
         if (typingCoroutine != null)
         {
@@ -273,5 +267,15 @@ public class DialogueController : MonoBehaviour
         currentLineIndex = restartIndex;
         ShowNextLine();
     }
+    
+    private void SetupVoice(AudioClip clip)
+    {
+        if (voiceSource == null || clip == null) return;
 
+        voiceSource.outputAudioMixerGroup = voicesGroup;
+        voiceSource.volume = 1f;      // volumen uniforme
+        voiceSource.panStereo = 0f;
+        voiceSource.clip = clip;
+        voiceSource.Play();
+    }
 }

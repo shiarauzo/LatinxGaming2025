@@ -1,6 +1,8 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.EventSystems;
+using System.Collections;
+
 
 #if ENABLE_INPUT_SYSTEM
 using UnityEngine.InputSystem.UI;
@@ -17,6 +19,7 @@ public class GlobalUIManager : MonoBehaviour
     
     private CutsceneController cutsceneController;
     private GameObject settingsPanel;
+    private GameObject pausePanel;
 
     void Awake()
     {
@@ -32,6 +35,7 @@ public class GlobalUIManager : MonoBehaviour
         EnsureEventSystem();
 
         DontDestroyOnLoad(gameObject);
+        EnsureEventSystem();
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
@@ -39,9 +43,8 @@ public class GlobalUIManager : MonoBehaviour
     {
         // Cargar la escena 'GlobalSettings'
         if (!SceneManager.GetSceneByName("GlobalSettings").isLoaded)
-        {
             SceneManager.LoadScene("GlobalSettings", LoadSceneMode.Additive);
-        }
+        
         UpdateUIVisibility(SceneManager.GetActiveScene().name);
     }
 
@@ -51,18 +54,28 @@ public class GlobalUIManager : MonoBehaviour
        // Debug.Log($"🔄 Escena cargada: {name}");
 
         cutsceneController = FindAnyObjectByType<CutsceneController>();
-        // Asegura que haya EventSystem
         EnsureEventSystem();
         UpdateUIVisibility(name);
 
         // Si la escena cargada es GlobalSettings, encuentra el panel de settings
         if (name == "GlobalSettings")
         {
-            settingsPanel = FindSettingsPanelInScene(scene);
+            settingsPanel = FindPanelInScene(scene, "GlobalSettingsRoot", "SettingsCanvas/SettingsPanel");
             if (settingsPanel != null)
             {
                 settingsPanel.SetActive(false);
                 Debug.Log("✅ SettingsPanel encontrado y oculto por defecto.");
+            }
+        } else if (name == "GlobalPause")
+        {
+            if (pausePanel == null)
+            {
+                pausePanel = FindPanelInScene(scene, "GlobalPauseRoot", "PauseCanvas/PausePanel");
+                if (pausePanel != null)
+                {
+                    pausePanel.SetActive(false);
+                    Debug.Log("✅ PausePanel encontrado y oculto por defecto.");
+                }
             }
         }
     }
@@ -92,12 +105,16 @@ public class GlobalUIManager : MonoBehaviour
             return;
         }
 
+        Debug.Log("scene name" + sceneName);
+        if(sceneName == "GlobalPause" || sceneName == "GlobalSettings")
+            return;
+
         switch (sceneName)
         {
             case "IntroCutScene":
                 skipButton?.SetActive(true);
                 settingsButton?.SetActive(true);
-                pauseButton?.SetActive(false);
+                pauseButton?.SetActive(true); //update
                 break;
 
             case "PrincipalMap":
@@ -127,18 +144,48 @@ public class GlobalUIManager : MonoBehaviour
         SceneManager.LoadScene("PrincipalMap");
     }
 
-    public void PauseGame()
+    public void ShowPause()
     {
         Debug.Log("PAUSE WAS PRESSED.");
+        Scene pauseScene = SceneManager.GetSceneByName("GlobalPause");
+
+        if (!pauseScene.isLoaded)
+        {
+            SceneManager.LoadScene("GlobalPause", LoadSceneMode.Additive);
+            StartCoroutine(WaitAndShowPause());
+            return;
+        }
+
+        if (PauseManager.Instance != null)
+        {
+            PauseManager.Instance.TogglePause();
+        }
+        else
+        {
+            Debug.LogWarning("PauseManager no encontrado.");
+        }
     }
 
+    public void TogglePausePanel(bool show)
+    {
+        if (pausePanel != null)
+        {
+            pausePanel.SetActive(show);
+            Time.timeScale = show ? 0f : 1f;
+            AudioListener.pause = show;
+        }
+        else
+        {
+            Debug.LogWarning("⚠️ No se encontró PausePanel en GlobalPause.");
+        }
+    }
     public void ShowSettings()
     {
         Scene settingsScene = SceneManager.GetSceneByName("GlobalSettings");
 
         if (!settingsScene.isLoaded)
         {
-            Debug.Log("🧩 Cargando escena GlobalSettings (modo Additive)...");
+            // Debug.Log("🧩 Cargando escena GlobalSettings (modo Additive)...");
             SceneManager.LoadScene("GlobalSettings", LoadSceneMode.Additive);
             return;
         }
@@ -153,7 +200,7 @@ public class GlobalUIManager : MonoBehaviour
             Scene settingsScene = SceneManager.GetSceneByName("GlobalSettings");
             if (settingsScene.isLoaded)
             {
-                settingsPanel = FindSettingsPanelInScene(settingsScene);
+                settingsPanel = FindPanelInScene(settingsScene, "GlobalSettingsRoot", "SettingsCanvas/SettingsPanel");
             }
         }
 
@@ -167,15 +214,21 @@ public class GlobalUIManager : MonoBehaviour
         }
     }
 
+    private IEnumerator WaitAndShowPause()
+    {
+        yield return new WaitUntil(() => PauseManager.Instance != null);
+        PauseManager.Instance.TogglePause();
+    }
+
     // Buscar por jerarquía completa dentro de la escena cargada
-    private GameObject FindSettingsPanelInScene(Scene scene)
+    private GameObject FindPanelInScene(Scene scene, string rootName, string panelPath)
     {
         var rootObjects = scene.GetRootGameObjects();
         foreach (var root in rootObjects)
         {
-            if (root.name == "GlobalSettingsRoot")
+            if (root.name == rootName)
             {
-                var foundPanel = root.transform.Find("SettingsCanvas/SettingsPanel");
+                var foundPanel = root.transform.Find(panelPath);
                 if (foundPanel != null)
                 {
                    return foundPanel.gameObject;
