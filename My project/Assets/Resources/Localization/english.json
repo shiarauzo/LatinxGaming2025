@@ -1,0 +1,18 @@
+{
+  "entries": [
+    {"key":"PLAY","value":"Play"},
+    {"key":"SETTINGS","value":"Settings"},
+    {"key":"CREDITS","value":"Credits"},
+    {"key":"VOLUME","value":"Volume"},
+    {"key":"FULLSCREEN","value":"Fullscreen"},
+    {"key":"LANGUAGE","value":"Language"},
+    {"key":"CLOSE","value":"Close"},
+    {"key":"QUIT","value":"Quit"},
+    {"key":"GAME_DESIGNERS","value":"Game Designers & Game Developers"},
+    {"key":"GAME_DEVS","value":"Game Developers"},
+    {"key":"CONC_ART","value":"Concept Art & 2D Art"},
+    {"key":"UI_ART","value":"UI Artist"},
+    {"key":"NARRATIVE","value":"Narrative"},
+    {"key":"MUSIC","value":"Music Composition & Audio"}
+  ]
+}

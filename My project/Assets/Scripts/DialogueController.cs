@@ -28,7 +28,10 @@ public class DialogueController : MonoBehaviour
     public float typingSpeed = 0.05f;
     public DialogueData dialogueData;
     public AudioSource voiceSource;
-    public enum Language { Spanish, English }
+    public UnityEngine.Audio.AudioMixerGroup voicesEN;
+    public UnityEngine.Audio.AudioMixerGroup voicesES;
+
+    public enum Language { English, Spanish }
     public Language currentLanguage = Language.English;
 
     private DialogueLine[] currentLines;
@@ -42,8 +45,20 @@ public class DialogueController : MonoBehaviour
     public string continueTextEnglish = "Press Enter to continue";
     public string continueTextSpanish = "Presiona Enter para continuar";
 
+    public bool loadNextSceneOnEnd = true;
+
     private enum LineState { Typing, Completed, Waiting }
     private LineState lineState = LineState.Completed;
+
+    private void OnEnable()
+    {
+        LocalizationManager.OnLanguageChanged += OnLanguageChanged;
+    }
+
+    private void OnDisable()
+    {
+        LocalizationManager.OnLanguageChanged -= OnLanguageChanged;
+    }
 
     void Awake()
     {
@@ -68,11 +83,29 @@ public class DialogueController : MonoBehaviour
 
     public void StartDialogue()
     {
+        // Read language stored en PlayerPrefs (0 = English, 1 = Spanish)
+        int langIndex = PlayerPrefs.GetInt("Language", 0);
+        currentLanguage = (langIndex == 0) ? Language.English : Language.Spanish;
+        
+        // Cambiar el grupo del audio según idioma
+        if (voiceSource != null)
+        {
+            voiceSource.outputAudioMixerGroup = 
+                (currentLanguage == Language.English) ? voicesEN : voicesES;
+        }
+
         // Show the dialogue panel
         if (dialoguePanel != null)
             dialoguePanel.SetActive(true);
 
         currentLines = currentLanguage == Language.Spanish ? dialogueData.spanishLines : dialogueData.englishLines;
+
+        if (currentLines == null || currentLines.Length == 0)
+        {
+            Debug.LogWarning("⚠️ No hay líneas disponibles para el idioma actual: " + currentLanguage);
+            return;
+        }
+
         currentLineIndex = 0;
         ShowNextLine();
     }
@@ -101,6 +134,12 @@ public class DialogueController : MonoBehaviour
         if (continueText != null)
             continueText.gameObject.SetActive(false);
 
+        if (currentLines == null || currentLines.Length == 0)
+        {
+            Debug.LogWarning("⚠️ currentLines está vacío");
+            return;
+        }
+    
         // If no more lines, end dialogue
         if (currentLineIndex >= currentLines.Length)
         {
@@ -119,8 +158,8 @@ public class DialogueController : MonoBehaviour
 
     private void SkipCurrentLine()
     {
-        Debug.Log("Skipping to full line");
-        Debug.Log("Current lines idx: " + currentLineIndex);
+       // Debug.Log("Skipping to full line");
+       // Debug.Log("Current lines idx: " + currentLineIndex);
         // Stop typing and show full line
         if (typingCoroutine != null)
         {
@@ -197,8 +236,42 @@ public class DialogueController : MonoBehaviour
             dialoguePanel.SetActive(false);
 
         // Load the next scene
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        if (loadNextSceneOnEnd)
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+      //  SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 
+    // Cuando cambia de idioma, recargar diálogo
+    private void OnLanguageChanged()
+    {
+        if (dialogueData == null || currentLines == null)
+            return;
+
+        Debug.Log("🌐 Idioma cambiado — recargando diálogo actual");
+        
+        if (voiceSource != null)
+        {
+            voiceSource.outputAudioMixerGroup =
+                (currentLanguage == Language.English) ? voicesEN : voicesES;
+        }
+
+        if (typingCoroutine != null)
+        {
+            StopCoroutine(typingCoroutine);
+            typingCoroutine = null;
+        }
+
+        if (voiceSource != null)
+            voiceSource.Stop();
+
+        int langIndex = PlayerPrefs.GetInt("Language", 0);
+        currentLanguage = (langIndex == 0) ? Language.English : Language.Spanish;
+        currentLines = currentLanguage == Language.Spanish ? dialogueData.spanishLines : dialogueData.englishLines;
+
+        // Reiniciar el dialogo actual desde la línea activa
+        int restartIndex = Mathf.Clamp(currentLineIndex - 1, 0, currentLines.Length - 1);
+        currentLineIndex = restartIndex;
+        ShowNextLine();
+    }
 
 }
