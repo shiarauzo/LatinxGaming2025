@@ -969,46 +969,49 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   dialoguePanel: {fileID: 1807991795}
   dialogueText: {fileID: 67821168}
-  typingSpeed: 0.08
+  typingSpeed: 0.05
   dialogueData:
     spanishLines:
     - text: "Hola peque\xF1a\u2026"
-      voice: {fileID: 8300000, guid: 26327ccc6f75d412f8518acd34525580, type: 3}
+      voice: {fileID: 8300000, guid: 2be00f3a616724e84be38db44af5afa3, type: 3}
     - text: "Yo soy aquel que llaman Chullachaqui, el guardi\xE1n de todo lo que
-        existe aqu\xED"
-      voice: {fileID: 8300000, guid: 0ed4bf8a5ec6c4e228c6e90df6526fb0, type: 3}
+        existe aqu\xED."
+      voice: {fileID: 8300000, guid: fd645cc05fbd6484b91bee4970b9184f, type: 3}
     - text: "Aquellos que rompen la armon\xEDa de mi bosque enfrentar\xE1n consecuencias."
-      voice: {fileID: 8300000, guid: e8d5b2cca4855478da8692b98681332d, type: 3}
+      voice: {fileID: 8300000, guid: 956d5561dc3774dcdbe3a46f4363ed73, type: 3}
     - text: Sin embargo los incendios aumentan y los extranjeros siguen tomando nuestra
         riqueza.
-      voice: {fileID: 8300000, guid: f2cba1dd2b0894952872ef3b031d8d7d, type: 3}
-    - text: 'Esta es una lucha que no puedo enfrentar yo solo. '
-      voice: {fileID: 8300000, guid: c8bc712d65b914e2e844ce43588f3bf8, type: 3}
-    - text: 'Pido tu ayuda para proteger lo que queda. '
-      voice: {fileID: 8300000, guid: 079c855727c744262a163a9d66bbaae0, type: 3}
-    - text: "Me ayudar\xE1s\u2026 o ver\xE1s nuestra casa arder? "
-      voice: {fileID: 8300000, guid: 343b0126309e54b958ee7e5c385ab118, type: 3}
+      voice: {fileID: 8300000, guid: 6ca378cdbfe6340b4a60808391c7fbfd, type: 3}
+    - text: Esta es una lucha que no puedo enfrentar yo solo.
+      voice: {fileID: 8300000, guid: df031f232776e4e13927def3bdd50964, type: 3}
+    - text: Pido tu ayuda para proteger lo que queda.
+      voice: {fileID: 8300000, guid: 4fa82d2d52aa94e57871b19d9f6234c3, type: 3}
+    - text: "\xBFMe ayudar\xE1s\u2026 o ver\xE1s nuestra casa arder? "
+      voice: {fileID: 8300000, guid: ec7817af78f8443a784cb3a0df564cf2, type: 3}
     englishLines:
-    - text: Hello little one..
+    - text: Hello little one.
       voice: {fileID: 8300000, guid: 8d8b18ca2a8774334a994196def85b65, type: 3}
-    - text: I am the one they call Chullachaqui, the guardian of all that resides
+    - text: I am the one they call Chullachaqui, the guardian of all that reside
         here.
       voice: {fileID: 8300000, guid: 954dbabba812e4dd2b7008b1c5156085, type: 3}
     - text: Those who break the harmony of my forest face condemnation.
-      voice: {fileID: 8300000, guid: 21c6f49104f1f4154845093a4be48db1, type: 3}
+      voice: {fileID: 8300000, guid: 956d5561dc3774dcdbe3a46f4363ed73, type: 3}
     - text: Yet the fires are growing and the outsiders are still taking.
-      voice: {fileID: 8300000, guid: 4901ea5f5454542c6b9ef048cc648a62, type: 3}
+      voice: {fileID: 8300000, guid: 6ca378cdbfe6340b4a60808391c7fbfd, type: 3}
     - text: This is no longer a feat I can handle alone.
-      voice: {fileID: 8300000, guid: 928f8f72859fd45fe8bec0c071c5de5d, type: 3}
+      voice: {fileID: 8300000, guid: df031f232776e4e13927def3bdd50964, type: 3}
     - text: I call upon you for aid in protecting what remains.
-      voice: {fileID: 8300000, guid: 38dad2a6d320e4980b66e5ac5f02ec81, type: 3}
+      voice: {fileID: 8300000, guid: 4fa82d2d52aa94e57871b19d9f6234c3, type: 3}
     - text: "Will you answer my call\u2026 Or watch our home burn?"
-      voice: {fileID: 8300000, guid: 39fde8d57c69d420ba2300237308d3b8, type: 3}
+      voice: {fileID: 8300000, guid: ec7817af78f8443a784cb3a0df564cf2, type: 3}
   voiceSource: {fileID: 619587475}
-  currentLanguage: 1
+  voicesEN: {fileID: -9211390935280603538, guid: ee5c138a3f37541cda12968810c1329b, type: 2}
+  voicesES: {fileID: 8192640195457469376, guid: ee5c138a3f37541cda12968810c1329b, type: 2}
+  currentLanguage: 0
   continueText: {fileID: 498296466}
-  continueTextEnglish: Press Enter to continue
-  continueTextSpanish: Presiona Enter para continuar
+  continueTextEnglish: Press ENTER to continue
+  continueTextSpanish: Presiona ENTER para continuar
+  loadNextSceneOnEnd: 1
 --- !u!1 &762023097
 GameObject:
   m_ObjectHideFlags: 0
