@@ -46,7 +46,7 @@ public class NPC : MonoBehaviour, IInteractable
 
         dialoguePanel.SetActive(true);
         GameController.Instance.PauseController.SetPause(true);
-
+        
         StartCoroutine(TypeLine());
     }
 
@@ -54,13 +54,13 @@ public class NPC : MonoBehaviour, IInteractable
     {
         if (isTyping)
         {
-            // Skip typing animation and show the full line;
+            // Completa la línea actual
             StopAllCoroutines();
             dialogueText.SetText(dialogueData.dialogueLines[dialogueIndex]);
             isTyping = false;
         } else if(++dialogueIndex < dialogueData.dialogueLines.Length)
         {
-            // If another line, type next line
+            // Si hay más líneas, tipeamos la siguiente
             StartCoroutine(TypeLine());
         } else
         {
@@ -76,14 +76,15 @@ public class NPC : MonoBehaviour, IInteractable
         foreach (char letter in dialogueData.dialogueLines[dialogueIndex])
         {
             dialogueText.text += letter;
-            yield return new WaitForSeconds(dialogueData.typingSpeed);
+            yield return new WaitForSecondsRealtime(dialogueData.typingSpeed); // Works even if Game is Paused.
+          //  yield return new WaitForSeconds(dialogueData.typingSpeed);
         }
 
         isTyping = false;
 
-        if (dialogueData.autoProgressLines.Length < dialogueIndex && dialogueData.autoProgressLines[dialogueIndex])
+        if (dialogueData.autoProgressLines.Length > dialogueIndex && dialogueData.autoProgressLines[dialogueIndex])
         {
-            yield return new WaitForSeconds(dialogueData.autoProgressDelay);
+            yield return new WaitForSecondsRealtime(dialogueData.autoProgressDelay);
             NextLine();
         }
     }

@@ -50,6 +50,9 @@ public class IntroDialogueController : MonoBehaviour
     private enum LineState { Typing, Completed, Waiting }
     private LineState lineState = LineState.Completed;
 
+    public delegate void DialogueFinished();
+    public event DialogueFinished OnDialogueFinished;
+
     private void OnEnable()
     {
         LocalizationManager.OnLanguageChanged += OnLanguageChanged;
@@ -224,12 +227,16 @@ public class IntroDialogueController : MonoBehaviour
         if (dialoguePanel != null)
             dialoguePanel.SetActive(false);
 
+        // Disparar evento
+        OnDialogueFinished?.Invoke();
+
         // Load the next scene
         if (loadNextSceneOnEnd)
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
 
             string nextScene = SceneUtility.GetScenePathByBuildIndex(SceneManager.GetActiveScene().buildIndex + 1);
+            Debug.Log("next scene " + nextScene);
         }
     }
 

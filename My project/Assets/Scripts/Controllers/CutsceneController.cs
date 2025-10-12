@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.Playables;
+using UnityEngine.SceneManagement;
 
 public class CutsceneController : MonoBehaviour
 {
@@ -11,6 +12,8 @@ public class CutsceneController : MonoBehaviour
 
     void Start()
     {
+        if (dialogueController != null)
+            dialogueController.OnDialogueFinished += GoToNextScene;
         PlayIntro();
     }
 
@@ -63,15 +66,6 @@ public class CutsceneController : MonoBehaviour
         }
     }
 
-    private void HandlePauseChanged(bool isPaused)
-    {
-        SetPauseTimeline(isPaused);
-        SetPauseMusic(isPaused);
-
-        if (dialogueController != null)
-            dialogueController.SetPauseDialogue(isPaused);
-    }
-
     public void SetPauseTimeline(bool pause)
     {
         if (introTimeline == null) return;
@@ -95,6 +89,11 @@ public class CutsceneController : MonoBehaviour
             musicSource.Pause();
         else if (!pause)
             musicSource.UnPause();
+    }
+
+    private void GoToNextScene()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 
 }
