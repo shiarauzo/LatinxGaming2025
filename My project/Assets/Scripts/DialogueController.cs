@@ -234,7 +234,13 @@ public class DialogueController : MonoBehaviour
 
         // Load the next scene
         if (loadNextSceneOnEnd)
+        {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+
+            string nextScene = SceneUtility.GetScenePathByBuildIndex(SceneManager.GetActiveScene().buildIndex + 1);
+            Debug.Log("🟢 EndDialogue cargará la siguiente escena: " + nextScene);
+        }
+            
       //  SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 

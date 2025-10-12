@@ -1,3 +1,4 @@
+// Parte Visual
 using UnityEngine;
 
 public class PauseManager : MonoBehaviour
@@ -24,33 +25,65 @@ public class PauseManager : MonoBehaviour
         }
     }
 
-    public void TogglePause()
+    // Enlace con PauseController
+    public void SetPause(bool pause)
     {
-        if (pausePanel != null)
-        {
-            bool isActive = pausePanel.activeSelf;
-            pausePanel.SetActive(!isActive);
+        PauseController.Instance?.SetPause(pause);
+    }
 
-            if (!isActive)
-            {
-                Time.timeScale = 0f;
-                AudioListener.pause = true;
-            }
-            else
-            {
-                Time.timeScale = 1f;
-                AudioListener.pause = false;
-            }
-        }
+    // Alternar pausa (lógica, no el panel)
+    public void TogglePauseState()
+    {
+       PauseController.Instance?.TogglePause();
+    }
+
+    // Panel visual
+    public void TogglePausePanel()
+    {
+        if (pausePanel == null) return;
+
+        bool isActive = pausePanel.activeSelf;
+        pausePanel.SetActive(!isActive);
+
+        SetPause(!isActive);
+    }
+
+    // Permitir mostrar u ocultar directamente el panel desde fuera (sin toggle)
+    public void SetPanelVisible(bool show)
+    {
+        if (pausePanel == null) return;
+        pausePanel.SetActive(show);
+        SetPause(show); // sincroniza TimeScale y Audio
+    }
+
+    // Pausa completa: pausa el juego y muestra el panel
+    public void FullPause()
+    {
+        SetPause(true);
+        TogglePausePanel();
+    }
+
+    // Reanuda completa: reanuda el juego y oculta el panel
+    public void FullResume()
+    {
+       SetPause(false);
+        if (pausePanel != null) pausePanel.SetActive(false);
+    }
+
+    public static bool IsGamePaused()
+    {
+        return PauseController.Instance != null && PauseController.Instance.IsPaused;
     }
 
     public void OnResumePressed()
     {
+        FullResume();
         GlobalUIManager.Instance.TogglePausePanel(false);
     }
 
     public void OnQuitPressed()
     {
+        FullResume();
         GlobalUIManager.Instance.TogglePausePanel(false);
         ResetSingletons();
         
