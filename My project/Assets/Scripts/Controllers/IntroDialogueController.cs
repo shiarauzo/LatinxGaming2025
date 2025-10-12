@@ -1,4 +1,4 @@
-// Assets/Scripts/DialogueController.cs
+// Assets/Scripts/Controllers/IntroDialogueController.cs
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -18,7 +18,7 @@ public class DialogueData
     public DialogueLine[] spanishLines;
     public DialogueLine[] englishLines;
 }
-public class DialogueController : MonoBehaviour
+public class IntroDialogueController : MonoBehaviour
 {
     [Header("UI")]
     public GameObject dialoguePanel;

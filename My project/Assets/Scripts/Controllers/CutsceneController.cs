@@ -5,7 +5,7 @@ public class CutsceneController : MonoBehaviour
 {
     public AudioSource musicSource;
     public PlayableDirector introTimeline;
-    public DialogueController dialogueController;
+    public IntroDialogueController dialogueController;
 
     private bool wasTimelinePlaying = false;
 
