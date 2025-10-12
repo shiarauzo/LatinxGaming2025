@@ -1005,8 +1005,7 @@ MonoBehaviour:
     - text: "Will you answer my call\u2026 Or watch our home burn?"
       voice: {fileID: 8300000, guid: ec7817af78f8443a784cb3a0df564cf2, type: 3}
   voiceSource: {fileID: 619587475}
-  voicesEN: {fileID: -9211390935280603538, guid: ee5c138a3f37541cda12968810c1329b, type: 2}
-  voicesES: {fileID: 8192640195457469376, guid: ee5c138a3f37541cda12968810c1329b, type: 2}
+  voicesGroup: {fileID: 8192640195457469376, guid: ee5c138a3f37541cda12968810c1329b, type: 2}
   currentLanguage: 0
   continueText: {fileID: 498296466}
   continueTextEnglish: Press ENTER to continue
