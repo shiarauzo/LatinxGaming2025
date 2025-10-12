@@ -3,8 +3,7 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 3
-  tags:
-  - SettingsPanel
+  tags: []
   layers:
   - Default
   - TransparentFX
@@ -43,22 +42,22 @@ TagManager:
     uniqueID: 0
     locked: 0
   - name: Ground
-    uniqueID: 1733691921
+    uniqueID: 84423961
     locked: 0
   - name: WalkInfront
-    uniqueID: 3597235611
+    uniqueID: 1612179935
     locked: 0
   - name: Collision
-    uniqueID: 436185023
+    uniqueID: 2724570509
     locked: 0
   - name: Player
-    uniqueID: 2959680327
+    uniqueID: 3575176913
     locked: 0
   - name: WalkBehind
-    uniqueID: 2173062303
+    uniqueID: 536136151
     locked: 0
   - name: Decor
-    uniqueID: 1687878937
+    uniqueID: 356214831
     locked: 0
   m_RenderingLayers:
   - Default
