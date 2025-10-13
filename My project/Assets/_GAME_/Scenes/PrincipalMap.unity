@@ -2666,6 +2666,7 @@ MonoBehaviour:
   dialogueText: {fileID: 191736031}
   nameText: {fileID: 1052556345}
   portraitImage: {fileID: 1946401811}
+  firstEncounter: 1
 --- !u!1 &1111007148
 GameObject:
   m_ObjectHideFlags: 0
@@ -19023,16 +19024,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   plants:
-  - plantName: 
-    plantObject: {fileID: 1566847711}
+  - plantObject: {fileID: 1566847711}
     isBurning: 0
     isBurned: 0
-  - plantName: 
-    plantObject: {fileID: 2132327549}
+  - plantObject: {fileID: 2132327549}
     isBurning: 0
     isBurned: 0
-  - plantName: 
-    plantObject: {fileID: 994995802}
+  - plantObject: {fileID: 994995802}
     isBurning: 0
     isBurned: 0
 --- !u!4 &1923299297
