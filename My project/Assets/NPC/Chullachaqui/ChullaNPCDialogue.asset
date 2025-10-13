@@ -18,7 +18,7 @@ MonoBehaviour:
   - stateName: FirstEncounter
     englishLines:
     - Your mission is to protect the plants and guide the animals.
-    - ' Listen to the whispers of the forest.'
+    - Listen to the whispers of the forest.
     spanishLines:
     - "Tu misi\xF3n es proteger las plantas y guiar a los animales."
     - Escucha los susurros del bosque.
@@ -33,18 +33,16 @@ MonoBehaviour:
     - "\xA1Mantente alerta! Las llamas podr\xEDan estallar en cualquier momento."
     autoProgressLines: 00
     autoProgressDelay: 1.5
-    typingSpeed: 0.5
+    typingSpeed: 0.05
     voiceSound: {fileID: 0}
   - stateName: PartialReminder
     englishLines:
-    - "Good find Little One. But beware\u2026 The flames will burn everything in
-      their path if not contained."
+    - "Every root and leaf has a story\u2026 listen carefully."
     spanishLines:
-    - "Buen hallazgo, Peque\xF1a. Pero cuidado... Las llamas quemar\xE1n todo a su
-      paso si no se las contiene."
+    - "Cada ra\xEDz y hoja tiene una historia\u2026 escucha atentamente."
     autoProgressLines: 00
     autoProgressDelay: 1.5
-    typingSpeed: 0.5
+    typingSpeed: 0.05
     voiceSound: {fileID: 0}
   - stateName: FireAlert
     englishLines:
@@ -54,7 +52,7 @@ MonoBehaviour:
       tarde."
     autoProgressLines: 00
     autoProgressDelay: 1.5
-    typingSpeed: 0.5
+    typingSpeed: 0.05
     voiceSound: {fileID: 0}
   - stateName: BurnedPlotWithSeeds
     englishLines:
@@ -65,7 +63,7 @@ MonoBehaviour:
       aqu\xED."
     autoProgressLines: 00
     autoProgressDelay: 1.5
-    typingSpeed: 0.5
+    typingSpeed: 0.05
     voiceSound: {fileID: 0}
   - stateName: BurnedPlotNoSeeds
     englishLines:
@@ -75,7 +73,7 @@ MonoBehaviour:
       lugar."
     autoProgressLines: 00
     autoProgressDelay: 1.5
-    typingSpeed: 0.5
+    typingSpeed: 0.05
     voiceSound: {fileID: 0}
   - stateName: RestoredPlot
     englishLines:
@@ -85,7 +83,7 @@ MonoBehaviour:
       tus cuidados."
     autoProgressLines: 00
     autoProgressDelay: 1.5
-    typingSpeed: 0.5
+    typingSpeed: 0.05
     voiceSound: {fileID: 0}
   - stateName: PlotNotYetRestored
     englishLines:
@@ -94,5 +92,5 @@ MonoBehaviour:
     - "Paciencia, Peque\xF1a\u2026 el bosque se puede curar si buscas con cuidado."
     autoProgressLines: 00
     autoProgressDelay: 1.5
-    typingSpeed: 0.5
+    typingSpeed: 0.05
     voiceSound: {fileID: 0}

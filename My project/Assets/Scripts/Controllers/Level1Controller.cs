@@ -5,7 +5,6 @@ using UnityEngine;
 [System.Serializable]
 public class Plant
 {
-    public string plantName;
     public GameObject plantObject;
     public bool isBurning = false;
     public bool isBurned = false;
@@ -23,10 +22,13 @@ public class Level1Controller : MonoBehaviour
 
     private IEnumerator StartRandomFire()
     {
-        float waitTime = Random.Range(15f, 30f);
-        yield return new WaitForSeconds(waitTime);
+        while(true)
+        {
+            float waitTime = Random.Range(15f, 30f);
+            yield return new WaitForSeconds(waitTime);
 
-        BurnRandomPlant();
+            BurnRandomPlant();
+        }
     }
 
     private void BurnRandomPlant()
@@ -46,27 +48,33 @@ public class Level1Controller : MonoBehaviour
 
         int randomIndex = Random.Range(0, unburnedPlants.Count);
         Plant burningPlant = unburnedPlants[randomIndex];
-        burningPlant.isBurned = true;
 
-        Debug.Log($"🔥 La planta {burningPlant.plantName} empezó a quemarse!");
+        burningPlant.isBurning = true;
+        burningPlant.isBurned = false;
+
+        // Sincronizar con PlayerState
+        PlayerState ps = GameController.Instance.playerState;
+        PlantState statePlant = ps.plants[randomIndex];
+        statePlant.isBurning = true;
+        statePlant.isBurned = false;
+
+        // Debug.Log($"🔥 La planta {statePlant.GetName()} empezó a quemarse!");
 
         // Notificar al GameController que hay fuego activo
         GameController.Instance.playerState.isAnyPlantBurning = true;
 
-        // Después de 10 segundos, pasa a quemada
-        StartCoroutine(FinishBurningPlant(burningPlant));
 
-        // Reiniciar la rutina para quemar otra planta
-        StartCoroutine(StartRandomFire());
+        StartCoroutine(FinishBurningPlant(burningPlant, statePlant));
     }
 
-    private IEnumerator FinishBurningPlant(Plant plant)
+    // Después de 90 segundos, pasa a quemada
+    private IEnumerator FinishBurningPlant(Plant plant, PlantState statePlant)
     {
         yield return new WaitForSeconds(10f);
 
         plant.isBurning = false;
         plant.isBurned = true;
-        Debug.Log($"💀 La planta {plant.plantName} se ha quemado completamente.");
+       // Debug.Log($"💀 La planta {statePlant.GetName()} se ha quemado completamente.");
 
         // Verificar si aún hay plantas quemándose
         GameController.Instance.playerState.isAnyPlantBurning = System.Array.Exists(plants, p => p.isBurning);

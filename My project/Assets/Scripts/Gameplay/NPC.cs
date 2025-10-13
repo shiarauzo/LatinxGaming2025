@@ -5,10 +5,12 @@ using UnityEngine.UI;
 
 public class NPC : MonoBehaviour, IInteractable
 {
+    [Header("Dialogue Data")]
     public NPCDialogue dialogueData;
     public GameObject dialoguePanel;
     public TMP_Text dialogueText, nameText;
     public Image portraitImage;
+
 
     private int dialogueIndex;
     private bool isTyping, isDialogueActive;
@@ -18,6 +20,8 @@ public class NPC : MonoBehaviour, IInteractable
     private bool[] currentAutoProgressLines;
     private float currentTypingSpeed;
 
+    [Header("Internal States")]
+    public bool firstEncounter = true;
     public bool CanInteract()
     {
         return !isDialogueActive;
@@ -25,9 +29,6 @@ public class NPC : MonoBehaviour, IInteractable
 
     public void Interact()
     {
-        Debug.Log($"NPC.Interact() ejecutado en {name}");
-        Debug.Log($"dialogueData: {(dialogueData == null ? "null" : "ok")}");
-
         if (dialogueData == null || (GameController.Instance.PauseController.IsPaused && !isDialogueActive))
             return;
 
@@ -39,7 +40,6 @@ public class NPC : MonoBehaviour, IInteractable
 
     void StartDialogue()
     {
-        Debug.Log("starting dialogue");
         isDialogueActive = true;
         dialogueIndex = 0;
 
@@ -119,42 +119,39 @@ public class NPC : MonoBehaviour, IInteractable
         var states = dialogueData.dialogueStates;
         var player = GameController.Instance.playerState;
 
-        // First Encounter
-        if (!player.hasCollectedSeeds && !player.burnedPlot && !player.restoredPlot)
-            return System.Array.Find(states, s => s.stateName == "FirstEncounter");
+        // Prioridad al fuego, incluso en la primera interacción
+        if (player.isAnyPlantBurning)
+            return System.Array.Find(states, s => s.stateName == "FireAlert");
 
-        // Initial Reminder
-        if (!player.hasCollectedSeeds && !player.burnedPlot)
+
+        // First Encounter
+        if (firstEncounter)
+        {
+            firstEncounter = false;
+            return System.Array.Find(states, s => s.stateName == "FirstEncounter");
+        }
+            
+        // Initial Reminder: no ha recolectado semillas ni apagado incendios
+        if (!player.hasCollectedSeeds && !player.hasExtinguishedFire && !player.burnedPlot)
             return System.Array.Find(states, s => s.stateName == "InitialReminder");
 
-        // Partial Reminder
-        if (!player.hasCollectedSeeds && player.burnedPlot && !player.restoredPlot)
-            return System.Array.Find(states, s => s.stateName == "PartialReminder");
-
-        // Fire Alert
-        if (GameController.Instance.playerState.plants != null &&
-            System.Array.Exists(GameController.Instance.playerState.plants, p => p.isBurning))
-        {
-            return System.Array.Find(states, s => s.stateName == "FireAlert");
-        }
-
-        // Burned Plot + Seeds
+        // Burned Plot + Seeds: terreno quemado y jugador tiene semillas
         if (player.burnedPlot && player.hasCollectedSeeds)
             return System.Array.Find(states, s => s.stateName == "BurnedPlotWithSeeds");
 
-        // Burned Plot + No Seeds
+        // Burned Plot + No Seeds: terreno quemado y jugador no tiene semillas
         if (player.burnedPlot && !player.hasCollectedSeeds)
             return System.Array.Find(states, s => s.stateName == "BurnedPlotNoSeeds");
 
-        // Restored Plot
+        // Restored Plot: terreno/planta restaurado
         if (player.restoredPlot)
             return System.Array.Find(states, s => s.stateName == "RestoredPlot");
 
-        // Plot not yet restored
+        // Plot not yet restored: terreno quemado pero no restaurado
         if (player.burnedPlot && !player.restoredPlot)
             return System.Array.Find(states, s => s.stateName == "PlotNotYetRestored");
-
-        // Default to First Encounter if no conditions match
-        return System.Array.Find(states, s => s.stateName == "FirstEncounter");
+            
+        // Partial Reminder: catch-all si ninguna otra condición se cumple
+        return System.Array.Find(states, s => s.stateName == "PartialReminder");
     }
 }
