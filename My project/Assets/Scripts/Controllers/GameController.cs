@@ -33,6 +33,12 @@ public class GameController : MonoBehaviour
         }
 
         playerState = new PlayerState();
+        playerState.plants = new PlantState[]
+        {
+            new PlantState { plantNameES = "Orquídea", plantNameEN = "Orchid" },
+            new PlantState { plantNameES = "Uña de Gato", plantNameEN = "Cat's Claw" },
+            new PlantState { plantNameES = "Cacao", plantNameEN = "Cocoa" }
+        };
     }
 
     private void Awake()
@@ -56,5 +62,22 @@ public class GameController : MonoBehaviour
         public bool hasCollectedSeeds = false;
         public bool burnedPlot = false;
         public bool restoredPlot = false;
+        public bool isAnyPlantBurning = false;
+
+         public PlantState[] plants;
+    }
+
+    [System.Serializable]
+    public class PlantState
+    {
+        public string plantNameES;
+        public string plantNameEN;
+        public bool isBurning = false;
+        public bool isBurned = false;
+
+        public string GetName(bool isSpanish)
+        {
+            return isSpanish ? plantNameES : plantNameEN;
+        }
     }
 }

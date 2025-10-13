@@ -130,10 +130,13 @@ public class NPC : MonoBehaviour, IInteractable
         // Partial Reminder
         if (!player.hasCollectedSeeds && player.burnedPlot && !player.restoredPlot)
             return System.Array.Find(states, s => s.stateName == "PartialReminder");
-        
+
         // Fire Alert
-        if (player.burnedPlot && !player.hasCollectedSeeds)
+        if (GameController.Instance.playerState.plants != null &&
+            System.Array.Exists(GameController.Instance.playerState.plants, p => p.isBurning))
+        {
             return System.Array.Find(states, s => s.stateName == "FireAlert");
+        }
 
         // Burned Plot + Seeds
         if (player.burnedPlot && player.hasCollectedSeeds)
