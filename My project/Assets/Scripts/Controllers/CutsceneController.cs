@@ -1,23 +1,20 @@
 using UnityEngine;
 using UnityEngine.Playables;
+using UnityEngine.SceneManagement;
 
 public class CutsceneController : MonoBehaviour
 {
     public AudioSource musicSource;
     public PlayableDirector introTimeline;
-    public DialogueController dialogueController;
+    public IntroDialogueController dialogueController;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    private bool wasTimelinePlaying = false;
+
     void Start()
     {
-        LoadLanguageData();
+        if (dialogueController != null)
+            dialogueController.OnDialogueFinished += GoToNextScene;
         PlayIntro();
-    }
-
-    void LoadLanguageData()
-    {
-        // Placeholder for loading language data
-        Debug.Log("Language data loaded.");
     }
 
     public void PlayIntro()
@@ -68,4 +65,35 @@ public class CutsceneController : MonoBehaviour
             Debug.LogWarning("Intro timeline is not assigned.");
         }
     }
+
+    public void SetPauseTimeline(bool pause)
+    {
+        if (introTimeline == null) return;
+
+        if (pause)
+        {
+            wasTimelinePlaying = introTimeline.state == PlayState.Playing;
+            introTimeline.Pause();
+        }
+        else {
+            if (wasTimelinePlaying)
+                introTimeline.Play();
+        }
+    }
+
+    public void SetPauseMusic(bool pause)
+    {
+        if (musicSource == null) return;
+
+        if (pause && musicSource.isPlaying)
+            musicSource.Pause();
+        else if (!pause)
+            musicSource.UnPause();
+    }
+
+    private void GoToNextScene()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+    }
+
 }

@@ -23,9 +23,12 @@ public class GlobalUIManager : MonoBehaviour
 
     void Awake()
     {
+        Debug.Log($"[GlobalUI] Awake ejecutado en escena {gameObject.scene.name} con hijos: {transform.childCount}");
+
 
         if (Instance != null && Instance != this)
         {
+            Debug.LogWarning($"[GlobalUI] Destruyendo duplicado de {gameObject.scene.name}");
             Destroy(gameObject);
             return;
         }
@@ -50,11 +53,22 @@ public class GlobalUIManager : MonoBehaviour
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
+        
         string name = scene.name;
        // Debug.Log($"🔄 Escena cargada: {name}");
 
         cutsceneController = FindAnyObjectByType<CutsceneController>();
         EnsureEventSystem();
+
+        // 🔄 Reasignar referencias si se perdieron al cambiar de escena
+        if (pauseButton == null || settingsButton == null || skipButton == null)
+        {
+            Debug.Log("♻️ Reasignando referencias de botones...");
+            pauseButton = GameObject.Find("PauseButton");
+            settingsButton = GameObject.Find("SettingsButton");
+            skipButton = GameObject.Find("SkipButton");
+        }
+
         UpdateUIVisibility(name);
 
         // Si la escena cargada es GlobalSettings, encuentra el panel de settings
@@ -99,6 +113,8 @@ public class GlobalUIManager : MonoBehaviour
     
     private void UpdateUIVisibility(string sceneName)
     {
+        Debug.Log($"[UI Visibility] Ejecutando UpdateUIVisibility para escena: {sceneName}");
+
         if (skipButton == null || settingsButton == null || pauseButton == null)
         {
             Debug.LogWarning("Algunos botones UI no han sido asignados");
@@ -114,7 +130,7 @@ public class GlobalUIManager : MonoBehaviour
             case "IntroCutScene":
                 skipButton?.SetActive(true);
                 settingsButton?.SetActive(true);
-                pauseButton?.SetActive(true); //update
+                pauseButton?.SetActive(true);
                 break;
 
             case "PrincipalMap":
@@ -146,11 +162,12 @@ public class GlobalUIManager : MonoBehaviour
 
     public void ShowPause()
     {
-        Debug.Log("PAUSE WAS PRESSED.");
+        Debug.Log("🟨 ShowPause called.");
         Scene pauseScene = SceneManager.GetSceneByName("GlobalPause");
 
         if (!pauseScene.isLoaded)
         {
+            Debug.Log("🧩 Cargando escena GlobalPause (modo Additive)...");
             SceneManager.LoadScene("GlobalPause", LoadSceneMode.Additive);
             StartCoroutine(WaitAndShowPause());
             return;
@@ -158,12 +175,16 @@ public class GlobalUIManager : MonoBehaviour
 
         if (PauseManager.Instance != null)
         {
-            PauseManager.Instance.TogglePause();
+            Debug.Log("✅ PauseManager encontrado, mostrando panel...");
+            //PauseManager.Instance.TogglePausePanel();
+            PauseManager.Instance.SetPanelVisible(true);
+            return;
         }
-        else
-        {
-            Debug.LogWarning("PauseManager no encontrado.");
-        }
+
+
+        Debug.LogWarning("⚠️ PauseManager no encontrado (posiblemente no se cargó la escena GlobalPause o el prefab no tiene el script).");
+        TogglePausePanel(true);
+        
     }
 
     public void TogglePausePanel(bool show)
@@ -217,7 +238,8 @@ public class GlobalUIManager : MonoBehaviour
     private IEnumerator WaitAndShowPause()
     {
         yield return new WaitUntil(() => PauseManager.Instance != null);
-        PauseManager.Instance.TogglePause();
+        Debug.Log("✅ PauseManager cargado. Sincronizando panel de pausa.");
+        PauseManager.Instance.SetPanelVisible(true);
     }
 
     // Buscar por jerarquía completa dentro de la escena cargada

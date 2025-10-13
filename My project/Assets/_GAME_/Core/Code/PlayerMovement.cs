@@ -17,10 +17,15 @@ public class PlayerMovement : MonoBehaviour
 
   void FixedUpdate()
 {
-   
-    rb.linearVelocity = moveInput * moveSpeed;
 
-    Debug.Log($"INPUT: {moveInput}  |  VELOCITY: {rb.linearVelocity}  |  POS: {rb.position}");
+    rb.linearVelocity = moveInput * moveSpeed;
+    
+    if(moveInput != Vector2.zero)
+    {
+        Debug.Log($"INPUT: {moveInput}  |  VELOCITY: {rb.linearVelocity}  |  POS: {rb.position}");
+    }
+
+  // Debug.Log($"INPUT: {moveInput}  |  VELOCITY: {rb.linearVelocity}  |  POS: {rb.position}");
 }
 
 
