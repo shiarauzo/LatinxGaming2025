@@ -18,18 +18,9 @@ public class InteractionDetector : MonoBehaviour
         interactionIcon.SetActive(false);
     }
 
-
-    void Update()
-    {
-        if (Keyboard.current.eKey.wasPressedThisFrame)
-        {
-            Debug.Log("La tecla E fue presionada");
-        }
-    }
-
     public void Interact(InputAction.CallbackContext context)
     {
-        Debug.Log("on interact was called" + context);
+       // Debug.Log("on interact was called" + context);
         if (context.performed)
         {
             interactableInRange?.Interact();

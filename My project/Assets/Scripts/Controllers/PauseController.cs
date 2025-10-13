@@ -19,7 +19,6 @@ public class PauseController : MonoBehaviour
         AudioListener.pause = pause;
 
         OnPauseChanged?.Invoke(pause);
-        Debug.Log("Juego pausado??: " + pause);
     }
 
     // Alternar pausa (lógica, no el panel)

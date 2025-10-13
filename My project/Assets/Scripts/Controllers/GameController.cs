@@ -56,28 +56,4 @@ public class GameController : MonoBehaviour
 
         Debug.Log("GameController listo");
     }
-
-    public class PlayerState
-    {
-        public bool hasCollectedSeeds = false;
-        public bool burnedPlot = false;
-        public bool restoredPlot = false;
-        public bool isAnyPlantBurning = false;
-
-         public PlantState[] plants;
-    }
-
-    [System.Serializable]
-    public class PlantState
-    {
-        public string plantNameES;
-        public string plantNameEN;
-        public bool isBurning = false;
-        public bool isBurned = false;
-
-        public string GetName(bool isSpanish)
-        {
-            return isSpanish ? plantNameES : plantNameEN;
-        }
-    }
 }

@@ -48,7 +48,7 @@ public class MapTransition : MonoBehaviour
     
         if (enableCameraDebug && confiner != null && confiner.BoundingShape2D != null && player != null)
         {
-            Debug.Log($"Límite: {confiner.BoundingShape2D.name} | Player: {player.position} | Cam: {virtualCamera.transform.position}");
+           // Debug.Log($"Límite: {confiner.BoundingShape2D.name} | Player: {player.position} | Cam: {virtualCamera.transform.position}");
         }
     }
 
