@@ -8,6 +8,7 @@ public class GameController : MonoBehaviour
 
     // Controllers
     public PauseController PauseController { get; private set; }
+    public PlayerState playerState { get; private set; }
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
     private static void Initialize()
@@ -30,6 +31,8 @@ public class GameController : MonoBehaviour
             PauseController = pauseGo.AddComponent<PauseController>();
             DontDestroyOnLoad(pauseGo);
         }
+
+        playerState = new PlayerState();
     }
 
     private void Awake()
@@ -46,5 +49,12 @@ public class GameController : MonoBehaviour
         }
 
         Debug.Log("GameController listo");
+    }
+
+    public class PlayerState
+    {
+        public bool hasCollectedSeeds = false;
+        public bool burnedPlot = false;
+        public bool restoredPlot = false;
     }
 }

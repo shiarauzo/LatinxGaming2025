@@ -7,10 +7,18 @@ public class NPCDialogue : ScriptableObject
 {
     public string npcName;
     public Sprite npcPortrait;
-    public string[] dialogueLines;
-    public bool[] autoProgressLines;
-    public float autoProgressDelay = 1.5f; //Start speeking the next one
-    public float typingSpeed = 0.05f;
-    public AudioClip voiceSound;
-    public float voicePitch = 1f;
+
+    [System.Serializable]
+    public class DialogueState
+    {
+        public string stateName;
+        public string[] englishLines;
+        public string[] spanishLines;
+        public bool[] autoProgressLines;
+        public float autoProgressDelay = 1.5f; //Start speeking the next one
+        public float typingSpeed = 0.05f;
+        public AudioClip voiceSound;
+    }
+
+    public DialogueState[] dialogueStates;
 }
