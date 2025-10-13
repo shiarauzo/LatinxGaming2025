@@ -5,8 +5,10 @@ public class PlantState
 {
     public string plantNameES;
     public string plantNameEN;
-    public bool isBurning = false;
-    public bool isBurned = false;
+    public bool isBurning = false; // Se está quemando ahora
+    public bool isBurned = false; // Se quemó completamente
+
+    public bool isRestored = false;  // Se replantó o curó → cuenta como salvada
 
     public string GetName()
     {

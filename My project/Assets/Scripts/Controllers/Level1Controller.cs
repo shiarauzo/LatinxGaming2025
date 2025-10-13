@@ -33,21 +33,28 @@ public class Level1Controller : MonoBehaviour
 
     private void BurnRandomPlant()
     {
-        var unburnedPlants = new List<Plant>();
+        // Verificar si ya hay una planta quemándose
+        if (System.Array.Exists(plants, p => p.isBurning))
+        {
+            // Debug.Log("Ya hay una planta quemándose. Esperando...");
+            return;
+        }
+
+        var readyToBurnPlants = new List<Plant>();
         foreach (var plant in plants)
         {
             if (!plant.isBurned && !plant.isBurning)
-                unburnedPlants.Add(plant);
+                readyToBurnPlants.Add(plant);
         }
 
-        if (unburnedPlants.Count == 0)
+        if (readyToBurnPlants.Count == 0)
         {
             Debug.Log("Todas las plantas ya están quemadas o en proceso.");
             return;
         }
 
-        int randomIndex = Random.Range(0, unburnedPlants.Count);
-        Plant burningPlant = unburnedPlants[randomIndex];
+        int randomIndex = Random.Range(0, readyToBurnPlants.Count);
+        Plant burningPlant = readyToBurnPlants[randomIndex];
 
         burningPlant.isBurning = true;
         burningPlant.isBurned = false;
@@ -74,11 +81,36 @@ public class Level1Controller : MonoBehaviour
 
         plant.isBurning = false;
         plant.isBurned = true;
-       // Debug.Log($"💀 La planta {statePlant.GetName()} se ha quemado completamente.");
+        // Debug.Log($"💀 La planta {statePlant.GetName()} se ha quemado completamente.");
 
         // Verificar si aún hay plantas quemándose
         GameController.Instance.playerState.isAnyPlantBurning = System.Array.Exists(plants, p => p.isBurning);
         // Actualizar burnedPlot si al menos una planta está quemada
         GameController.Instance.playerState.burnedPlot = System.Array.Exists(plants, p => p.isBurned);
+
+        CheckWinLose();
+    }
+    
+    public void CheckWinLose()
+    {
+        var ps = GameController.Instance.playerState;
+
+        bool allSaved = System.Array.TrueForAll(ps.plants, p => p.isRestored);
+        bool allBurned = System.Array.TrueForAll(ps.plants, p => p.isBurned);
+
+        if (allSaved)
+        {
+            Debug.Log("🎉 ¡Has salvado todas las plantas! ¡Ganaste!");
+            // Lógica para manejar la victoria
+            // TODO: cargar escena de victoria, audio VICTORY
+            // SceneManager.LoadScene("VictoryScene");
+        }
+        else if (allBurned)
+        {
+            Debug.Log("💀 Todas las plantas se han quemado. Has perdido.");
+            // Lógica para manejar la derrota
+            // TODO: cargar escena de LOSE, audio LOSE
+            // SceneManager.LoadScene("GameOverScene");
+        }
     }
 }
