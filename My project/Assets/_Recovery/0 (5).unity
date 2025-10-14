@@ -19856,13 +19856,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   plants:
-  - plantObject: {fileID: 1566847711}
+  - parcels: []
     isBurning: 0
     isBurned: 0
-  - plantObject: {fileID: 2132327549}
+  - parcels: []
     isBurning: 0
     isBurned: 0
-  - plantObject: {fileID: 994995802}
+  - parcels: []
     isBurning: 0
     isBurned: 0
   audioManager: {fileID: 1471538128}

@@ -7,5 +7,7 @@
 
         public bool hasExtinguishedFire = false;
 
-         public PlantState[] plants;
+        // Solo para Nivel 1;
+        public PlantState[][] plantSpecies; // 3 especies, cada una con 9 parcelas;
+
     }
