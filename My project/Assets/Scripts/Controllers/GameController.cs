@@ -10,7 +10,11 @@ public class GameController : MonoBehaviour
     public PauseController PauseController { get; private set; }
     public PlayerState playerState { get; private set; }
 
+    public bool hasWon = false;
+    public bool hasLost = false;
+
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+    
     private static void Initialize()
     {
         if (Instance == null)
