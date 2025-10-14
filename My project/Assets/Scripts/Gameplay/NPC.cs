@@ -50,7 +50,7 @@ public class NPC : MonoBehaviour, IInteractable
         GameController.Instance.PauseController.SetPause(true);
 
         // Obtener estado de diálogo según PlayerState
-        var playerState = GetCurrentDialogueState();  //GameController.Instance.playerState;
+        var playerState = GetCurrentDialogueState();
         if (playerState == null)
         {
             Debug.LogWarning("No se encontró un estado de diálogo actual");

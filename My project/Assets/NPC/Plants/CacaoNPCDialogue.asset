@@ -25,7 +25,7 @@ MonoBehaviour:
     autoProgressLines: 00
     autoProgressDelay: 1.5
     typingSpeed: 0.05
-    voiceSound: {fileID: 0}
+    voiceSound: {fileID: 8300000, guid: b396caf906400467b8d5c63fcfc44508, type: 3}
   - stateName: isBurning
     englishLines:
     - Fire threatens these plants, and with them, the cacao production enjoyed by
@@ -36,7 +36,7 @@ MonoBehaviour:
     autoProgressLines: 00
     autoProgressDelay: 1.5
     typingSpeed: 0.05
-    voiceSound: {fileID: 0}
+    voiceSound: {fileID: 8300000, guid: b396caf906400467b8d5c63fcfc44508, type: 3}
   - stateName: isBurned
     englishLines:
     - This plant has been lost, but if you replant seeds, you can help new pods grow.
@@ -46,4 +46,4 @@ MonoBehaviour:
     autoProgressLines: 00
     autoProgressDelay: 1.5
     typingSpeed: 0.05
-    voiceSound: {fileID: 0}
+    voiceSound: {fileID: 8300000, guid: b396caf906400467b8d5c63fcfc44508, type: 3}
