@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 [System.Serializable]
 public class PlantSprite
@@ -19,7 +20,7 @@ public class Level1Controller : MonoBehaviour
 
     private Dictionary<PlantState, GameObject> plantToGameObjectMap = new Dictionary<PlantState, GameObject>();
     private int currentBurningSpecies = -1;
-    private float burnDuration = 20f;
+    private float minTimeBetweenPlots = 10f;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -101,7 +102,7 @@ public class Level1Controller : MonoBehaviour
         currentBurningSpecies = speciesIndex;
         StartCoroutine(BurnRandomSpecies(speciesIndex));
     }
-    
+
     private IEnumerator BurnRandomSpecies(int speciesIndex)
     {
         var ps = GameController.Instance.playerState;
@@ -113,106 +114,140 @@ public class Level1Controller : MonoBehaviour
         // Resetea flag cuando termine todo el proceso de esa especie
         currentBurningSpecies = -1;
     }
-    
+
+    /* ********* SpreadFire ********* */
+    /* Solo inicia la animación y espera el minTimeBetweenPlots antes de lanzar la siguiente parcela. */
+    /* TODO:  bool fireStopped = false; */
     private IEnumerator SpreadFire(int speciesIndex)
     {
         var ps = GameController.Instance.playerState;
         var specieInDanger = ps.plantSpecies[speciesIndex];
-     // TODO:  bool fireStopped = false;
 
         for (int i = 0; i < specieInDanger.Length; i++)
         {
             var parcel = specieInDanger[i];
 
-            // Si ya fue restaurada o quemada, saltar
             if (parcel.isRestored || parcel.isBurned)
                 continue;
 
             // Si ya se apagó el fuego, se detiene la propagación
-         //   if (fireStopped) break;
+            //   if (fireStopped) break;
 
-            // Si otra corutina cambió currentBurningSpecies, terminar
             if (currentBurningSpecies != speciesIndex)
             {
-                Debug.Log("Propagation aborted: species changed.");
+                Debug.Log("Terminar propagacion.");
                 yield break;
             }
 
             // Encender la parcela
             parcel.isBurning = true;
             Debug.Log($"🔥 {parcel.GetName()} — Parcela {i + 1}/{specieInDanger.Length} en fuego (especie {speciesIndex})");
-            
+
             // Actualizar el estado visual: incendiandose
             if (plantToGameObjectMap.TryGetValue(parcel, out GameObject parcelGO))
             {
                 var fire = parcelGO.transform.Find("FireSprite")?.GetComponent<FireController>();
                 fire?.Ignite();
+                StartCoroutine(HandleBurnedParcel(parcel, fire));
             }
-   
-            // Actualizar audio contando SOLO esta especie
+
+            // Actualizar audio 
             audioManager.UpdateIntensity(CountBurningParcels(speciesIndex));
-             
-            // Ventana para que el jugador apague (si se apaga, parcel.isBurning = false, parcel.isRestored = true)
-            // Esperar 20s para dar chance de apagar (antes de pasar a quemada) burnDuration
-            float elapsed = 0f;
 
-            while (elapsed < burnDuration)
+            // Esperar al menos el minTimeBetweenPlots antes de iniciar la siguiente parcela
+            yield return StartCoroutine(WaitBeforeNextParcel(parcel, speciesIndex));
+        }
+    }
+
+    private IEnumerator HandleBurnedParcel(PlantState parcel, FireController fire)
+    {
+        yield return new WaitForSeconds(minTimeBetweenPlots + 5f);
+
+        // Si sigue quemándose, se quema
+        if (parcel.isBurning)
+        {
+            parcel.isBurning = false;
+
+            // Actualizar estado visual: quemada
+            if (fire != null)
             {
-                yield return new WaitForSeconds(1f);
-                elapsed += 1f;
-
-                // Si el jugador la apagó
-                if (!parcel.isBurning)
+                // Lanza la animación de extinción en paralelo
+                fire.Extinguish(true, () =>
                 {
-                    Debug.Log($"💧 Parcela {i + 1} apagada a tiempo; deteniendo propagación en especie {speciesIndex}.");
-
-                    // Actualizar estado visual: salvada
-                    if (plantToGameObjectMap.TryGetValue(parcel, out GameObject pGO))
-                    {
-                        var fire = pGO.transform.Find("FireSprite")?.GetComponent<FireController>();
-                        fire?.Extinguish(false);
-                    }
-
-                    // liberar flag y salir
-                    currentBurningSpecies = -1;
-                    // actualizar audio
-                    audioManager.UpdateIntensity(CountBurningParcels(speciesIndex));
-                    yield break;
-                }
+                    parcel.isBurned = true;
+                    Debug.Log($"DESDE LEVEL1 CONTROLLER 💀 {parcel.GetName()} se ha quemado (finalizado).");
+                    CheckSpeciesCompletion(parcel);
+                });
+            }
+            else
+            {
+                parcel.isBurned = true;
+                CheckSpeciesCompletion(parcel);
             }
 
-            // Si no se apagó el incendio, se quema
-            if (parcel.isBurning)
-            {
-                parcel.isBurning = false;
+            // Actualizar audio
+            audioManager.UpdateIntensity(CountBurningParcelsForParcel(parcel));
+        }
+    }
 
-                // Actualizar estado visual: quemada
+    private int CountBurningParcels(int speciesIndex)
+    {
+        int burningCount = 0;
+        var specie = GameController.Instance.playerState.plantSpecies[speciesIndex];
+
+        foreach (var parcel in specie)
+            if (parcel.isBurning || parcel.isBurned)
+                burningCount++;
+
+        return burningCount;
+    }
+
+    private int CountBurningParcelsForParcel(PlantState parcel)
+    {
+        int speciesIndex = FindSpeciesIndex(parcel);
+        return CountBurningParcels(speciesIndex);
+    }
+    
+    private int FindSpeciesIndex(PlantState parcel)
+    {
+        var ps = GameController.Instance.playerState.plantSpecies;
+        for (int i = 0; i < ps.Length; i++)
+            if (System.Array.Exists(ps[i], p => p == parcel))
+                return i;
+        return -1;
+    }
+    private IEnumerator WaitBeforeNextParcel(PlantState parcel, int speciesIndex)
+    {
+        float timer = 0f;
+        while (timer < minTimeBetweenPlots)
+        {
+            if (!parcel.isBurning)
+            {
+                Debug.Log($"💧 Parcela apagada a tiempo; deteniendo propagación en especie {speciesIndex}.");
                 if (plantToGameObjectMap.TryGetValue(parcel, out GameObject pGO))
                 {
                     var fire = pGO.transform.Find("FireSprite")?.GetComponent<FireController>();
-                    if (fire != null)
-                    {
-                        fire.Extinguish(true, () =>
-                        {
-                            parcel.isBurned = true;
-                            Debug.Log($"💀 Parcela {i + 1} de especie {speciesIndex} se ha quemado (finalizado).");
-                        });
-                    }
+                    fire?.Extinguish(false);
                 }
 
-                parcel.isBurned = true;
-                Debug.Log($"💀 Parcela {i + 1} de especie {speciesIndex} se ha quemado.");
+                // currentBurningSpecies = -1;
+                audioManager.UpdateIntensity(CountBurningParcels(speciesIndex));
+                yield break;
             }
-            
-            // actualizar audio y esperar un poco antes de la siguiente parcela
-            audioManager.UpdateIntensity(CountBurningParcels(speciesIndex));
-            yield return new WaitForSeconds(Random.Range(0f, 2f));
-        }
 
-        // Si todas se quemaron
+            timer += Time.deltaTime;
+            yield return null;
+        }
+    }
+    
+    private void CheckSpeciesCompletion(PlantState parcel)
+    {
+        int speciesIndex = FindSpeciesIndex(parcel);
+        var specie = GameController.Instance.playerState.plantSpecies[speciesIndex];
+
         bool allBurned = true;
-        foreach (var parcel in specieInDanger)
-            if (!parcel.isBurned)
+        foreach (var p in specie)
+            if (!p.isBurned)
             {
                 allBurned = false;
                 break;
@@ -227,30 +262,16 @@ public class Level1Controller : MonoBehaviour
                 plants[speciesIndex].isBurning = false;
             }
 
-            yield return new WaitForSeconds(1.5f);
             if (!GameController.Instance.hasWon && !GameController.Instance.hasLost)
-            {
                 audioManager.FadeOutAuxTracksExceptBackground();
-            }
         }
         else
             Debug.Log($"🌿 La especie {speciesIndex} fue salvada a tiempo.");
-        
+
         audioManager.UpdateIntensity(CountBurningParcels(speciesIndex));
         CheckWinLose();
     }
-    
-    private int CountBurningParcels(int speciesIndex)
-    {
-        int burningCount = 0;
-        var specie = GameController.Instance.playerState.plantSpecies[speciesIndex];
 
-        foreach (var parcel in specie)
-            if (parcel.isBurning || parcel.isBurned)
-                burningCount++;
-        
-        return burningCount;
-    }
     public void CheckWinLose()
     {
         var ps = GameController.Instance.playerState;
@@ -271,7 +292,7 @@ public class Level1Controller : MonoBehaviour
         {
             // Lógica para manejar la victoria
             Debug.Log("🎉 ¡Has salvado todas las plantas! ¡Ganaste!");
-            
+
             GameController.Instance.hasWon = true;
             // TODO: cargar escena de victoria
             // SceneManager.LoadScene("VictoryScene");
@@ -281,7 +302,7 @@ public class Level1Controller : MonoBehaviour
         {
             // Lógica para manejar la derrota
             Debug.Log("💀 Todas las plantas se han quemado. Has perdido.");
-            
+
             GameController.Instance.hasLost = true;
             // TODO: cargar escena de LOSE
             // SceneManager.LoadScene("GameOverScene");

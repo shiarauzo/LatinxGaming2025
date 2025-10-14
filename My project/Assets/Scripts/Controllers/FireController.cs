@@ -40,8 +40,22 @@ public class FireController : MonoBehaviour
 
         animator.Play("Fire_End");
 
+        float animLength = GetAnimationLength("Fire_End");
         // Ejecutar el cambio visual luego de la animación
-        StartCoroutine(WaitAndHandlePostFire(burned, duration, onFinished));
+        StartCoroutine(WaitAndHandlePostFire(burned, animLength, onFinished));
+    }
+    
+    private float GetAnimationLength(string animName)
+    {
+        if (animator.runtimeAnimatorController == null) return 1f;
+
+        RuntimeAnimatorController rac = animator.runtimeAnimatorController;
+        foreach (var clip in rac.animationClips)
+        {
+            if (clip.name == animName)
+                return clip.length;
+        }
+        return 0f;
     }
 
     private IEnumerator WaitAndHandlePostFire(bool burned, float delay, System.Action onFinished)
@@ -53,8 +67,6 @@ public class FireController : MonoBehaviour
 
     private void HandlePostFire(bool burned)
     {
-        gameObject.SetActive(false);
-
         if (burned)
         {
             // Mostrar sprite quemado
@@ -68,5 +80,7 @@ public class FireController : MonoBehaviour
             if (baseSprite != null) baseSprite.SetActive(true);
             if (burnedSprite != null) burnedSprite.SetActive(false);
         }
+        
+        gameObject.SetActive(false);
     }
 }
