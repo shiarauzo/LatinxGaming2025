@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class FireController : MonoBehaviour
 {
-    private float duration = 10f;
+    private float duration = 20f;
     private Animator animator;
     private bool isBurning = false;
 
@@ -27,10 +27,8 @@ public class FireController : MonoBehaviour
         isBurning = true;
         gameObject.SetActive(true);
 
-        // Ocultar sprite base
-        if (baseSprite != null) baseSprite.SetActive(false);
         // Ocultar sprite quemado
-        if (burnedSprite != null) burnedSprite.SetActive(true);
+        if (burnedSprite != null) burnedSprite.SetActive(false);
 
         animator.Play("Fire_Start");
     }
@@ -59,6 +57,7 @@ public class FireController : MonoBehaviour
         if (burned)
         {
             // Mostrar sprite quemado
+            if (baseSprite != null) baseSprite.SetActive(false);
             if (burnedSprite != null) burnedSprite.SetActive(true);
         }
         else

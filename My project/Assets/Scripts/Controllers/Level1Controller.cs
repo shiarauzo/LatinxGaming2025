@@ -12,16 +12,47 @@ public class PlantSprite
 
 public class Level1Controller : MonoBehaviour
 {
+    [Header("Scene References")]
+    public Transform plantsParent;
     public PlantSprite[] plants;
     public Level1AudioManager audioManager;
+
+    private Dictionary<PlantState, GameObject> plantToGameObjectMap = new Dictionary<PlantState, GameObject>();
     private int currentBurningSpecies = -1;
+    private float burnDuration = 20f;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        // Mapear PlantState a GameObject
+        LinkPlanstStatesToGameObjects();
+        // Empezar el ciclo de incendios
         StartCoroutine(StartRandomFire());
     }
 
+    private void LinkPlanstStatesToGameObjects()
+    {
+        var ps = GameController.Instance.playerState;
+
+        // Mismatch
+        if (ps.plantSpecies.Length != plants.Length)
+            return;
+
+        for (int speciesIndex = 0; speciesIndex < ps.plantSpecies.Length; speciesIndex++)
+        {
+            if (speciesIndex >= plants.Length) break;
+            var specieStates = ps.plantSpecies[speciesIndex];
+            var speciesObjects = plants[speciesIndex].parcels;
+
+            int count = Mathf.Min(specieStates.Length, speciesObjects.Length);
+            for (int i = 0; i < count; i++)
+            {
+                plantToGameObjectMap[specieStates[i]] = speciesObjects[i];
+            }
+        }
+
+        Debug.Log($"🌿 Vinculadas {plantToGameObjectMap.Count} parcelas con sus GameObjects.");
+    }
     private IEnumerator StartRandomFire()
     {
         // Primera especie después de 15–30s
@@ -31,7 +62,7 @@ public class Level1Controller : MonoBehaviour
         // Siguientes especies cada 60-90s
         while (true)
         {
-            float waitTime = Random.Range(10f, 20f);//60f, 90f
+            float waitTime = Random.Range(60f, 90f);
             yield return new WaitForSeconds(waitTime);
 
             TryStartBurnRandomSpecies();
@@ -54,6 +85,7 @@ public class Level1Controller : MonoBehaviour
             var specieInDanger = ps.plantSpecies[i];
             bool allBurned = true;
             bool allRestored = true;
+
             foreach (var parcel in specieInDanger)
             {
                 if (!parcel.isBurned) allBurned = false;
@@ -86,7 +118,7 @@ public class Level1Controller : MonoBehaviour
     {
         var ps = GameController.Instance.playerState;
         var specieInDanger = ps.plantSpecies[speciesIndex];
-     //   bool fireStopped = false;
+     // TODO:  bool fireStopped = false;
 
         for (int i = 0; i < specieInDanger.Length; i++)
         {
@@ -108,14 +140,20 @@ public class Level1Controller : MonoBehaviour
 
             // Encender la parcela
             parcel.isBurning = true;
-            Debug.Log($"🔥 {parcel.GetName()} — Parcela {i+1}/{specieInDanger.Length} en fuego (especie {speciesIndex})");
-
+            Debug.Log($"🔥 {parcel.GetName()} — Parcela {i + 1}/{specieInDanger.Length} en fuego (especie {speciesIndex})");
+            
+            // Actualizar el estado visual: incendiandose
+            if (plantToGameObjectMap.TryGetValue(parcel, out GameObject parcelGO))
+            {
+                var fire = parcelGO.transform.Find("FireSprite")?.GetComponent<FireController>();
+                fire?.Ignite();
+            }
+   
             // Actualizar audio contando SOLO esta especie
             audioManager.UpdateIntensity(CountBurningParcels(speciesIndex));
              
             // Ventana para que el jugador apague (si se apaga, parcel.isBurning = false, parcel.isRestored = true)
-            // Esperar 10s para dar chance de apagar (antes de pasar a quemada)
-            float burnDuration = 10f;
+            // Esperar 20s para dar chance de apagar (antes de pasar a quemada) burnDuration
             float elapsed = 0f;
 
             while (elapsed < burnDuration)
@@ -127,6 +165,14 @@ public class Level1Controller : MonoBehaviour
                 if (!parcel.isBurning)
                 {
                     Debug.Log($"💧 Parcela {i + 1} apagada a tiempo; deteniendo propagación en especie {speciesIndex}.");
+
+                    // Actualizar estado visual: salvada
+                    if (plantToGameObjectMap.TryGetValue(parcel, out GameObject pGO))
+                    {
+                        var fire = pGO.transform.Find("FireSprite")?.GetComponent<FireController>();
+                        fire?.Extinguish(false);
+                    }
+
                     // liberar flag y salir
                     currentBurningSpecies = -1;
                     // actualizar audio
@@ -141,6 +187,13 @@ public class Level1Controller : MonoBehaviour
                 parcel.isBurning = false;
                 parcel.isBurned = true;
                 Debug.Log($"💀 Parcela {i + 1} de especie {speciesIndex} se ha quemado.");
+
+                // Actualizar estado visual: quemada
+                if (plantToGameObjectMap.TryGetValue(parcel, out GameObject pGO))
+                {
+                    var fire = pGO.transform.Find("FireSprite")?.GetComponent<FireController>();
+                    fire?.Extinguish(true);
+                }
             }
             
             // actualizar audio y esperar un poco antes de la siguiente parcela
