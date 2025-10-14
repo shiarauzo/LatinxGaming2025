@@ -185,15 +185,23 @@ public class Level1Controller : MonoBehaviour
             if (parcel.isBurning)
             {
                 parcel.isBurning = false;
-                parcel.isBurned = true;
-                Debug.Log($"💀 Parcela {i + 1} de especie {speciesIndex} se ha quemado.");
 
                 // Actualizar estado visual: quemada
                 if (plantToGameObjectMap.TryGetValue(parcel, out GameObject pGO))
                 {
                     var fire = pGO.transform.Find("FireSprite")?.GetComponent<FireController>();
-                    fire?.Extinguish(true);
+                    if (fire != null)
+                    {
+                        fire.Extinguish(true, () =>
+                        {
+                            parcel.isBurned = true;
+                            Debug.Log($"💀 Parcela {i + 1} de especie {speciesIndex} se ha quemado (finalizado).");
+                        });
+                    }
                 }
+
+                parcel.isBurned = true;
+                Debug.Log($"💀 Parcela {i + 1} de especie {speciesIndex} se ha quemado.");
             }
             
             // actualizar audio y esperar un poco antes de la siguiente parcela
@@ -218,9 +226,16 @@ public class Level1Controller : MonoBehaviour
                 plants[speciesIndex].isBurned = true;
                 plants[speciesIndex].isBurning = false;
             }
+
+            yield return new WaitForSeconds(1.5f);
+            if (!GameController.Instance.hasWon && !GameController.Instance.hasLost)
+            {
+                audioManager.FadeOutAuxTracksExceptBackground();
+            }
         }
         else
             Debug.Log($"🌿 La especie {speciesIndex} fue salvada a tiempo.");
+        
         audioManager.UpdateIntensity(CountBurningParcels(speciesIndex));
         CheckWinLose();
     }
@@ -257,6 +272,7 @@ public class Level1Controller : MonoBehaviour
             // Lógica para manejar la victoria
             Debug.Log("🎉 ¡Has salvado todas las plantas! ¡Ganaste!");
             
+            GameController.Instance.hasWon = true;
             // TODO: cargar escena de victoria
             // SceneManager.LoadScene("VictoryScene");
             audioManager.PlayVictory();
@@ -266,6 +282,7 @@ public class Level1Controller : MonoBehaviour
             // Lógica para manejar la derrota
             Debug.Log("💀 Todas las plantas se han quemado. Has perdido.");
             
+            GameController.Instance.hasLost = true;
             // TODO: cargar escena de LOSE
             // SceneManager.LoadScene("GameOverScene");
             audioManager.PlayLose();

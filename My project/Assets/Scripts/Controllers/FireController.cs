@@ -33,7 +33,7 @@ public class FireController : MonoBehaviour
         animator.Play("Fire_Start");
     }
 
-    public void Extinguish(bool burned)
+    public void Extinguish(bool burned, System.Action onFinished = null)
     {
         if (!isBurning) return;
         isBurning = false;
@@ -41,24 +41,26 @@ public class FireController : MonoBehaviour
         animator.Play("Fire_End");
 
         // Ejecutar el cambio visual luego de la animación
-        StartCoroutine(WaitAndHandlePostFire(burned, duration));
+        StartCoroutine(WaitAndHandlePostFire(burned, duration, onFinished));
     }
 
-    private IEnumerator WaitAndHandlePostFire(bool burned, float delay)
+    private IEnumerator WaitAndHandlePostFire(bool burned, float delay, System.Action onFinished)
     {
         yield return new WaitForSeconds(delay);
         HandlePostFire(burned);
+        onFinished?.Invoke();
     }
-    
+
     private void HandlePostFire(bool burned)
     {
         gameObject.SetActive(false);
-        
+
         if (burned)
         {
             // Mostrar sprite quemado
             if (baseSprite != null) baseSprite.SetActive(false);
             if (burnedSprite != null) burnedSprite.SetActive(true);
+            Debug.Log($"🔥 {name} completó su animación y quedó quemada.");
         }
         else
         {
