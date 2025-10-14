@@ -47,7 +47,7 @@ public class NPC : MonoBehaviour, IInteractable
         portraitImage.sprite = dialogueData.npcPortrait;
 
         dialoguePanel.SetActive(true);
-        GameController.Instance.PauseController.SetPause(true);
+       // GameController.Instance.PauseController.SetPause(true);
 
         // Obtener estado de diálogo según PlayerState
         var playerState = GetCurrentDialogueState();

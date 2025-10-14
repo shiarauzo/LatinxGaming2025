@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 939086c9dafb84a4d904f3e7b76d1fc2, type: 3}
   m_Name: CacaoNPCDialogue
   m_EditorClassIdentifier: Assembly-CSharp::NPCDialogue
-  npcName: Cacao
+  npcName: CACAO
   npcPortrait: {fileID: -6494957919028787182, guid: 49d2eccdbae91487498bc90f8db5a269, type: 3}
   dialogueStates:
   - stateName: isRestored

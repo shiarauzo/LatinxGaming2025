@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 939086c9dafb84a4d904f3e7b76d1fc2, type: 3}
   m_Name: CatsClawNPCDialogue
   m_EditorClassIdentifier: Assembly-CSharp::NPCDialogue
-  npcName: CatsClaw
+  npcName: CATSCLAW
   npcPortrait: {fileID: -5622338554690774651, guid: b79ad89aaa8d74fc0a222918a5a9ced5, type: 3}
   dialogueStates:
   - stateName: isRestored

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 939086c9dafb84a4d904f3e7b76d1fc2, type: 3}
   m_Name: OrchidsNPCDialogue
   m_EditorClassIdentifier: Assembly-CSharp::NPCDialogue
-  npcName: Orchids
+  npcName: ORCHIDS
   npcPortrait: {fileID: -6923604122318408786, guid: 7770fa32c66ae49e89d8d5045b728dce, type: 3}
   dialogueStates:
   - stateName: isRestored
