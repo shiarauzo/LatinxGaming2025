@@ -33,12 +33,27 @@ public class GameController : MonoBehaviour
         }
 
         playerState = new PlayerState();
-        playerState.plants = new PlantState[]
+        // Inicializar 3 especies, cada una con 9 parcelas
+        playerState.plantSpecies = new PlantState[3][];
+
+        string[] speciesNamesES = { "Orquídea", "Uña de Gato", "Cacao" };
+        string[] speciesNamesEN = { "Orchid", "Cat's Claw", "Cocoa" };
+
+        for (int i = 0; i < 3; i++)
+    {
+        playerState.plantSpecies[i] = new PlantState[9]; // 9 parcelas por especie
+        for (int j = 0; j < 9; j++)
         {
-            new PlantState { plantNameES = "Orquídea", plantNameEN = "Orchid" },
-            new PlantState { plantNameES = "Uña de Gato", plantNameEN = "Cat's Claw" },
-            new PlantState { plantNameES = "Cacao", plantNameEN = "Cocoa" }
-        };
+            playerState.plantSpecies[i][j] = new PlantState
+            {
+                plantNameES = speciesNamesES[i],
+                plantNameEN = speciesNamesEN[i],
+                isBurning = false,
+                isBurned = false,
+                isRestored = false
+            };
+        }
+    }
     }
 
     private void Awake()
