@@ -12,6 +12,12 @@ public class CutsceneController : MonoBehaviour
 
     void Start()
     {
+        // Detener con fade out la música de boot si está sonando
+        if (BootMusicManager.Instance != null)
+        {
+            BootMusicManager.Instance.FadeOutMusic(1.5f);
+        }
+        
         if (dialogueController != null)
             dialogueController.OnDialogueFinished += GoToNextScene;
         PlayIntro();
