@@ -4,6 +4,10 @@ using UnityEngine.InputSystem;
 public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] private float moveSpeed = 5f;
+    public int maxHealth = 4;
+    public int currentHealth; 
+    public int maxWater = 10;
+    public int currentWater; 
     private Rigidbody2D rb;
     private Vector2 moveInput;
     private Animator animator;
@@ -35,5 +39,10 @@ public class PlayerMovement : MonoBehaviour
         moveInput = context.ReadValue<Vector2>();
         animator.SetFloat("InputX", moveInput.x);
         animator.SetFloat("InputY", moveInput.y);
+    }
+
+    void TakeDamage(int damage)
+    {
+    currentHealth -=damage;
     }
 }
