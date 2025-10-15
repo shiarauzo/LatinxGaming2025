@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.SceneManagement;
@@ -13,9 +14,9 @@ public class CutsceneController : MonoBehaviour
     void Start()
     {
         // Detener con fade out la música de boot si está sonando
-        if (MusicManager.Instance != null)
+        if (BootMusicManager.Instance != null)
         {
-            MusicManager.Instance.FadeOutMusic(1.5f);
+            BootMusicManager.Instance.FadeOutMusic(1.5f);
         }
 
         if (dialogueController != null)
@@ -32,7 +33,8 @@ public class CutsceneController : MonoBehaviour
             if (musicSource != null)
             {
                 musicSource.loop = true;
-                musicSource.Play();
+               // musicSource.Play();
+                StartCoroutine(AudioFader.FadeInCoroutine(musicSource, 1.5f));
             }
         }
         else
@@ -58,7 +60,8 @@ public class CutsceneController : MonoBehaviour
     {
         if (musicSource != null)
         {
-            musicSource.Stop();
+          //  musicSource.Stop();
+          StartCoroutine(AudioFader.FadeOutCoroutine(musicSource, 1.5f));
         }
 
         if (introTimeline != null)
@@ -97,9 +100,17 @@ public class CutsceneController : MonoBehaviour
             musicSource.UnPause();
     }
 
-    private void GoToNextScene()
+    public void GoToNextScene()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        if (musicSource != null)
+            StartCoroutine(AudioFader.FadeOutCoroutine(musicSource, 1f));
+            
+        StartCoroutine(LoadNextSceneAfterFade(1f));
     }
 
+    private IEnumerator LoadNextSceneAfterFade(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        SceneManager.LoadScene("PrincipalMap");
+    }
 }

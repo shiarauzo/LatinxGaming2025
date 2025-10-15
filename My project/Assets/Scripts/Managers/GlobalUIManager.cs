@@ -96,6 +96,9 @@ public class GlobalUIManager : MonoBehaviour
 
     private void EnsureEventSystem()
     {
+        if (FindAnyObjectByType<EventSystem>() != null)
+            return;
+        
         EventSystem existingES = FindAnyObjectByType<EventSystem>();
 
         if (existingES != null)
@@ -149,15 +152,15 @@ public class GlobalUIManager : MonoBehaviour
 
     public void SkipIntro()
     {
-        Debug.Log("Intro skipped by player.");
-
         if (cutsceneController != null)
         {
-            Debug.Log("⏹ Deteniendo Timeline desde GlobalUI...");
+            //  Debug.Log("⏹ Deteniendo Timeline desde GlobalUI...");
             cutsceneController.StopIntro();
+            cutsceneController.GoToNextScene();
+        } else
+        {
+            SceneManager.LoadScene("PrincipalMap");
         }
-
-        SceneManager.LoadScene("PrincipalMap");
     }
 
     public void ShowPause()

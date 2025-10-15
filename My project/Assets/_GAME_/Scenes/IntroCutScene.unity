@@ -969,7 +969,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   dialoguePanel: {fileID: 1807991795}
   dialogueText: {fileID: 67821168}
-  typingSpeed: 0.05
+  typingSpeed: 0.08
   dialogueData:
     spanishLines:
     - text: "Hola peque\xF1a\u2026"
