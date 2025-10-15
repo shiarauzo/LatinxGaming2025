@@ -16,6 +16,10 @@
     {"key":"CONC_ART","value":"Concept Art & 2D Art"},
     {"key":"UI_ART","value":"UI Artist"},
     {"key":"NARRATIVE","value":"Narrative"},
-    {"key":"MUSIC","value":"Music Composition & Audio"}
+    {"key":"MUSIC","value":"Music Composition & Audio"},
+    {"key":"CHULLACHAQUI","value":"Chullachaqui"},
+    {"key":"ORCHIDS","value":"Orchids"},
+    {"key":"CATSCLAW","value":"Cat's Claw"},
+    {"key":"CACAO","value":"Cacao"}
   ]
 }

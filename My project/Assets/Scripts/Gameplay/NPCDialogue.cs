@@ -5,7 +5,7 @@ using UnityEngine;
 // Object that can hold diff types of data
 public class NPCDialogue : ScriptableObject
 {
-    public string npcName;
+    public string npcNameKey;
     public Sprite npcPortrait;
 
     [System.Serializable]
