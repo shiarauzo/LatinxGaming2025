@@ -3142,6 +3142,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 994995803}
+  - component: {fileID: 994995804}
+  - component: {fileID: 994995805}
   m_Layer: 0
   m_Name: CacaoGroup
   m_TagString: Untagged
@@ -3173,6 +3175,70 @@ Transform:
   - {fileID: 1165125967}
   m_Father: {fileID: 965907166}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &994995804
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 994995802}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b1181e327e24c40429bb413c118238ec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnvironmentalNPC
+  dialogueData: {fileID: 11400000, guid: fbe1f4af2696e4f88b716b8d89ad0a3e, type: 2}
+  dialoguePanel: {fileID: 1508241224}
+  dialogueText: {fileID: 191736031}
+  nameText: {fileID: 1052556345}
+  portraitImage: {fileID: 1946401811}
+  speciesIndex: 2
+--- !u!61 &994995805
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 994995802}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 11, y: -20}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 2.5, y: 2.5}
+  m_EdgeRadius: 0
 --- !u!1001 &1018379320
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -20893,6 +20959,7 @@ GameObject:
   - component: {fileID: 1508241225}
   - component: {fileID: 1508241227}
   - component: {fileID: 1508241226}
+  - component: {fileID: 1508241228}
   m_Layer: 5
   m_Name: DialoguePanel
   m_TagString: Untagged
@@ -20961,6 +21028,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1508241224}
   m_CullTransparentMesh: 1
+--- !u!114 &1508241228
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1508241224}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bfd86bb0bb8f042c7aa764fbb68f6ced, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DialogueUIController
+  closeButton: {fileID: 1615262576}
 --- !u!1 &1513579634 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4914244815374594673, guid: b1caa899a001a42ed860f34ca9c503aa, type: 3}
@@ -20980,6 +21060,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1566847712}
+  - component: {fileID: 1566847713}
+  - component: {fileID: 1566847714}
   m_Layer: 0
   m_Name: OrchidGroup
   m_TagString: Untagged
@@ -21011,6 +21093,70 @@ Transform:
   - {fileID: 915335178}
   m_Father: {fileID: 965907166}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1566847713
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1566847711}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b1181e327e24c40429bb413c118238ec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnvironmentalNPC
+  dialogueData: {fileID: 11400000, guid: 241232a69cc274fd4b720ce7290900b9, type: 2}
+  dialoguePanel: {fileID: 1508241224}
+  dialogueText: {fileID: 191736031}
+  nameText: {fileID: 1052556345}
+  portraitImage: {fileID: 1946401811}
+  speciesIndex: 0
+--- !u!61 &1566847714
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1566847711}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 14, y: -2}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 2.5, y: 2.5}
+  m_EdgeRadius: 0
 --- !u!1 &1578878327
 GameObject:
   m_ObjectHideFlags: 0
@@ -21183,19 +21329,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1615262577}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1102881437}
-        m_TargetAssemblyTypeName: NPC, Assembly-CSharp
-        m_MethodName: EndDialogue
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &1615262577
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25371,6 +25505,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2132327550}
+  - component: {fileID: 2132327551}
+  - component: {fileID: 2132327552}
   m_Layer: 0
   m_Name: CatsClawGroup
   m_TagString: Untagged
@@ -25402,6 +25538,70 @@ Transform:
   - {fileID: 1668147830}
   m_Father: {fileID: 965907166}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2132327551
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2132327549}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b1181e327e24c40429bb413c118238ec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnvironmentalNPC
+  dialogueData: {fileID: 11400000, guid: 7ace6d5242e4d4086bfd8de4184dca15, type: 2}
+  dialoguePanel: {fileID: 1508241224}
+  dialogueText: {fileID: 191736031}
+  nameText: {fileID: 1052556345}
+  portraitImage: {fileID: 1946401811}
+  speciesIndex: 1
+--- !u!61 &2132327552
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2132327549}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 14, y: -2}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 2.5, y: 2.5}
+  m_EdgeRadius: 0
 --- !u!1001 &2144088622
 PrefabInstance:
   m_ObjectHideFlags: 0
