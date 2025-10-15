@@ -14,8 +14,12 @@ public class PlayerMovement : MonoBehaviour
     animator = GetComponentInChildren<Animator>();
 }
 
+    void Update()
+    {
+        rb.linearVelocity = moveInput * moveSpeed;
+    }
 
-  void FixedUpdate()
+/*     void FixedUpdate()
 {
 
     rb.linearVelocity = moveInput * moveSpeed;
@@ -27,7 +31,7 @@ public class PlayerMovement : MonoBehaviour
 
   // Debug.Log($"INPUT: {moveInput}  |  VELOCITY: {rb.linearVelocity}  |  POS: {rb.position}");
 }
-
+ */
 
     public void Move(InputAction.CallbackContext context)
     {
