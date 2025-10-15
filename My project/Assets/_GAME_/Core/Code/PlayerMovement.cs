@@ -11,12 +11,13 @@ public class PlayerMovement : MonoBehaviour
  void Start()
 {
     rb = GetComponent<Rigidbody2D>();
-    animator = GetComponentInChildren<Animator>();
+        animator = GetComponent<Animator>(); //GetComponentInChildren<Animator>();
 }
 
     void Update()
     {
         rb.linearVelocity = moveInput * moveSpeed;
+        Debug.Log($"INPUT: {moveInput}  |  VELOCITY: {rb.linearVelocity}  |  POS: {rb.position}");
     }
 
 /*     void FixedUpdate()
@@ -35,9 +36,21 @@ public class PlayerMovement : MonoBehaviour
 
     public void Move(InputAction.CallbackContext context)
     {
-        moveInput = context.ReadValue<Vector2>();
+        animator.SetBool("isWalking", true);
 
-        if (animator)
+        if (context.canceled)
+        {
+            animator.SetBool("isWalking", false);
+            animator.SetFloat("LastInputX", moveInput.x);
+            animator.SetFloat("LastInputY", moveInput.y);
+        }
+
+
+        moveInput = context.ReadValue<Vector2>();
+        animator.SetFloat("InputX", moveInput.x);
+        animator.SetFloat("InputY", moveInput.y);
+
+/*         if (animator)
         {
             if (moveInput != Vector2.zero)
             {
@@ -55,6 +68,6 @@ public class PlayerMovement : MonoBehaviour
                 // Idle
                 animator.SetBool("isWalking", false);
             }
-        }
+        } */
     }
 }
