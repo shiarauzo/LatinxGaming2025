@@ -26,7 +26,6 @@ public class LocalizationDictionary
 
         return dict;
     }
-
 }
 
 public class LocalizationManager : MonoBehaviour
@@ -51,9 +50,8 @@ public class LocalizationManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-
     }
-
+    
     private void LoadTextsFromResources()
     {
         var engAsset = Resources.Load<TextAsset>("Localization/english");
@@ -94,5 +92,20 @@ public class LocalizationManager : MonoBehaviour
         PlayerPrefs.Save();
 
         OnLanguageChanged?.Invoke();
+    }
+
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+    private static void EnsureInstanceExists()
+    {
+        if (Instance == null)
+        {
+            var existing = FindAnyObjectByType<LocalizationManager>();
+            if (existing == null)
+            {
+                var go = new GameObject("LocalizationManager_Auto");
+                go.AddComponent<LocalizationManager>();
+                Debug.Log("🌐 LocalizationManager creado automáticamente.");
+            }
+        }
     }
 }

@@ -1,0 +1,49 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 939086c9dafb84a4d904f3e7b76d1fc2, type: 3}
+  m_Name: CacaoNPCDialogue
+  m_EditorClassIdentifier: Assembly-CSharp::NPCDialogue
+  npcNameKey: CACAO
+  npcPortrait: {fileID: -6494957919028787182, guid: 49d2eccdbae91487498bc90f8db5a269, type: 3}
+  dialogueStates:
+  - stateName: isRestored
+    englishLines:
+    - "Cacao is the base of chocolate\u2026 it grows in pods on the tree trunk. Every
+      bean has a story!"
+    spanishLines:
+    - "El cacao es la base del chocolate\u2026 y crece en vainas sobre el tronco
+      del \xE1rbol. \xA1Cada grano tiene historia!"
+    autoProgressLines: 00
+    autoProgressDelay: 1.5
+    typingSpeed: 0.05
+    voiceSound: {fileID: 8300000, guid: b396caf906400467b8d5c63fcfc44508, type: 3}
+  - stateName: isBurning
+    englishLines:
+    - Fire threatens these plants, and with them, the cacao production enjoyed by
+      millions.
+    spanishLines:
+    - "El fuego amenaza estas plantas, y con ellas, la producci\xF3n de cacao que
+      millones disfrutan."
+    autoProgressLines: 00
+    autoProgressDelay: 1.5
+    typingSpeed: 0.05
+    voiceSound: {fileID: 8300000, guid: b396caf906400467b8d5c63fcfc44508, type: 3}
+  - stateName: isBurned
+    englishLines:
+    - This plant has been lost, but if you replant seeds, you can help new pods grow.
+    spanishLines:
+    - Esta planta se ha perdido, pero si replantas semillas, puedes ayudar a que
+      nuevas vainas crezcan.
+    autoProgressLines: 00
+    autoProgressDelay: 1.5
+    typingSpeed: 0.05
+    voiceSound: {fileID: 8300000, guid: b396caf906400467b8d5c63fcfc44508, type: 3}

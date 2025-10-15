@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 939086c9dafb84a4d904f3e7b76d1fc2, type: 3}
   m_Name: ChullaNPCDialogue
   m_EditorClassIdentifier: Assembly-CSharp::NPCDialogue
-  npcName: Chullachaqui
+  npcNameKey: CHULLACHAQUI
   npcPortrait: {fileID: 21300000, guid: 5d3d19b52f34a49fcb5bef71b35700bd, type: 3}
   dialogueStates:
   - stateName: FirstEncounter
