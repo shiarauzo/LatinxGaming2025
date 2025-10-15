@@ -81,6 +81,14 @@ public class FireController : MonoBehaviour
             if (burnedSprite != null) burnedSprite.SetActive(false);
         }
         
-        gameObject.SetActive(false);
+        // Solo oculta visualmente el fuego, mantiene el collider activo
+        if (TryGetComponent(out SpriteRenderer fireVFX))
+            fireVFX.enabled = false;
+
+        // Mantener el collider padre del fuego activo para evitar re-ignición inmediata
+        if (TryGetComponent(out Collider2D col2D))
+            col2D.enabled = true;
+        else if (TryGetComponent(out Collider col))
+            col.enabled = true;    
     }
 }
