@@ -27,6 +27,17 @@
     {"key":"EXTINGUISH_FIRE","value":"Press F to extinguish fire."},
     {"key":"RECOLLECT_SEEDS","value":"Press Q to collect seeds."},
     {"key":"PLANT_SEEDS","value":"Press P to plant seeds."},
-    {"key":"NO_WATER","value":"You don't have water to use."}
+    {"key":"NO_WATER","value":"You don't have water to use."},
+    {"key":"PLAYER_TAB", "value":"PLAYER"},
+    {"key":"INVENTORY_TAB", "value":"INVENTORY"},
+    {"key":"MAP_TAB", "value":"MAP"},
+    {"key":"PLAYER_PAGE_TITLE", "value":"Anonymous Adventurer"},
+    {"key":"PLAYER_ROL_LABEL", "value":"Role:"},
+    {"key":"PLAYER_PAGE_VALUE", "value":"Adventurer"},
+    {"key":"PLAYER_COLLECTED_ITEMS_LABEL", "value":"Collected items:"},
+    {"key":"PLAYER_COLLECTED_WATER_LABEL", "value":"Collected water:"},
+    {"key":"PLAYER_HP_LABEL", "value":"Life:"},
+    {"key":"PLAYER_LOCATION_LABEL", "value":"Location:"},
+    {"key":"PLAYER_LOCATION_VALUE", "value":"Amazonia"}
   ]
 }
