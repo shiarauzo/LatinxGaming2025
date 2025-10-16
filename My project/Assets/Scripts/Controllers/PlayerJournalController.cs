@@ -1,0 +1,46 @@
+using UnityEngine;
+using UnityEngine.UI;
+
+public class PlayerJournalController : MonoBehaviour
+{
+    [Header("UI References")]
+    public GameObject journalUI;
+    public Button openButton;
+    public Button closeButton;
+
+    [Header("Audio")]
+    public AudioSource journalMusicSource; 
+    public AudioClip journalMusicClip;
+    public float fadeDuration = 1.5f;
+
+    private bool isOpen = false;
+    private Coroutine currentFadeCoroutine;
+
+    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    void Start()
+    {
+        journalUI.SetActive(false);
+        openButton.interactable = true;
+        closeButton.gameObject.SetActive(false);
+
+        openButton.onClick.AddListener(OpenJournal);
+        closeButton.onClick.AddListener(CloseJournal);
+    }
+
+    // Update is called once per frame
+    public void OpenJournal()
+    {
+        isOpen = true;
+        journalUI.SetActive(true);
+        openButton.interactable = false;
+        closeButton.gameObject.SetActive(true);
+    }
+    
+    public void CloseJournal()
+    {
+        isOpen = false;
+        journalUI.SetActive(false);
+        openButton.interactable = true;
+        closeButton.gameObject.SetActive(false);
+    }
+}
