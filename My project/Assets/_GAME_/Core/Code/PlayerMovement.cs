@@ -69,12 +69,12 @@ public class PlayerMovement : MonoBehaviour
         // StartFootSteps
         if (rb.linearVelocity.magnitude > 0.01f && !playingFootSteps)
         {
-            Debug.Log("velocity - IS WALKING");
+          //  Debug.Log("IS WALKING");
             StartFootSteps();
         }
         else if (rb.linearVelocity.magnitude <= 0.01f && playingFootSteps)
         {
-            Debug.Log("velocity - STOPPED");
+          //  Debug.Log("STOPPED WALKING");
             StopFootSteps();
         }
     }
@@ -163,6 +163,50 @@ public class PlayerMovement : MonoBehaviour
     }
 
 
+    // Flood: inundar, apagar fuego
+    public void OnFlood(InputAction.CallbackContext context)
+    {
+        Debug.Log("F pressed");
+        if (!context.performed) return;
+
+        // Detectar planta
+        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, 0.5f);
+        bool extinguishedAny = false;
+
+        foreach (var hit in hits)
+        {
+            if (hit.CompareTag("Plant"))
+            {
+                FireController[] fires = hit.GetComponentsInChildren<FireController>();
+                foreach (var fire in fires)
+                {
+                    if (fire.isActiveAndEnabled && fire.IsBurning)
+                    {
+                        if (currentWater > 0)
+                        {
+                            fire.Extinguish(false, null);
+                            AddWater(-1);
+                            extinguishedAny = true;
+                            Debug.Log("🔥 Fuego apagado en " + fire.name);
+                            SoundEffectManager.Play("WaterPlant");
+                        }
+                        else
+                        {
+                            Debug.Log("No tienes agua para regar.");
+                        }
+                    }
+                }
+            }
+        }
+        if (!extinguishedAny)
+            Debug.Log("No hay plantas quemándose cerca.");
+    }
+
+    // Plantar semillas
+    public void OnPlantSeeds(InputAction.CallbackContext context)
+    {
+        if (!context.performed) return;
+    }
     void StartFootSteps()
     {
         if (!playingFootSteps)

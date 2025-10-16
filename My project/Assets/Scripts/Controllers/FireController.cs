@@ -6,6 +6,7 @@ public class FireController : MonoBehaviour
     private float duration = 20f;
     private Animator animator;
     private bool isBurning = false;
+    public bool IsBurning => isBurning; // getter
 
     [Header("References")]
     public GameObject baseSprite;
