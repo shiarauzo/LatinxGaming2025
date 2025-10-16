@@ -71,14 +71,6 @@ public abstract class BaseNPC : MonoBehaviour, IInteractable
         var ui = dialoguePanel.GetComponent<DialogueUIController>();
         if (ui != null)
             ui.SetCurrentNPC(this);
-    
-        // Obtener estado de diálogo según PlayerState.Plants
-  /*       var state = GetCurrentDialogueState();
-        if (state == null)
-        {
-            EndDialogue();
-            return;
-        } */
 
         currentDialogueLines = (PlayerPrefs.GetInt("Language", 0) == 0) ? currentState.englishLines : currentState.spanishLines;
         currentAutoProgressLines = currentState.autoProgressLines;
