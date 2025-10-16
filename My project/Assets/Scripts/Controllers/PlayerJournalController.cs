@@ -25,22 +25,44 @@ public class PlayerJournalController : MonoBehaviour
 
         openButton.onClick.AddListener(OpenJournal);
         closeButton.onClick.AddListener(CloseJournal);
+
+        // AudioSource seguirá sonando aunque el juego esté pausado
+        if (journalMusicSource != null)
+            journalMusicSource.ignoreListenerPause = true;
     }
 
     // Update is called once per frame
     public void OpenJournal()
     {
+        if (isOpen) return;
+
+        GameController.Instance.PauseController.SetPause(true);
         isOpen = true;
         journalUI.SetActive(true);
         openButton.interactable = false;
         closeButton.gameObject.SetActive(true);
+
+        if (journalMusicSource != null && journalMusicClip != null)
+        {
+            if (currentFadeCoroutine != null) StopCoroutine(currentFadeCoroutine);
+            currentFadeCoroutine = StartCoroutine(AudioFader.FadeInCoroutine(journalMusicSource, fadeDuration, journalMusicClip, true));
+        }
     }
     
     public void CloseJournal()
     {
+        if (!isOpen) return;
+
+        GameController.Instance.PauseController.SetPause(false);
         isOpen = false;
         journalUI.SetActive(false);
         openButton.interactable = true;
         closeButton.gameObject.SetActive(false);
+
+        if (journalMusicSource != null)
+        {
+            if (currentFadeCoroutine != null) StopCoroutine(currentFadeCoroutine);
+            currentFadeCoroutine = StartCoroutine(AudioFader.FadeOutCoroutine(journalMusicSource, fadeDuration, true));
+        }
     }
 }
