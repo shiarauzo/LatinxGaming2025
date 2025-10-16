@@ -21,7 +21,6 @@ public class ChullachaquiNPC : BaseNPC
         if (player.isAnyPlantBurning)
             return System.Array.Find(states, s => s.stateName == "FireAlert");
 
-
         // First Encounter
         if (firstEncounter)
         {

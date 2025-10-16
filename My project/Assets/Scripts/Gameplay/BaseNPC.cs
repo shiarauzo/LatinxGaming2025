@@ -126,21 +126,20 @@ public abstract class BaseNPC : MonoBehaviour, IInteractable
         isTyping = true;
         dialogueText.SetText("");
 
-        var state = GetCurrentDialogueState();
         AudioClip currentClip = null;
 
-        if (state != null)
+        if (currentState != null)
         {
-            if (state.useSingleVoiceClip)
+            if (currentState.useSingleVoiceClip)
             {
-                currentClip = state.voiceSound;
+                currentClip = currentState.voiceSound;
             }
             else
             {
-                if (PlayerPrefs.GetInt("Language", 0) == 0 && state.englishVoiceClips.Length > dialogueIndex)
-                    currentClip = state.englishVoiceClips[dialogueIndex];
-                else if (state.spanishVoiceClips.Length > dialogueIndex)
-                    currentClip = state.spanishVoiceClips[dialogueIndex];
+                if (PlayerPrefs.GetInt("Language", 0) == 0 && currentState.englishVoiceClips.Length > dialogueIndex)
+                    currentClip = currentState.englishVoiceClips[dialogueIndex];
+                else if (currentState.spanishVoiceClips.Length > dialogueIndex)
+                    currentClip = currentState.spanishVoiceClips[dialogueIndex];
             }
         }
         
