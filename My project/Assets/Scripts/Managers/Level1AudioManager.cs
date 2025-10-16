@@ -1,37 +1,104 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class Level1AudioManager: MonoBehaviour
 {
-    public AudioSource backgroundMusic, aux2, aux3, aux4, aux5;
+    [Header("Start Segments")]
+    public AudioSource start1, start2, start3, start4, start5;
+    [Header("Loop Segments")]
+    public AudioSource loop1, loop2, loop3, loop4, loop5;
+
+    [Header("Cues")]
     public AudioSource victoryCue, loseCue;
-    private Coroutine aux2Fade, aux3Fade, aux4Fade, aux5Fade;
+
+    private AudioSource[] startTracks;
+    private AudioSource[] loopTracks;
+    private Coroutine[] fadeCoroutines;
+    private int intensityLevel = 0;
+    private bool startsFinished = false;
+
 
     void Start()
     {
-        // AUX1 siempre loop
-        backgroundMusic.loop = true;
-        backgroundMusic.Play();
+        startTracks = new[] { start1, start2, start3, start4, start5 };
+        loopTracks = new[] { loop1, loop2, loop3, loop4, loop5 };
+        fadeCoroutines = new Coroutine[5];
 
-        // Inicializar loop y flags para los demás
-        aux2.loop = aux3.loop = aux4.loop = aux5.loop = true;
-        aux2.volume = aux3.volume = aux4.volume = aux5.volume = 0;
-    }
+        for (int i = 0; i < 5; i++)
+        {
+            startTracks[i].volume = (i == 0) ? 1f : 0f;
+            startTracks[i].loop = false;
 
-    public void UpdateIntensity(int burningParcels)
-    {
-        Debug.Log($"⚠️ Parcelas en PELIGRO: {burningParcels}");
-        FadeAudio(aux2, burningParcels >= 1 ? 1f : 0f, ref aux2Fade);
-        FadeAudio(aux3, burningParcels >= 4 ? 1f : 0f, ref aux3Fade);
-        FadeAudio(aux4, burningParcels >= 6 ? 1f : 0f, ref aux4Fade);
-        FadeAudio(aux5, burningParcels >= 8 ? 1f : 0f, ref aux5Fade);
+            loopTracks[i].volume = 0f;
+            loopTracks[i].loop = true;
+        }
+
+        double dspTime = AudioSettings.dspTime + 0.1; // empezar 0.1s en el futuro
+        foreach (var s in startTracks)
+            s.PlayScheduled(dspTime);
+
+        float maxStartLength = start1.clip != null ? start1.clip.length : 0f;
+        StartCoroutine(StartLoopAfterDelay(maxStartLength));
     }
     
-    private void FadeAudio(AudioSource source, float targetVolume, ref Coroutine fadeCoroutine)
+    void Update()
+{
+    for (int i = 0; i < startTracks.Length; i++)
     {
-        if (fadeCoroutine != null)
-            StopCoroutine(fadeCoroutine);
-        fadeCoroutine = StartCoroutine(FadeToVolume(source, targetVolume, 1f));
+        if (startTracks[i].isPlaying)
+            Debug.Log($"StartTrack {i+1} isPlaying: {startTracks[i].isPlaying}, volume: {startTracks[i].volume}");
+    }
+
+    for (int i = 0; i < loopTracks.Length; i++)
+    {
+        if (loopTracks[i].isPlaying)
+            Debug.Log($"LoopTrack {i+1} isPlaying: {loopTracks[i].isPlaying}, volume: {loopTracks[i].volume}");
+    }
+}
+
+
+    private IEnumerator StartLoopAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+
+        startsFinished = true;
+
+        // Apagar todos los starts
+        foreach (var s in startTracks)
+            s.Stop();
+        
+        // Preparar loopTracks (ya configurados) y reproducir todos al mismo tiempo
+         foreach (var l in loopTracks)
+        {
+            l.volume = 0f;
+            l.Play();
+        }
+    }
+    
+    public void UpdateIntensity(int burningParcels)
+    {
+        int newLevel = 0;
+        if (burningParcels >= 8) newLevel = 4;
+        else if (burningParcels >= 6) newLevel = 3;
+        else if (burningParcels >= 4) newLevel = 2;
+        else if (burningParcels >= 1) newLevel = 1;
+
+        if (newLevel <= intensityLevel) return;
+        intensityLevel = newLevel;
+
+        for (int i = 1; i <= intensityLevel; i++)
+        {
+            AudioSource target = startsFinished ? loopTracks[i] : startTracks[i];
+            FadeAudio(target, 1f, i);
+        }
+    }
+    
+    private void FadeAudio(AudioSource source, float targetVolume, int index, float duration = 1f)
+    {
+        if (fadeCoroutines[index] != null)
+            StopCoroutine(fadeCoroutines[index]);
+        fadeCoroutines[index] = StartCoroutine(FadeToVolume(source, targetVolume, duration));
     }
     private IEnumerator FadeToVolume(AudioSource source, float targetVolume, float duration)
     {
@@ -47,51 +114,47 @@ public class Level1AudioManager: MonoBehaviour
         source.volume = targetVolume;
     }
 
-    public void PlayVictory() {
-        PauseAllAux();
+    public void FadeOutAll(float duration = 1.5f)
+    {
+        StartCoroutine(FadeOutAllRoutine(duration));
+    }
+    
+    private IEnumerator FadeOutAllRoutine(float duration)
+    {
+        float[] startVols = new float[loopTracks.Length];
+        for (int i = 0; i < loopTracks.Length; i++)
+            startVols[i] = loopTracks[i].volume;
+
+        float t = 0f;
+        while (t < duration)
+        {
+            t += Time.deltaTime;
+            float factor = 1f - (t / duration);
+            for (int i = 0; i < loopTracks.Length; i++)
+                loopTracks[i].volume = startVols[i] * factor;
+            yield return null;
+        }
+
+        foreach (var s in loopTracks)
+            s.volume = 0f;
+    }
+
+    public void PlayVictory()
+    {
+        FadeOutAll(1f);
         victoryCue.Play();
     }
     public void PlayLose()
     {
-        PauseAllAux();
+        FadeOutAll(1f);
         loseCue.Play();
     }
 
-    private void PauseAllAux()
+    public void FadeOutAuxTracksExceptBackground(float duration = 1.5f)
     {
-        backgroundMusic.Pause();
-        aux2.Pause();
-        aux3.Pause();
-        aux4.Pause();
-        aux5.Pause();
-    }
-
-    public void FadeOutAuxTracksExceptBackground(float fadeDuration = 1.5f)
-    {
-        StartCoroutine(FadeOutRoutine(fadeDuration));
-    }
-    
-    private IEnumerator FadeOutRoutine(float duration)
-    {
-        float startVol2 = aux2.volume;
-        float startVol3 = aux3.volume;
-        float startVol4 = aux4.volume;
-        float startVol5 = aux5.volume;
-
-        float time = 0f;
-        while (time < duration)
+        for (int i = 1; i < loopTracks.Length; i++)
         {
-            time += Time.deltaTime;
-            float t = 1f - (time / duration);
-
-            aux2.volume = startVol2 * t;
-            aux3.volume = startVol3 * t;
-            aux4.volume = startVol4 * t;
-            aux5.volume = startVol5 * t;
-
-            yield return null;
+            FadeAudio(loopTracks[i], 0f, i, duration);
         }
-
-        aux2.volume = aux3.volume = aux4.volume = aux5.volume = 0;
     }
 }
