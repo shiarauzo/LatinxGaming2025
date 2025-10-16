@@ -10,14 +10,13 @@ public class CutsceneController : MonoBehaviour
     public IntroDialogueController dialogueController;
 
     private bool wasTimelinePlaying = false;
+    private bool introSkipped = false;
 
     void Start()
     {
         // Detener con fade out la música de boot si está sonando
-        if (BootMusicManager.Instance != null)
-        {
-            BootMusicManager.Instance.FadeOutMusic(1.5f);
-        }
+        if (GlobalMusicManager.Instance != null)
+            GlobalMusicManager.Instance.FadeOutMusic(1.5f);
 
         if (dialogueController != null)
             dialogueController.OnDialogueFinished += GoToNextScene;
@@ -33,7 +32,6 @@ public class CutsceneController : MonoBehaviour
             if (musicSource != null)
             {
                 musicSource.loop = true;
-               // musicSource.Play();
                 StartCoroutine(AudioFader.FadeInCoroutine(musicSource, 1.5f));
             }
         }
@@ -45,33 +43,31 @@ public class CutsceneController : MonoBehaviour
 
     private void OnTimelineFinished(PlayableDirector director)
     {
-        Debug.Log("Timeline finished!");
-
         // Desubscribe from the event to avoid multiple calls
         introTimeline.stopped -= OnTimelineFinished;
 
-        if (dialogueController != null)
+        if (!introSkipped && dialogueController != null)
         {
             dialogueController.StartDialogue();
         }
     }
 
+    public void SkipIntro()
+    {
+        introSkipped = true;
+        StopIntro();
+        GoToNextScene();
+    }
+
     public void StopIntro()
     {
         if (musicSource != null)
-        {
-          //  musicSource.Stop();
           StartCoroutine(AudioFader.FadeOutCoroutine(musicSource, 1.5f));
-        }
 
         if (introTimeline != null)
         {
             introTimeline.Stop();
             introTimeline.stopped -= OnTimelineFinished;
-        }
-        else
-        {
-            Debug.LogWarning("Intro timeline is not assigned.");
         }
     }
 
@@ -102,15 +98,28 @@ public class CutsceneController : MonoBehaviour
 
     public void GoToNextScene()
     {
-        if (musicSource != null)
-            StartCoroutine(AudioFader.FadeOutCoroutine(musicSource, 1f));
-            
-        StartCoroutine(LoadNextSceneAfterFade(1f));
+        Debug.Log($"[CutsceneController] GoToNextScene() called at {Time.time}");
+
+        if (GlobalUIManager.Instance != null)
+            GlobalUIManager.Instance.FadeScreen(true, 0.5f);
+        
+        if (GlobalMusicManager.Instance != null)
+        {
+            GlobalMusicManager.Instance.FadeOutAndLoadScene("PrincipalMap", 1f);
+        }
+        else
+        {
+            StartCoroutine(FadeAndLoadFallback());
+        }
     }
 
-    private IEnumerator LoadNextSceneAfterFade(float delay)
+    private IEnumerator FadeAndLoadFallback()
     {
-        yield return new WaitForSeconds(delay);
-        SceneManager.LoadScene("PrincipalMap");
+        Debug.Log($"[CutsceneController] Fade start (fallback) at {Time.time}");
+        if (musicSource != null)
+            yield return StartCoroutine(AudioFader.FadeOutCoroutine(musicSource, 1f));
+
+        UnityEngine.SceneManagement.SceneManager.LoadScene("PrincipalMap");
+        Debug.Log($"[CutsceneController] Fade end (fallback) at {Time.time}");
     }
 }

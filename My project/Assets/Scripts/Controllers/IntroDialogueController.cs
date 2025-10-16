@@ -229,12 +229,6 @@ public class IntroDialogueController : MonoBehaviour
 
         // Disparar evento
         OnDialogueFinished?.Invoke();
-
-        // Load the next scene
-/*         if (loadNextSceneOnEnd)
-        {
-            SceneManager.LoadScene("PrincipalMap");
-        } */
     }
 
     // Cuando cambia de idioma, recargar diálogo

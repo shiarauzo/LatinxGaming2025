@@ -1,9 +1,10 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
-public class BootMusicManager : MonoBehaviour
+public class GlobalMusicManager : MonoBehaviour
 {
-    public static BootMusicManager Instance;
+    public static GlobalMusicManager Instance;
     public AudioSource musicSource;
 
     void Awake()
@@ -48,12 +49,31 @@ public class BootMusicManager : MonoBehaviour
         if (musicSource != null && newClip != null && musicSource.clip != newClip)
             StartCoroutine(AudioFader.FadeToNewTrackCoroutine(musicSource, newClip, duration));
     }
-    
+
     public void StopMusic()
     {
         if (musicSource != null && musicSource.isPlaying)
         {
             musicSource.Stop();
         }
+    }
+    
+    public void FadeOutAndLoadScene(string sceneName, float fadeDuration = 1.5f)
+    {
+        StartCoroutine(FadeOutAndLoad(sceneName, fadeDuration));
+    }
+
+    private IEnumerator FadeOutAndLoad(string sceneName, float fadeDuration)
+    {
+        // Fade visual
+        GlobalUIManager.Instance?.FadeScreen(true, fadeDuration);
+
+        // Fade musical
+        yield return StartCoroutine(AudioFader.FadeOutCoroutine(musicSource, fadeDuration));
+
+        // Espera al menos el fade visual
+        yield return new WaitForSeconds(fadeDuration * 0.8f);
+    
+        SceneManager.LoadScene(sceneName);
     }
 }
