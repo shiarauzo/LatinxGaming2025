@@ -9,6 +9,7 @@ public class SoundEffectManager : MonoBehaviour {
     private static AudioSource audioSource;
     private static AudioSource longSfxSource;
     private static SoundEffectLibrary soundEffectLibrary;
+    private static string currentLongSFX;
     //[SerializeField] private Slider sfxSlider;
 
     private void Awake()
@@ -35,24 +36,28 @@ public class SoundEffectManager : MonoBehaviour {
         }
     }
 
-    public static void PlayLongSFX(string soundName)
+    public static void PlayLongSFX(string sfxName)
     {
-        AudioClip clip = soundEffectLibrary.GetRandomClip(soundName);
+        AudioClip clip = soundEffectLibrary.GetRandomClip(sfxName);
         if (clip == null) return;
 
-        if (longSfxSource.isPlaying && longSfxSource.clip == clip)
-            return;
+        if (longSfxSource == null)
+            longSfxSource = audioSource;
 
         longSfxSource.clip = clip;
+        longSfxSource.loop = true;
         longSfxSource.Play();
-
-
+        currentLongSFX = sfxName;
     }
     
-    public static void StopLongSFX()
+    public static void StopLongSFX(string sfxName)
     {
-        if (longSfxSource != null && longSfxSource.isPlaying)
+        if (longSfxSource != null && longSfxSource.isPlaying && currentLongSFX == sfxName)
+        {
             longSfxSource.Stop();
+            longSfxSource.loop = false;
+            currentLongSFX = null;
+        }
     }
 
 /*     void Start()

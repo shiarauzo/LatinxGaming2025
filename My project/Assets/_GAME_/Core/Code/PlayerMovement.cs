@@ -30,6 +30,7 @@ public class PlayerMovement : MonoBehaviour
     {
         controls.Enable();
         controls.Player.Refill.performed += OnRefill;
+        controls.Player.Refill.canceled += OnRefillCanceled;
     }
 
     void OnDisable()
@@ -37,6 +38,7 @@ public class PlayerMovement : MonoBehaviour
         if (controls != null)
         {
             controls.Player.Refill.performed -= OnRefill;
+            controls.Player.Refill.canceled -= OnRefillCanceled;
             controls.Disable();
         }
     }
@@ -75,14 +77,6 @@ public class PlayerMovement : MonoBehaviour
             Debug.Log("velocity - STOPPED");
             StopFootSteps();
         }
-
-/*         if(rb.velocity.magnitude > 0 && !playingFootSteps)
-        {
-            StartFootSteps();
-        } else if(rb.velocity.magnitude == 0)
-        {
-            StopFootSteps();
-        } */
     }
 
 
@@ -108,6 +102,7 @@ public class PlayerMovement : MonoBehaviour
         if (context.performed && isNearWater)
         {
             AddWater(1);
+            SoundEffectManager.PlayLongSFX("CollectWater");
         }
     }
 
@@ -124,6 +119,11 @@ public class PlayerMovement : MonoBehaviour
         {
             Debug.LogWarning("WaterBar no asignado en PlayerMovement");
         }
+    }
+
+    private void OnRefillCanceled(InputAction.CallbackContext context)
+    {
+        SoundEffectManager.StopLongSFX("CollectWater");
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -169,7 +169,6 @@ public class PlayerMovement : MonoBehaviour
         {
             playingFootSteps = true;
             SoundEffectManager.PlayLongSFX("FootstepsGrass");
-           // InvokeRepeating(nameof(PlayFootStepInGrass), 0f, footstepsSpeed);
         }        
     }
 
@@ -177,15 +176,8 @@ public class PlayerMovement : MonoBehaviour
     {
         if (playingFootSteps)
         {
-            SoundEffectManager.StopLongSFX();
+            SoundEffectManager.StopLongSFX(currentFootstepType);
             playingFootSteps = false;
         }
     }
-
-    void PlayFootStepInGrass()
-    {
-        SoundEffectManager.PlayLongSFX("FootstepsGrass");
-    }
-
-    // CancelInvoke(nameof(PlayFootStepInGrass));
 }
