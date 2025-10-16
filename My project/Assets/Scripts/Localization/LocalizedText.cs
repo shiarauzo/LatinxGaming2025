@@ -7,24 +7,24 @@ public class LocalizedText : MonoBehaviour
     public string key; //e.g. PLAY
     private TMP_Text textComponent;
 
-    void Start()
+    private void Awake()
     {
         textComponent = GetComponent<TMP_Text>();
-        UpdateText();
     }
 
     public void UpdateText()
     {
-        var tmp = GetComponent<TMP_Text>();
-
-        if (tmp != null && LocalizationManager.Instance != null)
+        if (textComponent != null && LocalizationManager.Instance != null)
         {
-            tmp.text = LocalizationManager.Instance.GetText(key);
+            textComponent.text = LocalizationManager.Instance.GetText(key);
         }
     }
     
     private void OnEnable()
     {
+        if (textComponent == null)
+            textComponent = GetComponent<TMP_Text>();
+        
         UpdateText(); 
         // Suscribe event
         LocalizationManager.OnLanguageChanged += UpdateText;
@@ -32,7 +32,8 @@ public class LocalizedText : MonoBehaviour
 
     private void OnDisable()
     {
-        LocalizationManager.OnLanguageChanged -= UpdateText;
+        if(LocalizationManager.Instance != null)
+            LocalizationManager.OnLanguageChanged -= UpdateText;
     }
 
 }

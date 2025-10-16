@@ -9,14 +9,17 @@ public class PlayerMovement : MonoBehaviour
     public int currentHealth;
     public int maxWater = 10;
     public int currentWater;
-public WaterBar waterBar;
 
+    public WaterBar waterBar;
     private Rigidbody2D rb;
     private Vector2 moveInput;
     private Animator animator;
     private bool isNearWater = false;
+    private bool playingFootSteps = false;
+    public float footstepsSpeed = 0.5f;
 
     private PlayerControls controls;
+    private string currentFootstepType = "FootstepsGrass";
 
     void Awake()
     {
@@ -27,35 +30,55 @@ public WaterBar waterBar;
     {
         controls.Enable();
         controls.Player.Refill.performed += OnRefill;
+        controls.Player.Refill.canceled += OnRefillCanceled;
     }
 
     void OnDisable()
     {
-        controls.Player.Refill.performed -= OnRefill;
-        controls.Disable();
+        if (controls != null)
+        {
+            controls.Player.Refill.performed -= OnRefill;
+            controls.Player.Refill.canceled -= OnRefillCanceled;
+            controls.Disable();
+        }
     }
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
-         currentHealth = maxHealth;
-          currentWater = 0;
+        currentHealth = maxHealth;
+        currentWater = 0;
         if (waterBar != null)
         {
             waterBar.SetMaxWater(maxWater);
             waterBar.SetWater(currentWater);
         }
-     else
-    {
-        Debug.LogWarning("WaterBar no asignado en Player");
-    }
+        else
+        {
+            Debug.LogWarning("WaterBar no asignado en Player");
+        }
     }
 
     void Update()
     {
         rb.linearVelocity = moveInput * moveSpeed;
-  }
+        animator.SetBool("isWalking", rb.linearVelocity.magnitude > 0);
+        //Debug.Log($"INPUT: {moveInput}  |  VELOCITY: {rb.linearVelocity}  |  POS: {rb.position}");
+
+        // StartFootSteps
+        if (rb.linearVelocity.magnitude > 0.01f && !playingFootSteps)
+        {
+            Debug.Log("velocity - IS WALKING");
+            StartFootSteps();
+        }
+        else if (rb.linearVelocity.magnitude <= 0.01f && playingFootSteps)
+        {
+            Debug.Log("velocity - STOPPED");
+            StopFootSteps();
+        }
+    }
+
 
     public void Move(InputAction.CallbackContext context)
     {
@@ -74,27 +97,33 @@ public WaterBar waterBar;
         animator.SetFloat("InputY", moveInput.y);
     }
 
-  void OnRefill(InputAction.CallbackContext context)
-{
-    if (context.performed && isNearWater)
+    void OnRefill(InputAction.CallbackContext context)
     {
-        AddWater(1);
+        if (context.performed && isNearWater)
+        {
+            AddWater(1);
+            SoundEffectManager.PlayLongSFX("CollectWater");
+        }
     }
-}
 
     void AddWater(int amount)
     {
         currentWater = Mathf.Min(currentWater + amount, maxWater);
 
-    if (waterBar != null)
-    {
-        waterBar.SetWater(currentWater);
-        Debug.Log($"Water refilled: {currentWater}/{maxWater}");
+        if (waterBar != null)
+        {
+            waterBar.SetWater(currentWater);
+            Debug.Log($"Water refilled: {currentWater}/{maxWater}");
+        }
+        else
+        {
+            Debug.LogWarning("WaterBar no asignado en PlayerMovement");
+        }
     }
-    else
+
+    private void OnRefillCanceled(InputAction.CallbackContext context)
     {
-        Debug.LogWarning("WaterBar no asignado en PlayerMovement");
-    }
+        SoundEffectManager.StopLongSFX("CollectWater");
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -104,6 +133,15 @@ public WaterBar waterBar;
             isNearWater = true;
             Debug.Log("Chocaste con el agua. presiona R para recolectar.");
         }
+
+        if (other.CompareTag("Plant"))
+        {
+            currentFootstepType = "FootstepsDirt";
+            if (playingFootSteps)
+            {
+                SoundEffectManager.PlayLongSFX(currentFootstepType);
+            }
+        }
     }
 
     private void OnTriggerExit2D(Collider2D other)
@@ -112,6 +150,34 @@ public WaterBar waterBar;
         {
             isNearWater = false;
             Debug.Log("Saliste del área de agua.");
+        }
+
+        if (other.CompareTag("Plant"))
+        {
+            currentFootstepType = "FootstepsGrass";
+            if (playingFootSteps)
+            {
+                SoundEffectManager.PlayLongSFX(currentFootstepType);
+            }
+        }
+    }
+
+
+    void StartFootSteps()
+    {
+        if (!playingFootSteps)
+        {
+            playingFootSteps = true;
+            SoundEffectManager.PlayLongSFX("FootstepsGrass");
+        }        
+    }
+
+    void StopFootSteps()
+    {
+        if (playingFootSteps)
+        {
+            SoundEffectManager.StopLongSFX(currentFootstepType);
+            playingFootSteps = false;
         }
     }
 }

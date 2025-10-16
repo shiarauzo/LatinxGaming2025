@@ -11,6 +11,9 @@ public abstract class BaseNPC : MonoBehaviour, IInteractable
     public TMP_Text dialogueText, nameText;
     public Image portraitImage;
 
+    [Header("Voice Settings")]
+    public AudioSource voiceSource;
+
     // Variables temporales para dialogo actual
     private int dialogueIndex;
     private bool isTyping, isDialogueActive;
@@ -19,6 +22,7 @@ public abstract class BaseNPC : MonoBehaviour, IInteractable
     private bool[] currentAutoProgressLines;
     private float currentTypingSpeed;
 
+    private NPCDialogue.DialogueState currentState;
     public bool CanInteract()
     {
         return !isDialogueActive;
@@ -39,6 +43,13 @@ public abstract class BaseNPC : MonoBehaviour, IInteractable
     {
         isDialogueActive = true;
         dialogueIndex = 0;
+        currentState = GetCurrentDialogueState();
+        if (currentState == null)
+        {
+            Debug.LogWarning("No se encontró DialogueState para este NPC");
+            EndDialogue();
+            return;
+        }
 
         // For Testing without LocalizationManager
         if (LocalizationManager.Instance != null)
@@ -60,18 +71,10 @@ public abstract class BaseNPC : MonoBehaviour, IInteractable
         var ui = dialoguePanel.GetComponent<DialogueUIController>();
         if (ui != null)
             ui.SetCurrentNPC(this);
-    
-        // Obtener estado de diálogo según PlayerState.Plants
-        var state = GetCurrentDialogueState();
-        if (state == null)
-        {
-            EndDialogue();
-            return;
-        }
 
-        currentDialogueLines = (PlayerPrefs.GetInt("Language", 0) == 0) ? state.englishLines : state.spanishLines;
-        currentAutoProgressLines = state.autoProgressLines;
-        currentTypingSpeed = state.typingSpeed;
+        currentDialogueLines = (PlayerPrefs.GetInt("Language", 0) == 0) ? currentState.englishLines : currentState.spanishLines;
+        currentAutoProgressLines = currentState.autoProgressLines;
+        currentTypingSpeed = currentState.typingSpeed;
 
         StartCoroutine(TypeLine());
     }
@@ -83,6 +86,13 @@ public abstract class BaseNPC : MonoBehaviour, IInteractable
         isDialogueActive = false;
         dialogueText.SetText("");
         dialoguePanel.SetActive(false);
+
+        if (voiceSource != null && voiceSource.isPlaying)
+        {
+            StartCoroutine(FadeOutVoice(0.5f));
+            //voiceSource.Stop();
+            voiceSource.loop = false;
+        }
     }
 
     void NextLine()
@@ -108,6 +118,38 @@ public abstract class BaseNPC : MonoBehaviour, IInteractable
         isTyping = true;
         dialogueText.SetText("");
 
+        AudioClip currentClip = null;
+
+        if (currentState != null)
+        {
+            if (currentState.useSingleVoiceClip)
+            {
+                currentClip = currentState.voiceSound;
+            }
+            else
+            {
+                if (PlayerPrefs.GetInt("Language", 0) == 0 && currentState.englishVoiceClips.Length > dialogueIndex)
+                    currentClip = currentState.englishVoiceClips[dialogueIndex];
+                else if (currentState.spanishVoiceClips.Length > dialogueIndex)
+                    currentClip = currentState.spanishVoiceClips[dialogueIndex];
+            }
+        }
+        
+        if (currentClip != null && voiceSource != null)
+        {
+            voiceSource.Stop();
+            voiceSource.clip = currentClip;
+            if (currentState.useSingleVoiceClip)
+            {
+                voiceSource.loop = true;
+            }  else
+            {
+                voiceSource.loop = false;
+            }
+            
+            voiceSource.Play();
+        }
+
         foreach (char letter in currentDialogueLines[dialogueIndex])
         {
             dialogueText.text += letter;
@@ -115,12 +157,36 @@ public abstract class BaseNPC : MonoBehaviour, IInteractable
         }
 
         isTyping = false;
+        
+        if (currentState.useSingleVoiceClip && voiceSource != null && voiceSource.isPlaying)
+        {
+            voiceSource.Stop();
+            voiceSource.loop = false;
+        }
 
         if (currentAutoProgressLines.Length > dialogueIndex && currentAutoProgressLines[dialogueIndex])
         {
             yield return new WaitForSecondsRealtime(dialogueData.dialogueStates[0].autoProgressDelay);
             NextLine();
         }
+    }
+
+    IEnumerator FadeOutVoice(float duration)
+    {
+        if (voiceSource == null) yield break;
+
+        float startVolume = voiceSource.volume;
+        float elapsed = 0f;
+
+        while (elapsed < duration)
+        {
+            voiceSource.volume = Mathf.Lerp(startVolume, 0f, elapsed / duration);
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        voiceSource.Stop();
+        voiceSource.volume = startVolume;
     }
 
     // Método que será implementado en las clases derivadas

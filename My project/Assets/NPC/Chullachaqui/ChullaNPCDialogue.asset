@@ -17,15 +17,20 @@ MonoBehaviour:
   dialogueStates:
   - stateName: FirstEncounter
     englishLines:
-    - Your mission is to protect the plants and guide the animals.
-    - Listen to the whispers of the forest.
+    - Your mission is to protect the plants and guide the animals. Listen to the
+      whispers of the forest.
     spanishLines:
-    - "Tu misi\xF3n es proteger las plantas y guiar a los animales."
-    - Escucha los susurros del bosque.
+    - "Tu misi\xF3n es proteger las plantas y guiar a los animales. Escucha los susurros
+      del bosque."
     autoProgressLines: 0100
     autoProgressDelay: 1.5
-    typingSpeed: 0.05
+    typingSpeed: 0.065
+    useSingleVoiceClip: 0
     voiceSound: {fileID: 0}
+    englishVoiceClips:
+    - {fileID: 8300000, guid: 6e2fb954bcdf24371a5b261f6b795523, type: 3}
+    spanishVoiceClips:
+    - {fileID: 8300000, guid: c0915ea54bef9439daea029a5968c48d, type: 3}
   - stateName: InitialReminder
     englishLines:
     - "Stay vigilant! Flames could erupt in a moment\u2019s notice"
@@ -34,16 +39,28 @@ MonoBehaviour:
     autoProgressLines: 00
     autoProgressDelay: 1.5
     typingSpeed: 0.05
+    useSingleVoiceClip: 0
     voiceSound: {fileID: 0}
+    englishVoiceClips:
+    - {fileID: 8300000, guid: 854b972dc621d4133ae56cce6a78b461, type: 3}
+    spanishVoiceClips:
+    - {fileID: 8300000, guid: 6fc1d4183315647baab75edec42e7de5, type: 3}
   - stateName: PartialReminder
     englishLines:
-    - "Every root and leaf has a story\u2026 listen carefully."
+    - "Good find Little One. But beware\u2026 The flames will burn everything in
+      their path if not contained."
     spanishLines:
-    - "Cada ra\xEDz y hoja tiene una historia\u2026 escucha atentamente."
+    - "Buen hallazgo, peque\xF1a. Pero cuidado... Las llamas quemar\xE1n todo a su
+      paso si no se las contiene."
     autoProgressLines: 00
     autoProgressDelay: 1.5
     typingSpeed: 0.05
+    useSingleVoiceClip: 0
     voiceSound: {fileID: 0}
+    englishVoiceClips:
+    - {fileID: 8300000, guid: ebc31041cd4644859b00ad9779f65bae, type: 3}
+    spanishVoiceClips:
+    - {fileID: 8300000, guid: 7a4c3f655e86b461b9ed4523e2b3fd8d, type: 3}
   - stateName: FireAlert
     englishLines:
     - "Hurry, the fire spreads! Save the plants before it\u2019s too late."
@@ -53,7 +70,12 @@ MonoBehaviour:
     autoProgressLines: 00
     autoProgressDelay: 1.5
     typingSpeed: 0.05
+    useSingleVoiceClip: 0
     voiceSound: {fileID: 0}
+    englishVoiceClips:
+    - {fileID: 8300000, guid: 96d468298fc9f4a54b8381df67b23a11, type: 3}
+    spanishVoiceClips:
+    - {fileID: 8300000, guid: 50731bb43003b40b2b9a3e27b8191fa0, type: 3}
   - stateName: BurnedPlotWithSeeds
     englishLines:
     - "Don\u2019t worry, Little One\u2026 you can replant the seeds you collected
@@ -64,7 +86,12 @@ MonoBehaviour:
     autoProgressLines: 00
     autoProgressDelay: 1.5
     typingSpeed: 0.05
+    useSingleVoiceClip: 0
     voiceSound: {fileID: 0}
+    englishVoiceClips:
+    - {fileID: 8300000, guid: a37ba5e14abfb44a58b14ffb9012f6dc, type: 3}
+    spanishVoiceClips:
+    - {fileID: 8300000, guid: d99d893585baa4ed3b3647a72cb88d64, type: 3}
   - stateName: BurnedPlotNoSeeds
     englishLines:
     - "This plant was lost\u2026 perhaps it can be recovered by searching elsewhere."
@@ -74,7 +101,12 @@ MonoBehaviour:
     autoProgressLines: 00
     autoProgressDelay: 1.5
     typingSpeed: 0.05
+    useSingleVoiceClip: 0
     voiceSound: {fileID: 0}
+    englishVoiceClips:
+    - {fileID: 8300000, guid: 46e128064ce124a1fabd8a97e243818b, type: 3}
+    spanishVoiceClips:
+    - {fileID: 8300000, guid: 5ca6487b4b90d4e3892e976676a6bfc3, type: 3}
   - stateName: RestoredPlot
     englishLines:
     - "Well done\u2026 These plants can take root  again thanks to your care."
@@ -84,7 +116,12 @@ MonoBehaviour:
     autoProgressLines: 00
     autoProgressDelay: 1.5
     typingSpeed: 0.05
+    useSingleVoiceClip: 0
     voiceSound: {fileID: 0}
+    englishVoiceClips:
+    - {fileID: 8300000, guid: b7104254d78694566b5fac594b5a0374, type: 3}
+    spanishVoiceClips:
+    - {fileID: 8300000, guid: d2ea0bee1b690457d9c6811c3c24fb38, type: 3}
   - stateName: PlotNotYetRestored
     englishLines:
     - "Patience, Little One\u2026 the forest can be healed if you search carefully."
@@ -93,4 +130,9 @@ MonoBehaviour:
     autoProgressLines: 00
     autoProgressDelay: 1.5
     typingSpeed: 0.05
+    useSingleVoiceClip: 0
     voiceSound: {fileID: 0}
+    englishVoiceClips:
+    - {fileID: 8300000, guid: dd61e799307b14c968d64696862ba531, type: 3}
+    spanishVoiceClips:
+    - {fileID: 8300000, guid: 5f45163cb5a2743c6bf5febe39993a96, type: 3}
