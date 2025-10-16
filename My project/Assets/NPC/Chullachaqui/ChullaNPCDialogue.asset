@@ -24,7 +24,7 @@ MonoBehaviour:
       del bosque."
     autoProgressLines: 0100
     autoProgressDelay: 1.5
-    typingSpeed: 0.05
+    typingSpeed: 0.065
     useSingleVoiceClip: 0
     voiceSound: {fileID: 0}
     englishVoiceClips:
