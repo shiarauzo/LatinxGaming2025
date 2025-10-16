@@ -25,6 +25,7 @@ public class Level1Controller : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        Debug.Log($"🌿 Level1Controller iniciado. at {Time.time}");
         // Mapear PlantState a GameObject
         LinkPlanstStatesToGameObjects();
         // Empezar el ciclo de incendios
