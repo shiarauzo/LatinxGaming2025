@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+
 public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] private float moveSpeed = 5f;
@@ -8,6 +9,7 @@ public class PlayerMovement : MonoBehaviour
     public int currentHealth;
     public int maxWater = 10;
     public int currentWater;
+public WaterBar waterBar;
 
     private Rigidbody2D rb;
     private Vector2 moveInput;
@@ -37,11 +39,22 @@ public class PlayerMovement : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+         currentHealth = maxHealth;
+          currentWater = 0;
+        if (waterBar != null)
+        {
+            waterBar.SetMaxWater(maxWater);
+            waterBar.SetWater(currentWater);
+        }
+     else
+    {
+        Debug.LogWarning("WaterBar no asignado en Player");
+    }
     }
 
     void Update()
     {
-        rb.velocity = moveInput * moveSpeed;
+        rb.linearVelocity = moveInput * moveSpeed;
     }
 
     public void Move(InputAction.CallbackContext context)
@@ -61,22 +74,27 @@ public class PlayerMovement : MonoBehaviour
         animator.SetFloat("InputY", moveInput.y);
     }
 
-    private void OnRefill(InputAction.CallbackContext context)
+  void OnRefill(InputAction.CallbackContext context)
+{
+    if (context.performed && isNearWater)
     {
-        if (isNearWater)
-        {
-            AddWater(1);
-            Debug.Log($"Agua añadida. Ahora: {currentWater}/{maxWater}");
-        }
-        else
-        {
-            Debug.Log("No estás cerca del agua.");
-        }
+        AddWater(1);
     }
+}
 
     void AddWater(int amount)
     {
         currentWater = Mathf.Min(currentWater + amount, maxWater);
+
+    if (waterBar != null)
+    {
+        waterBar.SetWater(currentWater);
+        Debug.Log($"Water refilled: {currentWater}/{maxWater}");
+    }
+    else
+    {
+        Debug.LogWarning("WaterBar no asignado en PlayerMovement");
+    }
     }
 
     private void OnTriggerEnter2D(Collider2D other)
