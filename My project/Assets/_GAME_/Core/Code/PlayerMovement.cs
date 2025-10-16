@@ -5,15 +5,33 @@ public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] private float moveSpeed = 5f;
     public int maxHealth = 4;
-    public int currentHealth; 
+    public int currentHealth;
     public int maxWater = 10;
-    public int currentWater; 
+    public int currentWater;
 
     private Rigidbody2D rb;
     private Vector2 moveInput;
     private Animator animator;
-
     private bool isNearWater = false;
+
+    private PlayerControls controls;
+
+    void Awake()
+    {
+        controls = new PlayerControls();
+    }
+
+    void OnEnable()
+    {
+        controls.Enable();
+        controls.Player.Refill.performed += OnRefill;
+    }
+
+    void OnDisable()
+    {
+        controls.Player.Refill.performed -= OnRefill;
+        controls.Disable();
+    }
 
     void Start()
     {
@@ -23,19 +41,13 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        rb.linearVelocity = moveInput * moveSpeed;
-
-        if (isNearWater && Keyboard.current.rKey.wasPressedThisFrame)
-        {
-            AddWater(1);
-        }
-
-        Debug.Log($"INPUT: {moveInput}  |  VELOCITY: {rb.linearVelocity}  |  POS: {rb.position}");
+        rb.velocity = moveInput * moveSpeed;
     }
 
     public void Move(InputAction.CallbackContext context)
     {
-        animator.SetBool("isWalking", true);
+        if (context.performed)
+            animator.SetBool("isWalking", true);
 
         if (context.canceled)
         {
@@ -49,25 +61,30 @@ public class PlayerMovement : MonoBehaviour
         animator.SetFloat("InputY", moveInput.y);
     }
 
-    void TakeDamage(int damage)
+    private void OnRefill(InputAction.CallbackContext context)
     {
-        currentHealth -= damage;
+        if (isNearWater)
+        {
+            AddWater(1);
+            Debug.Log($"Agua añadida. Ahora: {currentWater}/{maxWater}");
+        }
+        else
+        {
+            Debug.Log("No estás cerca del agua.");
+        }
     }
 
-  
     void AddWater(int amount)
     {
         currentWater = Mathf.Min(currentWater + amount, maxWater);
-        Debug.Log($"Agua actual: {currentWater}/{maxWater}");
     }
 
-    
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Water"))
         {
             isNearWater = true;
-            Debug.Log("Cerca del agua: presiona R para recolectar.");
+            Debug.Log("Chocaste con el agua. presiona R para recolectar.");
         }
     }
 
@@ -76,7 +93,7 @@ public class PlayerMovement : MonoBehaviour
         if (other.CompareTag("Water"))
         {
             isNearWater = false;
-            Debug.Log("fuera del agua");
+            Debug.Log("Saliste del área de agua.");
         }
     }
 }
