@@ -1,9 +1,11 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 
 public class PlayerMovement : MonoBehaviour
 {
+    public InstructionsUIController instructionsUI;
     [SerializeField] private float moveSpeed = 5f;
     public int maxHealth = 4;
     public int currentHealth;
@@ -11,14 +13,20 @@ public class PlayerMovement : MonoBehaviour
     public int currentWater;
 
     public WaterBar waterBar;
+
+    public float footstepsSpeed = 0.5f;
+
+    [Header("Fire Detection")]
+    public float fireDetectionRadius = 0.5f;
+    
     private Rigidbody2D rb;
     private Vector2 moveInput;
     private Animator animator;
     private bool isNearWater = false;
+    private bool isNearFire = false;
     private bool playingFootSteps = false;
-    public float footstepsSpeed = 0.5f;
-
     private PlayerControls controls;
+    
     private string currentFootstepType = "FootstepsGrass";
 
     void Awake()
@@ -64,19 +72,14 @@ public class PlayerMovement : MonoBehaviour
     {
         rb.linearVelocity = moveInput * moveSpeed;
         animator.SetBool("isWalking", rb.linearVelocity.magnitude > 0);
-        //Debug.Log($"INPUT: {moveInput}  |  VELOCITY: {rb.linearVelocity}  |  POS: {rb.position}");
 
         // StartFootSteps
         if (rb.linearVelocity.magnitude > 0.01f && !playingFootSteps)
-        {
-            Debug.Log("velocity - IS WALKING");
-            StartFootSteps();
-        }
+            StartFootSteps(); //  Debug.Log("IS WALKING");
         else if (rb.linearVelocity.magnitude <= 0.01f && playingFootSteps)
-        {
-            Debug.Log("velocity - STOPPED");
-            StopFootSteps();
-        }
+            StopFootSteps(); //  Debug.Log("STOPPED WALKING");
+
+        CheckFireNearby();
     }
 
 
@@ -113,7 +116,7 @@ public class PlayerMovement : MonoBehaviour
         if (waterBar != null)
         {
             waterBar.SetWater(currentWater);
-            Debug.Log($"Water refilled: {currentWater}/{maxWater}");
+         //   Debug.Log($"Water refilled: {currentWater}/{maxWater}");
         }
         else
         {
@@ -131,7 +134,8 @@ public class PlayerMovement : MonoBehaviour
         if (other.CompareTag("Water"))
         {
             isNearWater = true;
-            Debug.Log("Chocaste con el agua. presiona R para recolectar.");
+            instructionsUI?.ShowInstructions("REFILL_WATER");
+         //   Debug.Log("Chocaste con el agua. presiona R para recolectar.");
         }
 
         if (other.CompareTag("Plant"))
@@ -149,7 +153,8 @@ public class PlayerMovement : MonoBehaviour
         if (other.CompareTag("Water"))
         {
             isNearWater = false;
-            Debug.Log("Saliste del área de agua.");
+            instructionsUI?.CloseInstructions();
+          //  Debug.Log("Saliste del área de agua.");
         }
 
         if (other.CompareTag("Plant"))
@@ -157,12 +162,55 @@ public class PlayerMovement : MonoBehaviour
             currentFootstepType = "FootstepsGrass";
             if (playingFootSteps)
             {
-                SoundEffectManager.PlayLongSFX(currentFootstepType);
+                SoundEffectManager.StopLongSFX(currentFootstepType);
             }
         }
     }
 
 
+    // Flood: inundar, apagar fuego
+    public void OnFlood(InputAction.CallbackContext context)
+    {
+        if (!context.performed) return;
+
+        // Detectar planta
+        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, 0.5f);
+        bool extinguishedAny = false;
+
+        foreach (var hit in hits)
+        {
+            if (hit.CompareTag("Plant"))
+            {
+                FireController[] fires = hit.GetComponentsInChildren<FireController>();
+                foreach (var fire in fires)
+                {
+                    if (fire.isActiveAndEnabled && fire.IsBurning)
+                    {
+                        if (currentWater > 0)
+                        {
+                            fire.Extinguish(false, null);
+                            AddWater(-1);
+                            extinguishedAny = true;
+                            Debug.Log("🔥 Fuego apagado en " + fire.name);
+                            SoundEffectManager.Play("WaterPlant");
+                        }
+                        else
+                        {
+                            StartCoroutine(ShowTemporaryInstruction("NO_WATER", 3f));
+                        }
+                    }
+                }
+            }
+        }
+        if (!extinguishedAny)
+            Debug.Log("No hay plantas quemándose cerca.");
+    }
+
+    // Plantar semillas
+    public void OnPlantSeeds(InputAction.CallbackContext context)
+    {
+        if (!context.performed) return;
+    }
     void StartFootSteps()
     {
         if (!playingFootSteps)
@@ -180,4 +228,47 @@ public class PlayerMovement : MonoBehaviour
             playingFootSteps = false;
         }
     }
+
+    public void CheckFireNearby()
+    {
+        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, fireDetectionRadius);
+        bool foundFire = false;
+
+        foreach (var hit in hits)
+        {
+            FireController[] fires = hit.GetComponentsInChildren<FireController>();
+            foreach (var fire in fires)
+            {
+                if (fire.isActiveAndEnabled && fire.IsBurning)
+                {
+                    foundFire = true;
+                    break;
+                }
+            }
+
+            if (foundFire) break;
+        }
+
+        if (foundFire && !isNearFire && currentWater > 0)
+        {
+            isNearFire = true;
+            instructionsUI?.ShowInstructions("EXTINGUISH_FIRE");
+        }
+        else if ((!foundFire || currentWater == 0) && isNearFire)
+        {
+            isNearFire = false;
+            instructionsUI?.CloseInstructions();
+        }
+    }
+    private IEnumerator ShowTemporaryInstruction(string key, float duration)
+    {
+        if (instructionsUI != null)
+            instructionsUI.ShowInstructions(key);
+
+        yield return new WaitForSeconds(duration);
+
+        if (instructionsUI != null)
+            instructionsUI.CloseInstructions();
+    }
+
 }

@@ -21,6 +21,12 @@
     {"key":"CHULLACHAQUI","value":"Chullachaqui"},
     {"key":"ORCHIDS","value":"Orchids"},
     {"key":"CATSCLAW","value":"Cat's Claw"},
-    {"key":"CACAO","value":"Cacao"}
+    {"key":"CACAO","value":"Cacao"},
+    {"key":"INTERACT","value":"Press E to interact."},
+    {"key":"REFILL_WATER","value":"Press R to refill water."},
+    {"key":"EXTINGUISH_FIRE","value":"Press F to extinguish fire."},
+    {"key":"RECOLLECT_SEEDS","value":"Press Q to collect seeds."},
+    {"key":"PLANT_SEEDS","value":"Press P to plant seeds."},
+    {"key":"NO_WATER","value":"You don't have water to use."}
   ]
 }

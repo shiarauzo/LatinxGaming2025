@@ -21,6 +21,12 @@
     {"key":"CHULLACHAQUI","value":"Chullachaqui"},
     {"key":"ORCHIDS","value":"Orquídeas"},
     {"key":"CATSCLAW","value":"Uña de Gato"},
-    {"key":"CACAO","value":"Cocoa"}
+    {"key":"CACAO","value":"Cocoa"},
+    {"key":"INTERACT","value":"Presiona E para interactuar."},
+    {"key":"REFILL_WATER","value":"Presiona R para recargar agua."},
+    {"key":"EXTINGUISH_FIRE","value":"Presiona F para apagar el incendio."},
+    {"key":"RECOLLECT_SEEDS","value":"Presiona Q para recoger semillas."},
+    {"key":"PLANT_SEEDS","value":"Presiona P para plantar las semillas."},
+    {"key":"NO_WATER","value":"No tienes agua para regar."}
   ]
 }
