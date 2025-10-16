@@ -17,6 +17,7 @@
     {"key":"UI_ART","value":"Artista de UI"},
     {"key":"NARRATIVE","value":"Narrativa"},
     {"key":"MUSIC","value":"Composición Musical & Audio"},
+    {"key": "VOICE","value":"Actor de Voz"},
     {"key":"CHULLACHAQUI","value":"Chullachaqui"},
     {"key":"ORCHIDS","value":"Orquídeas"},
     {"key":"CATSCLAW","value":"Uña de Gato"},
