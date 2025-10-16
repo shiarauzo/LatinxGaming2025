@@ -1,9 +1,8 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class Level1AudioManager: MonoBehaviour
-{
+{       
     [Header("Start Segments")]
     public AudioSource start1, start2, start3, start4, start5;
     [Header("Loop Segments")]
@@ -18,7 +17,9 @@ public class Level1AudioManager: MonoBehaviour
     private int intensityLevel = 0;
     private bool startsFinished = false;
 
-
+    [SerializeField] private bool showDebug = false;
+    public static Level1AudioManager Instance { get; private set; }
+    
     void Start()
     {
         startTracks = new[] { start1, start2, start3, start4, start5 };
@@ -41,22 +42,23 @@ public class Level1AudioManager: MonoBehaviour
         float maxStartLength = start1.clip != null ? start1.clip.length : 0f;
         StartCoroutine(StartLoopAfterDelay(maxStartLength));
     }
-    
+
     void Update()
-{
-    for (int i = 0; i < startTracks.Length; i++)
     {
-        if (startTracks[i].isPlaying)
-            Debug.Log($"StartTrack {i+1} isPlaying: {startTracks[i].isPlaying}, volume: {startTracks[i].volume}");
-    }
+        if (!showDebug) return;
 
-    for (int i = 0; i < loopTracks.Length; i++)
-    {
-        if (loopTracks[i].isPlaying)
-            Debug.Log($"LoopTrack {i+1} isPlaying: {loopTracks[i].isPlaying}, volume: {loopTracks[i].volume}");
-    }
-}
+        for (int i = 0; i < startTracks.Length; i++)
+        {
+            if (startTracks[i].isPlaying)
+                Debug.Log($"StartTrack {i + 1} isPlaying: {startTracks[i].isPlaying}, volume: {startTracks[i].volume}");
+        }
 
+        for (int i = 0; i < loopTracks.Length; i++)
+        {
+            if (loopTracks[i].isPlaying)
+                Debug.Log($"LoopTrack {i + 1} isPlaying: {loopTracks[i].isPlaying}, volume: {loopTracks[i].volume}");
+        }
+    }
 
     private IEnumerator StartLoopAfterDelay(float delay)
     {
@@ -67,15 +69,16 @@ public class Level1AudioManager: MonoBehaviour
         // Apagar todos los starts
         foreach (var s in startTracks)
             s.Stop();
-        
+
         // Preparar loopTracks (ya configurados) y reproducir todos al mismo tiempo
-         foreach (var l in loopTracks)
+        foreach (var l in loopTracks)
         {
             l.volume = 0f;
             l.Play();
         }
     }
     
+    #region MUSIC CONTROL
     public void UpdateIntensity(int burningParcels)
     {
         int newLevel = 0;
@@ -157,4 +160,5 @@ public class Level1AudioManager: MonoBehaviour
             FadeAudio(loopTracks[i], 0f, i, duration);
         }
     }
+    #endregion
 }

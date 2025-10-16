@@ -34,8 +34,7 @@ public class MapTransition : MonoBehaviour
         if (collision.gameObject.CompareTag("Player"))
         {
             confiner.BoundingShape2D = mapBoundry;
-            if (showDebug) Debug.Log("*** [" + gameObject.name + "] Transición iniciada");
-           // StartCoroutine(TransitionMap(collision.gameObject));
+            if (showDebug) Debug.Log($"*** [{name}] Transición iniciada"); //Debug.Log("*** [" + gameObject.name + "] Transición iniciada");
            UpdatePlayerPosition(collision.gameObject);
         }
     }

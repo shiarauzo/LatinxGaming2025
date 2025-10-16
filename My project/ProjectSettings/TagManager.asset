@@ -3,7 +3,9 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 3
-  tags: []
+  tags:
+  - Water
+  - Plant
   layers:
   - Default
   - TransparentFX
@@ -58,6 +60,9 @@ TagManager:
     locked: 0
   - name: Decor
     uniqueID: 356214831
+    locked: 0
+  - name: waterfall
+    uniqueID: 1071804659
     locked: 0
   m_RenderingLayers:
   - Default
