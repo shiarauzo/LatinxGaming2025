@@ -26,6 +26,7 @@ public class Level1Controller : MonoBehaviour
     void Start()
     {
         Debug.Log($"🌿 Level1Controller iniciado. at {Time.time}");
+     //   StartCoroutine(AudioFader.FadeInCoroutine(audioManager.loop1, 1.5f));
         // Mapear PlantState a GameObject
         LinkPlanstStatesToGameObjects();
         // Empezar el ciclo de incendios
