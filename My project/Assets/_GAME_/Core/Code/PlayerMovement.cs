@@ -55,11 +55,7 @@ public WaterBar waterBar;
     void Update()
     {
         rb.linearVelocity = moveInput * moveSpeed;
-<<<<<<< HEAD
-=======
-     //   Debug.Log($"INPUT: {moveInput}  |  VELOCITY: {rb.linearVelocity}  |  POS: {rb.position}");
->>>>>>> 3b8e4a72fb969f3faced73502e440b0ea820fbf0
-    }
+  }
 
     public void Move(InputAction.CallbackContext context)
     {
