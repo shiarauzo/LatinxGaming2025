@@ -229,15 +229,6 @@ public class IntroDialogueController : MonoBehaviour
 
         // Disparar evento
         OnDialogueFinished?.Invoke();
-
-        // Load the next scene
-        if (loadNextSceneOnEnd)
-        {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
-
-            string nextScene = SceneUtility.GetScenePathByBuildIndex(SceneManager.GetActiveScene().buildIndex + 1);
-            Debug.Log("next scene " + nextScene);
-        }
     }
 
     // Cuando cambia de idioma, recargar diálogo
