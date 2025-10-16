@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Rendering;
+using UnityEngine.UI;
 
 [System.Serializable]
 public class PlantSprite
@@ -17,7 +19,6 @@ public class Level1Controller : MonoBehaviour
     public Transform plantsParent;
     public PlantSprite[] plants;
     public Level1AudioManager audioManager;
-
     private Dictionary<PlantState, GameObject> plantToGameObjectMap = new Dictionary<PlantState, GameObject>();
     private int currentBurningSpecies = -1;
     private float minTimeBetweenPlots = 10f;
