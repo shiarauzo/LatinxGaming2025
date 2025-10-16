@@ -15,6 +15,8 @@ public class ChullachaquiNPC : BaseNPC
         var states = dialogueData.dialogueStates;
         var player = GameController.Instance.playerState;
 
+        Debug.Log($"🧠 [ChullachaquiNPC] firstEncounter = {firstEncounter}");
+
         // Prioridad al fuego, incluso en la primera interacción
         if (player.isAnyPlantBurning)
             return System.Array.Find(states, s => s.stateName == "FireAlert");

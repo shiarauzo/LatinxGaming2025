@@ -24,7 +24,10 @@ MonoBehaviour:
     autoProgressLines: 00
     autoProgressDelay: 1.5
     typingSpeed: 0.05
-    voiceSound: {fileID: 8300000, guid: b396caf906400467b8d5c63fcfc44508, type: 3}
+    useSingleVoiceClip: 1
+    voiceSound: {fileID: 8300000, guid: 2408b5a22b5d444629a8a8e2a5b9224f, type: 3}
+    englishVoiceClips: []
+    spanishVoiceClips: []
   - stateName: isBurning
     englishLines:
     - Watch out! Fire puts these valuable plants at risk; many are threatened by
@@ -35,7 +38,10 @@ MonoBehaviour:
     autoProgressLines: 00
     autoProgressDelay: 1.5
     typingSpeed: 0.05
-    voiceSound: {fileID: 8300000, guid: b396caf906400467b8d5c63fcfc44508, type: 3}
+    useSingleVoiceClip: 1
+    voiceSound: {fileID: 8300000, guid: 2408b5a22b5d444629a8a8e2a5b9224f, type: 3}
+    englishVoiceClips: []
+    spanishVoiceClips: []
   - stateName: isBurned
     englishLines:
     - "This Cat's Claw plant was lost\u2026 but you can find seeds and replant it
@@ -46,4 +52,7 @@ MonoBehaviour:
     autoProgressLines: 00
     autoProgressDelay: 1.5
     typingSpeed: 0.05
-    voiceSound: {fileID: 8300000, guid: b396caf906400467b8d5c63fcfc44508, type: 3}
+    useSingleVoiceClip: 1
+    voiceSound: {fileID: 8300000, guid: 2408b5a22b5d444629a8a8e2a5b9224f, type: 3}
+    englishVoiceClips: []
+    spanishVoiceClips: []

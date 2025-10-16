@@ -17,7 +17,12 @@ public class NPCDialogue : ScriptableObject
         public bool[] autoProgressLines;
         public float autoProgressDelay = 1.5f; //Start speeking the next one
         public float typingSpeed = 0.05f;
+
+        public bool useSingleVoiceClip = false;
         public AudioClip voiceSound;
+
+        public AudioClip[] englishVoiceClips;
+        public AudioClip[] spanishVoiceClips;
     }
 
     public DialogueState[] dialogueStates;
