@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Water
   - Plant
+  - Item
   layers:
   - Default
   - TransparentFX

@@ -31,6 +31,7 @@
     {"key":"PLAYER_TAB", "value":"PLAYER"},
     {"key":"INVENTORY_TAB", "value":"INVENTORY"},
     {"key":"MAP_TAB", "value":"MAP"},
+    {"key":"SAVE_TAB", "value":"SAVE"},
     {"key":"PLAYER_PAGE_TITLE", "value":"Anonymous Adventurer"},
     {"key":"PLAYER_ROL_LABEL", "value":"Role:"},
     {"key":"PLAYER_PAGE_VALUE", "value":"Adventurer"},
@@ -38,6 +39,7 @@
     {"key":"PLAYER_COLLECTED_WATER_LABEL", "value":"Collected water:"},
     {"key":"PLAYER_HP_LABEL", "value":"Life:"},
     {"key":"PLAYER_LOCATION_LABEL", "value":"Location:"},
-    {"key":"PLAYER_LOCATION_VALUE", "value":"Amazonia"}
+    {"key":"PLAYER_LOCATION_VALUE", "value":"Amazonia"},
+    {"key":"SAVE_LABEL", "value":"DO YOU WANT TO SAVE YOUR PROGRESS?"}
   ]
 }

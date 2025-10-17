@@ -31,6 +31,7 @@
     {"key":"PLAYER_TAB", "value":"JUGADOR/A"},
     {"key":"INVENTORY_TAB", "value":"INVENTARIO"},
     {"key":"MAP_TAB", "value":"MAPA"},
+    {"key":"SAVE_TAB", "value":"GUARDAR"},
     {"key":"PLAYER_PAGE_TITLE", "value":"Aventurera Anónima"},
     {"key":"PLAYER_ROL_LABEL", "value":"Rol:"},
     {"key":"PLAYER_PAGE_VALUE", "value":"Aventurera"},
@@ -38,6 +39,7 @@
     {"key":"PLAYER_COLLECTED_WATER_LABEL", "value":"Agua recolectada:"},
     {"key":"PLAYER_HP_LABEL", "value":"Vida:"},
     {"key":"PLAYER_LOCATION_LABEL", "value":"Ubicación:"},
-    {"key":"PLAYER_LOCATION_VALUE", "value":"Amazonía"}
+    {"key":"PLAYER_LOCATION_VALUE", "value":"Amazonía"},
+    {"key":"SAVE_LABEL", "value":"¿QUIERES GUARDAR TU PROGRESO?"}
   ]
 }
