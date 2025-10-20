@@ -6296,10 +6296,12 @@ MonoBehaviour:
   - {fileID: 1990859339}
   - {fileID: 1516364331}
   - {fileID: 460841845}
+  - {fileID: 2008906451}
   pages:
   - {fileID: 231188943}
   - {fileID: 1057590218}
   - {fileID: 242541505}
+  - {fileID: 1295102095}
 --- !u!1 &987507191
 GameObject:
   m_ObjectHideFlags: 0
@@ -24976,7 +24978,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1295102096
 RectTransform:
   m_ObjectHideFlags: 0
