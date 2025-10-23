@@ -15,8 +15,8 @@ GameObject:
   - component: {fileID: 5237160638804561001}
   - component: {fileID: 1274284966598019622}
   m_Layer: 5
-  m_Name: CollectedItem
-  m_TagString: Untagged
+  m_Name: CollectedGreenItem
+  m_TagString: Item
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -68,7 +68,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 185444369, guid: e62e9b9d48ed63547b0cab9e437a8521, type: 3}
+  m_Sprite: {fileID: -2028060226, guid: e62e9b9d48ed63547b0cab9e437a8521, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

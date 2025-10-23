@@ -13,39 +13,29 @@ public class InventoryController : MonoBehaviour
     void Start()
     {
         itemDictionary = FindObjectOfType<ItemDictionary>();
-
- /*        for (int i = 0; i < slotCount; i++)
-        {
-            Slot slot = Instantiate(slotPrefab, inventoryPanel.transform).GetComponent<Slot>();
-            if (i < itemPrefabs.Length)
-            {
-                GameObject item = Instantiate(itemPrefabs[i], slot.transform);
-                // ITEM CENTERED WITHIN THE SLOT
-                item.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
-                slot.currentItem = item;
-            }
-        } */
     }
 
+    // Store data inside each slot
+    // GetSiblingIndex: if the share the same parent, they are considered sibligns :P
     public List<InventorySaveData> GetInventoryItems()
     {
-        List<InventorySaveData> invData = new List<InventorySaveData>();
+        List<InventorySaveData> inventoryData = new List<InventorySaveData>();
         foreach (Transform slotTransform in inventoryPanel.transform)
         {
             Slot slot = slotTransform.GetComponent<Slot>();
             if (slot.currentItem != null)
             {
                 Item item = slot.currentItem.GetComponent<Item>();
-                invData.Add(new InventorySaveData { itemId = item.ID, slotIndex = slotTransform.GetSiblingIndex() });
+                inventoryData.Add(new InventorySaveData { itemId = item.ID, slotIndex = slotTransform.GetSiblingIndex() });
             }
         }
 
-        return invData;
+        return inventoryData;
     }
     
     public void SetInventoryItems(List<InventorySaveData> inventorySaveData)
     {
-        // Clear inventory panel
+        // Clear inventory panel - avoid duplicates
         foreach (Transform child in inventoryPanel.transform)
         {
             Destroy(child.gameObject);
@@ -58,6 +48,8 @@ public class InventoryController : MonoBehaviour
         }
 
         // Populate slots with saved data
+        // Create a new object of the item prefab from the item dictionary and 
+        // stick in one of the slots
         foreach(InventorySaveData data in inventorySaveData)
         {
             if (data.slotIndex < slotCount)

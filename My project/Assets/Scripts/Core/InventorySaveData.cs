@@ -4,5 +4,5 @@ using UnityEngine;
 public class InventorySaveData
 {
     public int itemId;
-    public int slotIndex;
+    public int slotIndex; // index of the slot where the item is stored in the inventory
 }

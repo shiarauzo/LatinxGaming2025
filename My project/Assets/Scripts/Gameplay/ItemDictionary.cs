@@ -25,6 +25,7 @@ public class ItemDictionary : MonoBehaviour
 
     public GameObject GetItemPrefab(int itemID)
     {
+        // To avoid crashes
         itemDictionary.TryGetValue(itemID, out GameObject prefab);
         if (prefab == null)
         {
