@@ -8,7 +8,6 @@ public class PlayerItemCollector : MonoBehaviour
     void Start()
     {
         inventoryController = FindAnyObjectByType<InventoryController>();
-
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -16,12 +15,16 @@ public class PlayerItemCollector : MonoBehaviour
         if (collision.CompareTag("Item"))
         {
             Item item = collision.GetComponent<Item>();
-        }
-    }
+            if (item != null)
+            {
+                //Add item to the inventory
+                bool itemAdded = inventoryController.AddItem(collision.gameObject);
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+                if (itemAdded)
+                {
+                    Destroy(collision.gameObject);
+                }
+            }
+        }
     }
 }

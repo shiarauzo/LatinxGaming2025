@@ -14,7 +14,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2856693882676532900, guid: 9d52d357678634dc6b9d9fa5708d0d69, type: 3}
       propertyPath: m_Name
-      value: CollectedGreenItem Variant
+      value: CollectedRedtem
       objectReference: {fileID: 0}
     - target: {fileID: 5805259213682836726, guid: 9d52d357678634dc6b9d9fa5708d0d69, type: 3}
       propertyPath: m_Sprite
@@ -100,6 +100,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8864413027384057350, guid: 9d52d357678634dc6b9d9fa5708d0d69, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 185444369, guid: e62e9b9d48ed63547b0cab9e437a8521, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
